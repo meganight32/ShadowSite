@@ -542,22 +542,77 @@
     </ul>
   </section>
 
-<!-- Support Tab -->
 <section id="support" class="tab" role="tabpanel" tabindex="0" aria-label="Support Tab">
-  <h2>Support</h2>
-  <form id="contact-form" action="https://formspree.io/f/xnnzldvp" method="POST" target="_blank" novalidate>
-    <label for="name">Name <span aria-hidden="true" style="color:#f00">*</span></label><br />
-    <input type="text" id="name" name="name" placeholder="Your name" required style="width:100%; max-width:400px; padding:8px; margin-bottom:10px;" />
-    
-    <label for="email">Email <span aria-hidden="true" style="color:#f00">*</span></label><br />
-    <input type="email" id="email" name="email" placeholder="your.email@example.com" required style="width:100%; max-width:400px; padding:8px; margin-bottom:10px;" />
-    
-    <label for="message">Message <span aria-hidden="true" style="color:#f00">*</span></label><br />
-    <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required style="width:100%; max-width:400px; padding:8px; margin-bottom:10px;"></textarea>
-    
-    <button type="submit" style="background:#00aaff; color:#001a2e; border:none; padding:12px 28px; font-weight:bold; border-radius:8px; cursor:pointer; box-shadow: 0 0 10px #00aaffcc;">Send</button>
+  <h2>Contact Support</h2>
+  <p>If you have any questions or need assistance, please fill out the form below and we'll get back to you as soon as possible.</p>
+
+  <form id="contact-form" action="https://formspree.io/f/xnnzldvp" method="POST" novalidate style="max-width:480px; margin-top:20px;">
+    <label for="name" style="display:block; font-weight:bold; margin-bottom:6px;">Name <span aria-hidden="true" style="color:#ff5555;">*</span></label>
+    <input type="text" id="name" name="name" placeholder="Your full name" required
+      style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1rem; margin-bottom:15px; box-sizing:border-box;" />
+
+    <label for="email" style="display:block; font-weight:bold; margin-bottom:6px;">Email <span aria-hidden="true" style="color:#ff5555;">*</span></label>
+    <input type="email" id="email" name="email" placeholder="you@example.com" required
+      style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1rem; margin-bottom:15px; box-sizing:border-box;" />
+
+    <label for="message" style="display:block; font-weight:bold; margin-bottom:6px;">Message <span aria-hidden="true" style="color:#ff5555;">*</span></label>
+    <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required
+      style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1rem; margin-bottom:20px; box-sizing:border-box; resize:vertical;"></textarea>
+
+    <button type="submit" style="
+      background-color: #00aaff;
+      color: #001a2e;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 0 10px rgba(0,170,255,0.6);
+    " onmouseover="this.style.backgroundColor='#008ecc';" onmouseout="this.style.backgroundColor='#00aaff';">
+      Send Message
+    </button>
+
+    <div id="form-status" role="alert" aria-live="polite" style="margin-top:15px; font-weight:bold;"></div>
   </form>
-  <p style="margin-top:15px; font-size:0.9rem; color:#88bbff;">We will respond as soon as possible. Thank you!</p>
+
+  <script>
+    const form = document.getElementById('contact-form');
+    const statusDiv = document.getElementById('form-status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusDiv.textContent = 'Sending...';
+      statusDiv.style.color = '#00aaff';
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          headers: { 'Accept': 'application/json' },
+          body: formData
+        });
+
+        if (response.ok) {
+          statusDiv.textContent = 'Thank you! Your message has been sent.';
+          statusDiv.style.color = '#00ff88';
+          form.reset();
+        } else {
+          const data = await response.json();
+          if (data.errors) {
+            statusDiv.textContent = data.errors.map(err => err.message).join(', ');
+          } else {
+            statusDiv.textContent = 'Oops! There was a problem sending your message.';
+          }
+          statusDiv.style.color = '#ff5555';
+        }
+      } catch (error) {
+        statusDiv.textContent = 'Network error: please try again later.';
+        statusDiv.style.color = '#ff5555';
+      }
+    });
+  </script>
 </section>
 
   <!-- Terms of Service Tab -->
