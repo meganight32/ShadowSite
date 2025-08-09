@@ -590,18 +590,63 @@
   </div>
 
   <!-- Support Tab -->
-  <div id="support" class="tab">
-    <h2>Support</h2>
-    <p>Need help or have questions? Fill out the form below, and we’ll get back to you ASAP.</p>
-    <form onsubmit="submitSupportForm(event)">
-      <input type="text" id="name" name="name" placeholder="Your name" required />
-      <input type="email" id="email" name="email" placeholder="Your email" required />
-      <textarea id="message" name="message" placeholder="Your message" rows="5" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-    <div id="form-status" style="margin-top:15px;"></div>
+<div id="support" class="tab">
+  <h2>Support</h2>
+  <p>Need help or have questions? Fill out the form below, and we’ll get back to you ASAP.</p>
+  <form onsubmit="submitSupportForm(event)">
+    <input type="text" id="name" name="name" placeholder="Your name" required />
+    <input type="email" id="email" name="email" placeholder="Your email" required />
+    <textarea id="message" name="message" placeholder="Your message" rows="5" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+  <div id="form-status" style="margin-top:15px;"></div>
+
+  <button id="openTOSBtn" style="margin-top:20px;">View Terms of Service</button>
+
+  <!-- TOS Modal -->
+  <div id="tosModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); 
+      justify-content:center; align-items:center; z-index:9999;">
+    <div style="background:#fff; max-width:600px; width:90%; max-height:80vh; overflow-y:auto; padding:20px; border-radius:8px; position:relative;">
+      <h2>Terms of Service</h2>
+      <p>Welcome to our website. By using our site and the provided links to proxy services, unblocked games, web games, and entertainment sites, you agree to the following terms:</p>
+
+      <ul>
+        <li><strong>Links Provided:</strong> We provide links to third-party proxy sites, unblocked games, and entertainment websites for your convenience. We do not host any games or content ourselves.</li>
+        <li><strong>No Warranty:</strong> We are not responsible for the content, safety, or availability of any linked sites. Use these links at your own risk.</li>
+        <li><strong>User Conduct:</strong> You agree to use the linked sites and games responsibly and in accordance with their own rules and terms.</li>
+        <li><strong>Support:</strong> Our support form is here to assist with website-related questions only. We do not support or troubleshoot third-party sites linked on this website.</li>
+        <li><strong>Changes:</strong> We may update these Terms of Service at any time without prior notice. Continued use of the site means you accept any changes.</li>
+        <li><strong>Age:</strong> By using this site, you confirm that you are at least 13 years old or have parental permission.</li>
+        <li><strong>Limitation of Liability:</strong> Under no circumstances shall we be liable for any damages or losses resulting from use of linked sites.</li>
+      </ul>
+
+      <p>If you do not agree to these terms, please do not use the website or its links.</p>
+
+      <button id="closeTOSBtn" style="margin-top:15px;">Close</button>
+    </div>
   </div>
 </div>
+
+<script>
+  const openBtn = document.getElementById('openTOSBtn');
+  const closeBtn = document.getElementById('closeTOSBtn');
+  const tosModal = document.getElementById('tosModal');
+
+  openBtn.addEventListener('click', () => {
+    tosModal.style.display = 'flex';
+  });
+
+  closeBtn.addEventListener('click', () => {
+    tosModal.style.display = 'none';
+  });
+
+  // Optional: Close modal if clicking outside the modal content
+  tosModal.addEventListener('click', (e) => {
+    if (e.target === tosModal) {
+      tosModal.style.display = 'none';
+    }
+  });
+</script>
 
 <!-- CHANGELOG MODAL -->
 <div id="changelog-modal">
