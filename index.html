@@ -27,6 +27,21 @@
     align-items: center;
     justify-content: center;
     z-index: 9999;
+    text-align: center;
+    padding: 0 20px;
+  }
+  #password-screen h1 {
+    font-size: 3rem;
+    margin-bottom: 0.1rem;
+    color: #66b3ff;
+    text-shadow: 0 0 10px #00aaff;
+    user-select: none;
+  }
+  #password-screen p.subtitle {
+    font-size: 1.2rem;
+    color: #a0cfff;
+    margin-bottom: 25px;
+    user-select: none;
   }
   #password-screen input {
     padding: 12px 15px;
@@ -56,6 +71,11 @@
   }
   #password-screen button:hover {
     background: linear-gradient(90deg, #005fcc, #0088cc);
+  }
+  #password-error {
+    color: #ff6666;
+    margin-top: 10px;
+    min-height: 20px;
   }
 
   /* NAVBAR */
@@ -97,6 +117,7 @@
     border-radius: 12px;
     box-shadow: 0 0 30px rgba(0, 119, 255, 0.4);
     animation: fadeInUp 0.5s ease forwards;
+    position: relative;
   }
   .tab.active {
     display: block;
@@ -183,14 +204,93 @@
   form button:hover {
     background: linear-gradient(90deg, #005fcc, #0088cc);
   }
+
+  /* VERSION INFO at bottom-left of Home tab */
+  #version-info {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    font-size: 0.9rem;
+    color: #888;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid #444;
+    padding: 5px 12px;
+    border-radius: 8px;
+    background-color: #111;
+    box-shadow: 0 0 10px #0077ff88;
+    transition: background-color 0.3s ease;
+    z-index: 1500;
+  }
+  #version-info:hover {
+    background-color: #0077ff22;
+    color: #00aaff;
+  }
+
+  /* Changelog modal */
+  #changelog-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0,0,0,0.85);
+    color: #d0eaff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  #changelog-content {
+    background-color: #111f3c;
+    border-radius: 14px;
+    padding: 30px 40px;
+    max-width: 550px;
+    max-height: 70vh;
+    overflow-y: auto;
+    box-shadow: 0 0 25px #0077ffaa;
+  }
+  #changelog-content h2 {
+    margin-top: 0;
+    color: #66b3ff;
+    text-shadow: 0 0 8px #00aaff;
+  }
+  #changelog-list {
+    margin-top: 15px;
+    padding-left: 20px;
+  }
+  #changelog-list li {
+    margin-bottom: 10px;
+  }
+  #close-changelog {
+    margin-top: 20px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    background: linear-gradient(90deg, #0077ff, #00aaff);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 12px #00aaff;
+    transition: background 0.3s ease;
+  }
+  #close-changelog:hover {
+    background: linear-gradient(90deg, #005fcc, #0088cc);
+  }
 </style>
 </head>
 <body>
 
 <!-- PASSWORD SCREEN -->
 <div id="password-screen">
+  <!-- CHANGE SITE NAME HERE -->
+  <h1>ShadowSite</h1>
+  <!-- CHANGE SUBTITLE/MESSAGE HERE -->
+  <p class="subtitle">Enter the password to access your secure hub.</p>
+
   <input type="password" id="password-input" placeholder="Enter Password" autofocus />
   <button onclick="checkPassword()">Enter</button>
+  <div id="password-error"></div>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -208,7 +308,96 @@
     <p>ShadowSite is your all-in-one hub for secure browsing, gaming, and tech support. We combine privacy tools, entertaining games, and reliable support into a sleek, password-protected environment.</p>
     <h2>About Us</h2>
     <p>Our goal is to provide users with fast and easy access to tools that help keep you safe online while also having fun. Whether you want to browse anonymously with proxies, enjoy casual games, or get quick help, ShadowSite has you covered.</p>
+
+    <!-- VERSION DISPLAY -->
+    <!-- CHANGE THE VERSION NUMBER HERE -->
+    <div id="version-info" title="Click to view changelog">v1.0.0</div>
   </div>
+
+  <!-- Other tabs ... (you will add your existing tabs here) -->
+
+</div>
+
+<!-- CHANGELOG MODAL -->
+<div id="changelog-modal">
+  <div id="changelog-content">
+    <!-- CHANGE THE VERSION NUMBER HERE -->
+    <h2>Version 1.0.0 Changelog</h2>
+    <ul id="changelog-list">
+      <!-- ADD YOUR CHANGELOG ENTRIES HERE -->
+      <li>Initial launch with password protection.</li>
+      <li>Clean password screen design with site branding.</li>
+      <li>Version info with clickable changelog popup.</li>
+    </ul>
+    <button id="close-changelog">Close</button>
+  </div>
+</div>
+
+<script>
+  const PASSWORD = "password"; // CHANGE YOUR PASSWORD HERE
+
+  const passwordScreen = document.getElementById('password-screen');
+  const mainContent = document.getElementById('main-content');
+  const passwordInput = document.getElementById('password-input');
+  const errorDiv = document.getElementById('password-error');
+
+  function checkPassword() {
+    const val = passwordInput.value.trim();
+    if(val === PASSWORD) {
+      passwordScreen.style.display = 'none';
+      mainContent.style.display = 'block';
+      passwordInput.value = '';
+      errorDiv.textContent = '';
+    } else {
+      errorDiv.textContent = 'Incorrect password. Please try again.';
+    }
+  }
+
+  // Allow pressing Enter key to submit password
+  passwordInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      checkPassword();
+    }
+  });
+
+  // Tab switching function (assuming you have this already)
+  function switchTab(tabId, btn) {
+    // Remove active from all tabs
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    // Remove active from all nav buttons
+    document.querySelectorAll('nav button').forEach(button => button.classList.remove('active'));
+
+    // Show selected tab
+    const tab = document.getElementById(tabId);
+    if (tab) {
+      tab.classList.add('active');
+      btn.classList.add('active');
+    }
+  }
+
+  // Version and changelog modal logic
+  const versionInfo = document.getElementById('version-info');
+  const changelogModal = document.getElementById('changelog-modal');
+  const closeChangelogBtn = document.getElementById('close-changelog');
+
+  versionInfo.addEventListener('click', () => {
+    changelogModal.style.display = 'flex';
+  });
+
+  closeChangelogBtn.addEventListener('click', () => {
+    changelogModal.style.display = 'none';
+  });
+
+  // Optional: Close modal when clicking outside content
+  changelogModal.addEventListener('click', (e) => {
+    if(e.target === changelogModal) {
+      changelogModal.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
 
 <!-- Proxy Tab -->
 <div id="proxy" class="tab">
