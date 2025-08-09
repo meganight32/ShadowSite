@@ -16,6 +16,12 @@
     overflow-x: hidden;
   }
 
+#openTOSBtn:hover {
+  background-color: #0077ff;
+  color: #d0eaff;
+  box-shadow: 0 0 20px #00aaff;
+}
+
   /* PASSWORD SCREEN (reverted to your original) */
   #password-screen {
     position: fixed;
@@ -601,13 +607,26 @@
   </form>
   <div id="form-status" style="margin-top:15px;"></div>
 
-  <button id="openTOSBtn" style="margin-top:20px;">View Terms of Service</button>
+  <button id="openTOSBtn" style="
+    margin-top: 20px; 
+    background-color: #000000; 
+    color: #66b3ff; 
+    border: 1.5px solid #66b3ff; 
+    padding: 12px 25px; 
+    border-radius: 6px; 
+    font-size: 17px; 
+    cursor: pointer; 
+    box-shadow: 0 0 12px #0077ff88; 
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  ">
+    View Terms of Service
+  </button>
 
   <!-- TOS Modal -->
   <div id="tosModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); 
       justify-content:center; align-items:center; z-index:9999;">
-    <div style="background:#fff; max-width:600px; width:90%; max-height:80vh; overflow-y:auto; padding:20px; border-radius:8px; position:relative;">
-      <h2>Terms of Service</h2>
+    <div style="background:#111f3c; max-width:600px; width:90%; max-height:80vh; overflow-y:auto; padding:20px; border-radius:12px; position:relative; color: #d0eaff;">
+      <h2 style="color:#66b3ff; text-shadow: 0 0 8px #00aaff;">Terms of Service</h2>
       <p>Welcome to our website. By using our site and the provided links to proxy services, unblocked games, web games, and entertainment sites, you agree to the following terms:</p>
 
       <ul>
@@ -622,7 +641,18 @@
 
       <p>If you do not agree to these terms, please do not use the website or its links.</p>
 
-      <button id="closeTOSBtn" style="margin-top:15px;">Close</button>
+      <button id="closeTOSBtn" style="
+        margin-top: 15px;
+        background: linear-gradient(90deg, #0077ff, #00aaff);
+        border: none;
+        border-radius: 6px;
+        color: white;
+        padding: 12px 25px;
+        font-size: 17px;
+        cursor: pointer;
+        box-shadow: 0 0 12px #00aaff;
+        transition: background 0.3s ease;
+      ">Close</button>
     </div>
   </div>
 </div>
@@ -640,7 +670,7 @@
     tosModal.style.display = 'none';
   });
 
-  // Optional: Close modal if clicking outside the modal content
+  // Close modal if clicking outside modal content
   tosModal.addEventListener('click', (e) => {
     if (e.target === tosModal) {
       tosModal.style.display = 'none';
