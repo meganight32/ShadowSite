@@ -14,346 +14,420 @@
     background-color: #0a0a0a;
     color: #d0eaff;
     overflow-x: hidden;
+    position: relative;
   }
-
-#openTOSBtn:hover {
-  background-color: #0077ff;
-  color: #d0eaff;
-  box-shadow: 0 0 20px #00aaff;
-}
-
-  /* PASSWORD SCREEN (reverted to your original) */
-  #password-screen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: radial-gradient(circle at center, #001022, #000000);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    text-align: center;
-    padding: 0 20px;
-  }
-  #password-screen h1 {
-    font-size: 3rem;
-    margin-bottom: 0.1rem;
-    color: #66b3ff;
-    text-shadow: 0 0 10px #00aaff;
-    user-select: none;
-  }
-  #password-screen p.subtitle {
-    font-size: 1.2rem;
-    color: #a0cfff;
-    margin-bottom: 25px;
-    user-select: none;
-  }
-  #password-screen input {
-    padding: 12px 15px;
-    font-size: 18px;
-    border-radius: 6px;
-    border: none;
-    outline: none;
-    width: 280px;
-    margin-bottom: 15px;
-    background-color: rgba(255 255 255 / 0.1);
-    color: #d0eaff;
-    text-align: center;
-  }
-  #password-screen input::placeholder {
-    color: #88bbff;
-  }
-  #password-screen button {
-    padding: 12px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 6px;
-    background: linear-gradient(90deg, #0077ff, #00aaff);
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 0 10px #00aaff;
-    transition: background 0.3s ease;
-  }
-  #password-screen button:hover {
-    background: linear-gradient(90deg, #005fcc, #0088cc);
-  }
-  #password-error {
-    color: #ff6666;
-    margin-top: 10px;
-    min-height: 20px;
-  }
-
-  /* NAVBAR */
   nav {
-    background: linear-gradient(90deg, #000, #003366);
-    padding: 15px 0;
+    background-color: #111f3c;
     display: flex;
-    justify-content: center;
-    gap: 25px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.5);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    gap: 12px;
+    padding: 12px 16px;
+    align-items: center;
+    color: #66b3ff;
+    position: relative;
+    z-index: 10;
   }
   nav button {
-    background: transparent;
+    background: none;
     border: none;
-    color: #d0eaff;
+    color: #66b3ff;
     font-size: 17px;
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 8px 14px;
     border-radius: 6px;
-    transition: background 0.3s, transform 0.2s;
-    position: relative;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 600;
   }
-  nav button:hover,
-  nav button.active {
-    background: rgba(0, 119, 255, 0.3);
-    transform: translateY(-2px);
-  }
-
-  /* CONTENT TABS */
-
-  /* --- UPDATED HOME TAB TO FILL FULL SCREEN --- */
-  #home {
-    display: none; /* controlled by .active */
-    padding: 40px 30px;
-    max-width: none;
-    margin: 0;
-    height: calc(100vh - 60px); /* 100% viewport height minus nav height */
-    overflow-y: auto;
-    background: rgba(0,0,0,0.3);
-    border-radius: 0;
-    box-shadow: none;
+  nav button.active, nav button:hover {
+    background-color: #0059b3;
     color: #d0eaff;
   }
-  #home.active {
-    display: block;
+  /* Time & Weather container */
+  #time-weather {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    color: #66b3ff;
+    user-select: none;
+    white-space: nowrap;
   }
-
-  /* OTHER TABS (unchanged) */
+  #time-weather span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  /* Tabs */
   .tab {
     display: none;
+    padding: 20px 30px;
     max-width: 900px;
-    margin: 25px auto;
-    padding: 20px;
-    background: rgba(0,0,0,0.3);
+    margin: 70px auto 50px;
+    background-color: rgba(17, 31, 60, 0.85);
     border-radius: 12px;
-    box-shadow: 0 0 30px rgba(0, 119, 255, 0.4);
-    animation: fadeInUp 0.5s ease forwards;
+    box-shadow: 0 0 20px #0077ff55;
     position: relative;
-    height: auto;
+    z-index: 5;
   }
   .tab.active {
     display: block;
   }
-
-  /* Animations */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .link-list {
+    list-style-type: none;
+    padding-left: 0;
   }
-
-  /* HEADINGS */
-  h1, h2 {
+  .link-list li {
+    margin-bottom: 10px;
+  }
+  .link-list li a {
     color: #66b3ff;
-    text-shadow: 0 0 8px #00aaff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .link-list li a:hover {
+    text-decoration: underline;
   }
 
-  /* LINKS */
-  a {
+  /* Announcement box */
+  #announcement-box {
+    max-width: 900px;
+    margin: 15px auto 15px;
+    background: #111f3c;
+    color: #99c9ff;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0077ff66;
+    font-size: 16px;
+    user-select: none;
+    position: relative;
+    z-index: 5;
+  }
+  #announcement-box strong {
+    color: #66b3ff;
+  }
+
+  /* Favorites box */
+  #favorites-box {
+    max-width: 900px;
+    margin: 15px auto 30px;
+    background: #111f3c;
+    color: #a3c6ff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px #0077ff88;
+    position: relative;
+    z-index: 5;
+  }
+  #favorites-box h3 {
+    color: #66b3ff;
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+  #favorites-box ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 20px;
+  }
+  #favorites-box ul li {
+    margin-bottom: 8px;
+  }
+  #favorites-box ul li a {
     color: #66b3ff;
     text-decoration: none;
   }
-  a:hover {
-    color: #00cfff;
-    text-shadow: 0 0 15px #00cfff;
+  #favorites-box ul li a:hover {
+    text-decoration: underline;
   }
 
-  /* LINK LISTS */
-  ul.link-list {
-    list-style: none;
-    padding-left: 0;
-  }
-  ul.link-list li {
-    margin-bottom: 8px;
-  }
-  ul.link-list li a {
-    display: block;
-    padding: 10px 15px;
-    background: rgba(0, 119, 255, 0.15);
-    border-radius: 8px;
-    transition: background 0.3s;
-  }
-  ul.link-list li a:hover {
-    background: rgba(0, 119, 255, 0.35);
-  }
-
-  /* FORM */
-  form {
-    max-width: 420px;
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
+  /* Support Tab form */
   form input, form textarea {
-    padding: 12px 15px;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 10px 12px;
     border-radius: 6px;
-    border: none;
-    background: rgba(255 255 255 / 0.1);
+    border: 1.5px solid #66b3ff;
+    background-color: #0a0a0a;
     color: #d0eaff;
-    font-size: 16px;
+    font-size: 15px;
+    font-family: inherit;
     resize: vertical;
   }
-  form input::placeholder, form textarea::placeholder {
-    color: #a8caff;
+  form input:focus, form textarea:focus {
+    outline: none;
+    border-color: #00aaff;
+    box-shadow: 0 0 8px #00aaff88;
   }
   form button {
-    background: linear-gradient(90deg, #0077ff, #00aaff);
-    border: none;
-    color: white;
+    background-color: #000000;
+    color: #66b3ff;
+    border: 1.5px solid #66b3ff;
     padding: 12px 25px;
     border-radius: 6px;
     font-size: 17px;
     cursor: pointer;
-    box-shadow: 0 0 12px #00aaff;
-    transition: background 0.3s;
+    box-shadow: 0 0 12px #0077ff88;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
   }
   form button:hover {
-    background: linear-gradient(90deg, #005fcc, #0088cc);
+    background-color: #004a99;
+    box-shadow: 0 0 18px #00aaffcc;
   }
-
-  /* VERSION INFO at bottom-left of Home tab */
-  #version-info {
-    position: fixed;
-    bottom: 15px;
-    left: 15px;
-    font-size: 0.9rem;
-    color: #888;
-    cursor: pointer;
-    user-select: none;
-    border: 1px solid #444;
-    padding: 5px 12px;
-    border-radius: 8px;
-    background-color: #111;
-    box-shadow: 0 0 10px #0077ff88;
-    transition: background-color 0.3s ease;
-    z-index: 1500;
-  }
-  #version-info:hover {
-    background-color: #0077ff22;
-    color: #00aaff;
-  }
-
-  /* Changelog modal */
-  #changelog-modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0; top: 0;
-    width: 100vw; height: 100vh;
-    background-color: rgba(0,0,0,0.85);
-    color: #d0eaff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-  #changelog-content {
-    background-color: #111f3c;
-    border-radius: 14px;
-    padding: 30px 40px;
-    max-width: 600px;
-    max-height: 75vh;
-    overflow-y: auto;
-    box-shadow: 0 0 25px #0077ffaa;
-  }
-  #changelog-content h2 {
-    margin-top: 0;
+  #form-status {
+    font-style: italic;
+    margin-top: 10px;
     color: #66b3ff;
+  }
+
+  /* TOS Modal */
+  #tosModal {
+    display:none; 
+    position:fixed; 
+    top:0; left:0; 
+    width:100%; height:100%; 
+    background:rgba(0,0,0,0.6); 
+    justify-content:center; 
+    align-items:center; 
+    z-index: 9999;
+  }
+  #tosModal > div {
+    background:#111f3c; 
+    max-width:600px; width:90%; max-height:80vh; 
+    overflow-y:auto; padding:20px; 
+    border-radius:12px; 
+    position:relative; 
+    color: #d0eaff;
+  }
+  #tosModal h2 {
+    color:#66b3ff; 
     text-shadow: 0 0 8px #00aaff;
   }
-  #changelog-list {
+  #tosModal button {
     margin-top: 15px;
-    padding-left: 20px;
-  }
-  #changelog-list li {
-    margin-bottom: 10px;
-  }
-  #close-changelog {
-    margin-top: 20px;
-    padding: 10px 22px;
-    font-size: 1rem;
     background: linear-gradient(90deg, #0077ff, #00aaff);
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     color: white;
+    padding: 12px 25px;
+    font-size: 17px;
     cursor: pointer;
     box-shadow: 0 0 12px #00aaff;
     transition: background 0.3s ease;
   }
-  #close-changelog:hover {
-    background: linear-gradient(90deg, #005fcc, #0088cc);
+
+  /* Changelog Modal */
+  #changelog-modal {
+    display:none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  #changelog-content {
+    background: #111f3c;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 25px 30px;
+    border-radius: 14px;
+    color: #d0eaff;
+    box-shadow: 0 0 18px #0077ffbb;
+    position: relative;
+  }
+  #changelog-content h2 {
+    color: #66b3ff;
+    text-shadow: 0 0 8px #00aaff;
+    margin-top: 0;
+  }
+  #changelog-list {
+    margin-left: 15px;
+    margin-bottom: 25px;
+  }
+  #changelog-content button {
+    background: linear-gradient(90deg, #0077ff, #00aaff);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 12px 25px;
+    font-size: 17px;
+    cursor: pointer;
+    box-shadow: 0 0 12px #00aaff;
+    transition: background 0.3s ease;
   }
 
-  /* Random Fact style inside home */
+  /* Credits box - same style as changelog */
+  #credits-modal {
+    display:none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  #credits-content {
+    background: #111f3c;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 25px 30px;
+    border-radius: 14px;
+    color: #d0eaff;
+    box-shadow: 0 0 18px #0077ffbb;
+    position: relative;
+  }
+  #credits-content h2 {
+    color: #66b3ff;
+    text-shadow: 0 0 8px #00aaff;
+    margin-top: 0;
+  }
+  #credits-list {
+    margin-left: 15px;
+    margin-bottom: 25px;
+  }
+  #credits-content button {
+    background: linear-gradient(90deg, #0077ff, #00aaff);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 12px 25px;
+    font-size: 17px;
+    cursor: pointer;
+    box-shadow: 0 0 12px #00aaff;
+    transition: background 0.3s ease;
+  }
+
+  /* Random fact styling */
   #random-fact {
     font-style: italic;
-    color: #a0d8ff;
-    margin-top: 25px;
-    user-select: none;
-    font-size: 1.2rem;
-    max-width: 700px;
+    font-size: 15px;
+    margin-top: 15px;
+    color: #99c9ff;
+  }
+
+  /* Password screen */
+  #password-screen {
+    position: fixed;
+    inset: 0;
+    background-color: #000a22;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    color: #66b3ff;
+  }
+  #password-screen input {
+    font-size: 22px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1.5px solid #66b3ff;
+    background: #001533;
+    color: #d0eaff;
+    margin-bottom: 12px;
+    width: 280px;
+    text-align: center;
+  }
+  #password-screen input:focus {
+    outline: none;
+    border-color: #00aaff;
+    box-shadow: 0 0 10px #00aaff88;
+  }
+  #password-screen button {
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(90deg, #0077ff, #00aaff);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 15px #00aaffbb;
+    transition: background 0.3s ease;
+  }
+  #password-screen button:hover {
+    background: linear-gradient(90deg, #0059b3, #0099dd);
+  }
+  #password-error {
+    color: #ff5555;
+    margin-top: 8px;
+    height: 18px;
+  }
+
+  /* Particles container - full page behind content */
+  #particles-js {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
   }
 </style>
 </head>
 <body>
 
-<!-- PASSWORD SCREEN -->
-<div id="password-screen">
-  <!-- CHANGE SITE NAME HERE -->
-  <h1>ShadowSite</h1>
-  <!-- CHANGE SUBTITLE/MESSAGE HERE -->
-  <p class="subtitle">Enter the password to access your secure hub.</p>
+<!-- Particle background container -->
+<div id="particles-js"></div>
 
-  <input type="password" id="password-input" placeholder="Enter Password" autofocus />
+<!-- Navigation bar with tabs and time/weather -->
+<nav>
+  <button class="active" onclick="switchTab('home', this)">Home</button>
+  <button onclick="switchTab('games', this)">Games</button>
+  <button onclick="switchTab('entertainment', this)">Entertainment</button>
+  <button onclick="switchTab('unblocked', this)">Unblocked</button>
+  <button onclick="switchTab('support', this)">Support</button>
+  <button id="version-info" title="View changelog">v1.3.0</button>
+  <button id="credits-btn" title="View credits">Credits</button>
+  <div id="time-weather" aria-live="polite" aria-atomic="true">
+    <span id="local-time">--:-- --</span>
+    <span id="weather"></span>
+  </div>
+</nav>
+
+<!-- Password screen -->
+<div id="password-screen">
+  <input id="password-input" type="password" placeholder="Enter password" autocomplete="off" />
   <button onclick="checkPassword()">Enter</button>
   <div id="password-error"></div>
 </div>
 
-<!-- MAIN CONTENT -->
-<div id="main-content" style="display:none;">
-<nav>
-  <button class="active" onclick="switchTab('home', this)">Home</button>
-  <button onclick="switchTab('proxy', this)">Proxy</button>
-  <button onclick="switchTab('games', this)">Games</button>
-  <button onclick="switchTab('entertainment', this)">Entertainment</button>
-  <button onclick="switchTab('unblocked', this)">Unblocked Games</button>
-  <button onclick="switchTab('support', this)">Support</button>
-</nav>
+<!-- Main content wrapper -->
+<div id="main-content" style="display:none; position: relative; z-index: 5;">
+
+  <!-- Announcement box -->
+  <div id="announcement-box" role="region" aria-label="Announcement">
+    <strong>Announcement:</strong> Welcome to ShadowSite! Check back here for updates and news.
+    <!-- EDIT THE ABOVE TEXT FOR YOUR ANNOUNCEMENTS -->
+  </div>
+
+  <!-- Favorites box -->
+  <div id="favorites-box" role="region" aria-label="Users favorites">
+    <h3>Users Favorites</h3>
+    <h4>Proxies</h4>
+    <ul>
+      <li><a href="https://proxysite.example" target="_blank" rel="noopener noreferrer">ProxySite Example</a></li>
+      <li><a href="https://fastproxy.example" target="_blank" rel="noopener noreferrer">Fast Proxy</a></li>
+      <li><a href="https://unblockproxy.example" target="_blank" rel="noopener noreferrer">Unblock Proxy</a></li>
+    </ul>
+    <h4>Games</h4>
+    <ul>
+      <li><a href="https://krunker.io" target="_blank" rel="noopener noreferrer">Krunker.io</a></li>
+      <li><a href="https://agar.io" target="_blank" rel="noopener noreferrer">Agar.io</a></li>
+      <li><a href="https://slither.io" target="_blank" rel="noopener noreferrer">Slither.io</a></li>
+    </ul>
+  </div>
 
   <!-- Home Tab -->
-  <div id="home" class="tab active">
-    <h1>Welcome to ShadowSite</h1>
-    <p>ShadowSite is your all-in-one hub for secure browsing, gaming, and tech support. We combine privacy tools, entertaining games, and reliable support into a sleek, password-protected environment.</p>
-    <h2>About Us</h2>
-    <p>Our goal is to provide users with fast and easy access to tools that help keep you safe online while also having fun. Whether you want to browse anonymously with proxies, enjoy casual games, or get quick help, ShadowSite has you covered.</p>
-
-    <!-- Random Fact -->
-    <div id="random-fact">Loading a fun fact...</div>
-
-    <!-- VERSION DISPLAY -->
-    <!-- CHANGE THE VERSION NUMBER HERE -->
-    <div id="version-info" title="Click to view changelog">v1.3.0</div>
+  <div id="home" class="tab active" aria-label="Home tab">
+    <h1>Welcome to ShadowSite!</h1>
+    <p>Your hub for unblocked games, proxies, entertainment, and more.</p>
+    <div id="random-fact" aria-live="polite" aria-atomic="true"></div>
   </div>
+
 <!-- Proxy Tab -->
 <div id="proxy" class="tab">
   <h2>Proxy Links</h2>
@@ -538,9 +612,8 @@
   </ul>
 </div>
 
-
   <!-- Games Tab -->
-  <div id="games" class="tab">
+  <div id="games" class="tab" aria-label="Games Library">
     <h2>Games Library</h2>
     <p>Take a break and enjoy these browser-based games. No downloads required—just click and play instantly!</p>
     <ul class="link-list">
@@ -566,7 +639,7 @@
   </div>
 
   <!-- Entertainment Tab -->
-  <div id="entertainment" class="tab">
+  <div id="entertainment" class="tab" aria-label="Entertainment Sites">
     <h1>Entertainment Sites</h1>
     <p>Enjoy your favorite streaming and entertainment websites all in one place.</p>
     <ul class="link-list">
@@ -581,7 +654,7 @@
   </div>
 
   <!-- Unblocked Games Tab -->
-  <div id="unblocked" class="tab">
+  <div id="unblocked" class="tab" aria-label="Unblocked Game Sites">
     <h1>Unblocked Game Sites</h1>
     <p>Access your favorite unblocked games from school or work.</p>
     <ul class="link-list">
@@ -595,92 +668,61 @@
   </div>
 
   <!-- Support Tab -->
-<div id="support" class="tab">
-  <h2>Support</h2>
-  <p>Need help or have questions? Fill out the form below, and we’ll get back to you ASAP.</p>
-  <form onsubmit="submitSupportForm(event)">
-    <input type="text" id="name" name="name" placeholder="Your name" required />
-    <input type="email" id="email" name="email" placeholder="Your email" required />
-    <textarea id="message" name="message" placeholder="Your message" rows="5" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
-  <div id="form-status" style="margin-top:15px;"></div>
+  <div id="support" class="tab" aria-label="Support">
+    <h2>Support</h2>
+    <p>Need help or have questions? Fill out the form below, and we’ll get back to you ASAP.</p>
+    <form onsubmit="submitSupportForm(event)">
+      <input type="text" id="name" name="name" placeholder="Your name" required />
+      <input type="email" id="email" name="email" placeholder="Your email" required />
+      <textarea id="message" name="message" placeholder="Your message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <div id="form-status" style="margin-top:15px;"></div>
 
-  <button id="openTOSBtn" style="
-    margin-top: 20px; 
-    background-color: #000000; 
-    color: #66b3ff; 
-    border: 1.5px solid #66b3ff; 
-    padding: 12px 25px; 
-    border-radius: 6px; 
-    font-size: 17px; 
-    cursor: pointer; 
-    box-shadow: 0 0 12px #0077ff88; 
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-  ">
-    View Terms of Service
-  </button>
+    <button id="openTOSBtn" style="
+      margin-top: 20px; 
+      background-color: #000000; 
+      color: #66b3ff; 
+      border: 1.5px solid #66b3ff; 
+      padding: 12px 25px; 
+      border-radius: 6px; 
+      font-size: 17px; 
+      cursor: pointer; 
+      box-shadow: 0 0 12px #0077ff88; 
+      transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    ">
+      View Terms of Service
+    </button>
 
-  <!-- TOS Modal -->
-  <div id="tosModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); 
-      justify-content:center; align-items:center; z-index:9999;">
-    <div style="background:#111f3c; max-width:600px; width:90%; max-height:80vh; overflow-y:auto; padding:20px; border-radius:12px; position:relative; color: #d0eaff;">
-      <h2 style="color:#66b3ff; text-shadow: 0 0 8px #00aaff;">Terms of Service</h2>
-      <p>Welcome to our website. By using our site and the provided links to proxy services, unblocked games, web games, and entertainment sites, you agree to the following terms:</p>
+    <!-- TOS Modal -->
+    <div id="tosModal">
+      <div>
+        <h2>Terms of Service</h2>
+        <p>Welcome to our website. By using our site and the provided links to proxy services, unblocked games, web games, and entertainment sites, you agree to the following terms:</p>
 
-      <ul>
-        <li><strong>Links Provided:</strong> We provide links to third-party proxy sites, unblocked games, and entertainment websites for your convenience. We do not host any games or content ourselves.</li>
-        <li><strong>No Warranty:</strong> We are not responsible for the content, safety, or availability of any linked sites. Use these links at your own risk.</li>
-        <li><strong>User Conduct:</strong> You agree to use the linked sites and games responsibly and in accordance with their own rules and terms.</li>
-        <li><strong>Support:</strong> Our support form is here to assist with website-related questions only. We do not support or troubleshoot third-party sites linked on this website.</li>
-        <li><strong>Changes:</strong> We may update these Terms of Service at any time without prior notice. Continued use of the site means you accept any changes.</li>
-        <li><strong>Age:</strong> By using this site, you confirm that you are at least 13 years old or have parental permission.</li>
-        <li><strong>Limitation of Liability:</strong> Under no circumstances shall we be liable for any damages or losses resulting from use of linked sites.</li>
-      </ul>
+        <ul>
+          <li><strong>Links Provided:</strong> We provide links to third-party proxy sites, unblocked games, and entertainment websites for your convenience. We do not host any games or content ourselves.</li>
+          <li><strong>No Warranty:</strong> We are not responsible for the content, safety, or availability of any linked sites. Use these links at your own risk.</li>
+          <li><strong>User Conduct:</strong> You agree to use the linked sites and games responsibly and in accordance with their own rules and terms.</li>
+          <li><strong>Support:</strong> Our support form is here to assist with website-related questions only. We do not support or troubleshoot third-party sites linked on this website.</li>
+          <li><strong>Changes:</strong> We may update these Terms of Service at any time without prior notice. Continued use of the site means you accept any changes.</li>
+          <li><strong>Age:</strong> By using this site, you confirm that you are at least 13 years old or have parental permission.</li>
+          <li><strong>Limitation of Liability:</strong> Under no circumstances shall we be liable for any damages or losses resulting from use of linked sites.</li>
+        </ul>
 
-      <p>If you do not agree to these terms, please do not use the website or its links.</p>
+        <p>If you do not agree to these terms, please do not use the website or its links.</p>
 
-      <button id="closeTOSBtn" style="
-        margin-top: 15px;
-        background: linear-gradient(90deg, #0077ff, #00aaff);
-        border: none;
-        border-radius: 6px;
-        color: white;
-        padding: 12px 25px;
-        font-size: 17px;
-        cursor: pointer;
-        box-shadow: 0 0 12px #00aaff;
-        transition: background 0.3s ease;
-      ">Close</button>
+        <button id="closeTOSBtn">Close</button>
+      </div>
     </div>
   </div>
+
 </div>
 
-<script>
-  const openBtn = document.getElementById('openTOSBtn');
-  const closeBtn = document.getElementById('closeTOSBtn');
-  const tosModal = document.getElementById('tosModal');
-
-  openBtn.addEventListener('click', () => {
-    tosModal.style.display = 'flex';
-  });
-
-  closeBtn.addEventListener('click', () => {
-    tosModal.style.display = 'none';
-  });
-
-  // Close modal if clicking outside modal content
-  tosModal.addEventListener('click', (e) => {
-    if (e.target === tosModal) {
-      tosModal.style.display = 'none';
-    }
-  });
-</script>
-
-<!-- CHANGELOG MODAL -->
-<div id="changelog-modal">
+<!-- Changelog Modal -->
+<div id="changelog-modal" aria-modal="true" role="dialog" aria-labelledby="changelog-title" tabindex="-1">
   <div id="changelog-content">
-    <h2>Changelog - Version 1.3.0</h2>
+    <h2 id="changelog-title">Changelog - Version 1.3.0</h2>
     <ul id="changelog-list">
       <li>Added entertainment tab.</li>
       <li>Added unblocked games tab.</li>
@@ -693,9 +735,26 @@
   </div>
 </div>
 
+<!-- Credits Modal -->
+<div id="credits-modal" aria-modal="true" role="dialog" aria-labelledby="credits-title" tabindex="-1">
+  <div id="credits-content">
+    <h2 id="credits-title">Credits</h2>
+    <ul id="credits-list">
+      <li>Site designed and coded by Blake Chesebro.</li>
+      <li>Icons and UI inspiration from various open source projects.</li>
+      <li>Game links curated by the ShadowSite community.</li>
+      <li>Particles.js library by Vincent Garreau.</li>
+      <li>Weather data provided by OpenWeatherMap API.</li>
+    </ul>
+    <button id="close-credits" onclick="toggleCredits(false)">Close</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
   const PASSWORD = "shadow";
 
+  // Password screen logic
   function checkPassword() {
     const input = document.getElementById("password-input");
     const errorDiv = document.getElementById("password-error");
@@ -703,6 +762,8 @@
       document.getElementById("password-screen").style.display = "none";
       document.getElementById("main-content").style.display = "block";
       errorDiv.textContent = "";
+      showRandomFact();
+      toggleChangelog(false); // Make sure changelog is hidden on login
     } else {
       errorDiv.textContent = "Incorrect password. Try again.";
       input.value = "";
@@ -710,6 +771,7 @@
     }
   }
 
+  // Tabs switching function
   function switchTab(tabName, btn) {
     // Hide all tabs
     const tabs = document.querySelectorAll(".tab");
@@ -728,62 +790,54 @@
   }
 
   // RANDOM FACTS ARRAY
-const randomFacts = [
-  "The PlayStation 5’s SSD can load games in less than one second.",
-  "Minecraft has sold over 238 million copies worldwide, the best-selling game ever.",
-  "The first video game, 'Pong,' was released in 1972 and was a digital version of table tennis.",
-  "The ‘@’ symbol was chosen for email addresses in 1971 because it was rarely used elsewhere.",
-  "More than 3 billion people worldwide play video games regularly as of 2024.",
-  "The world’s fastest supercomputer performs over 1 quintillion calculations per second.",
-  "Python programming language was named after the comedy group ‘Monty Python’s Flying Circus.’",
-  "Over 2.5 quintillion bytes of data are created globally every day.",
-  "AI language models like GPT-4 can generate human-like text almost instantly.",
-  "Esports audiences now rival and sometimes surpass viewers of traditional sports leagues like the NBA.",
-  "Virtual reality headset shipments exceeded 10 million units worldwide in 2023.",
-  "The first email was sent in 1971 by Ray Tomlinson, who introduced the ‘@’ symbol for addresses.",
-  "More than 90% of the world’s currency now exists only digitally, with no physical cash involved.",
-  "Modern smartphones have more computing power than the Apollo 11 computers used for the moon landing.",
-  "The global gaming industry makes over $200 billion per year, surpassing movies and music.",
-  "Google’s name is derived from ‘googol,’ which means 1 followed by 100 zeros.",
-  "The original Xbox controller was so large, it was nicknamed ‘The Duke.’",
-  "The world’s first website is still online; it was launched by Tim Berners-Lee in 1991.",
-  "The first computer mouse was made of wood and invented in 1964.",
-  "‘Easter eggs’ in software are hidden features or messages put in by developers.",
-  "The Nintendo Game Boy was released in 1989 and sold over 118 million units worldwide.",
-  "The first smartphone, IBM’s Simon, was released in 1994 and could send emails and faxes.",
-  "The Tetris theme song is based on a Russian folk tune called ‘Korobeiniki.’",
-  "The fastest computer virus in history, ‘ILOVEYOU,’ spread to 10 million computers in 10 days.",
-  "The coding language Java was originally called Oak, named after an oak tree outside the creator’s window.",
-  "Wi-Fi technology was inspired by the same radio waves used in astronomy to detect black holes.",
-  "The term ‘bug’ for software errors dates back to a real moth found stuck in a computer in 1947.",
-  "Cloud computing means running programs and storing data on the internet instead of your own device.",
-  "Steam, a popular gaming platform, launched in 2003 and now has over 125 million active users monthly.",
-  "Robotics competitions are becoming popular in schools, teaching students coding and engineering skills.",
-  "QR codes were invented in 1994 by a Toyota subsidiary for tracking car parts during manufacturing.",
-  "The first 1GB hard drive was released in 1980 and weighed over 500 pounds.",
-  "Twitch started as a spin-off of Justin.tv in 2011 and is now the largest live streaming platform for gamers.",
-  "HTML, the language used to create web pages, stands for HyperText Markup Language.",
-  "The first-ever computer game is often considered to be ‘Spacewar!’ from 1962.",
-  "The average gamer spends about 6.5 hours per week playing video games.",
-  "Artificial intelligence was officially named and started as a field in 1956 at a conference at Dartmouth College.",
-  "More than 70% of professional video gamers are under 25 years old.",
-  "The largest video game tournament, The International for Dota 2, had a prize pool of over $40 million in 2023."
-];
+  const randomFacts = [
+    "The PlayStation 5’s SSD can load games in less than one second.",
+    "Minecraft has sold over 238 million copies worldwide, the best-selling game ever.",
+    "The first video game, 'Pong,' was released in 1972 and was a digital version of table tennis.",
+    "The ‘@’ symbol was chosen for email addresses in 1971 because it was rarely used elsewhere.",
+    "More than 3 billion people worldwide play video games regularly as of 2024.",
+    "The world’s fastest supercomputer performs over 1 quintillion calculations per second.",
+    "Python programming language was named after the comedy group ‘Monty Python’s Flying Circus.’",
+    "Over 2.5 quintillion bytes of data are created globally every day.",
+    "AI language models like GPT-4 can generate human-like text almost instantly.",
+    "Esports audiences now rival and sometimes surpass viewers of traditional sports leagues like the NBA.",
+    "Virtual reality headset shipments exceeded 10 million units worldwide in 2023.",
+    "The first email was sent in 1971 by Ray Tomlinson, who introduced the ‘@’ symbol for addresses.",
+    "More than 90% of the world’s currency now exists only digitally, with no physical cash involved.",
+    "Modern smartphones have more computing power than the Apollo 11 computers used for the moon landing.",
+    "The global gaming industry makes over $200 billion per year, surpassing movies and music.",
+    "Google’s name is derived from ‘googol,’ which means 1 followed by 100 zeros.",
+    "The original Xbox controller was so large, it was nicknamed ‘The Duke.’",
+    "The world’s first website is still online; it was launched by Tim Berners-Lee in 1991.",
+    "The first computer mouse was made of wood and invented in 1964.",
+    "‘Easter eggs’ in software are hidden features or messages put in by developers.",
+    "The Nintendo Game Boy was released in 1989 and sold over 118 million units worldwide.",
+    "The first smartphone, IBM’s Simon, was released in 1994 and could send emails and faxes.",
+    "The Tetris theme song is based on a Russian folk tune called ‘Korobeiniki.’",
+    "The fastest computer virus in history, ‘ILOVEYOU,’ spread to 10 million computers in 10 days.",
+    "The coding language Java was originally called Oak, named after an oak tree outside the creator’s window.",
+    "Wi-Fi technology was inspired by the same radio waves used in astronomy to detect black holes.",
+    "The term ‘bug’ for software errors dates back to a real moth found stuck in a computer in 1947.",
+    "Cloud computing means running programs and storing data on the internet instead of your own device.",
+    "Steam, a popular gaming platform, launched in 2003 and now has over 125 million active users monthly.",
+    "Robotics competitions are becoming popular in schools, teaching students coding and engineering skills.",
+    "QR codes were invented in 1994 by a Toyota subsidiary for tracking car parts during manufacturing.",
+    "The first 1GB hard drive was released in 1980 and weighed over 500 pounds.",
+    "Twitch started as a spin-off of Justin.tv in 2011 and is now the largest live streaming platform for gamers.",
+    "HTML, the language used to create web pages, stands for HyperText Markup Language.",
+    "The first-ever computer game is often considered to be ‘Spacewar!’ from 1962.",
+    "The average gamer spends about 6.5 hours per week playing video games.",
+    "Artificial intelligence was officially named and started as a field in 1956 at a conference at Dartmouth College.",
+    "More than 70% of professional video gamers are under 25 years old.",
+    "The largest video game tournament, The International for Dota 2, had a prize pool of over $40 million in 2023."
+  ];
 
-  // Function to pick and display a random fact on Home tab
+  // Show a random fact on Home tab
   function showRandomFact() {
     const factDiv = document.getElementById("random-fact");
     const randomIndex = Math.floor(Math.random() * randomFacts.length);
     factDiv.textContent = "💡 Fun fact: " + randomFacts[randomIndex];
   }
-
-  // Show a random fact on initial load if home is visible
-  document.addEventListener("DOMContentLoaded", () => {
-    // If password already correct (in case of refresh)
-    if(document.getElementById("main-content").style.display === "block") {
-      showRandomFact();
-    }
-  });
 
   // Support form submission (dummy)
   function submitSupportForm(event) {
@@ -801,6 +855,17 @@ const randomFacts = [
     const modal = document.getElementById("changelog-modal");
     if(show) {
       modal.style.display = "flex";
+      modal.focus();
+    } else {
+      modal.style.display = "none";
+    }
+  }
+  // Credits modal toggle
+  function toggleCredits(show) {
+    const modal = document.getElementById("credits-modal");
+    if(show) {
+      modal.style.display = "flex";
+      modal.focus();
     } else {
       modal.style.display = "none";
     }
@@ -811,13 +876,182 @@ const randomFacts = [
     toggleChangelog(true);
   });
 
+  // Open credits when credits button clicked
+  document.getElementById("credits-btn").addEventListener("click", () => {
+    toggleCredits(true);
+  });
+
+  // Close buttons event listeners
+  document.getElementById("close-changelog").addEventListener("click", () => {
+    toggleChangelog(false);
+  });
+  document.getElementById("close-credits").addEventListener("click", () => {
+    toggleCredits(false);
+  });
+
+  // TOS Modal open/close
+  const openBtn = document.getElementById('openTOSBtn');
+  const closeBtn = document.getElementById('closeTOSBtn');
+  const tosModal = document.getElementById('tosModal');
+  openBtn.addEventListener('click', () => {
+    tosModal.style.display = 'flex';
+    tosModal.focus();
+  });
+  closeBtn.addEventListener('click', () => {
+    tosModal.style.display = 'none';
+  });
+  tosModal.addEventListener('click', (e) => {
+    if (e.target === tosModal) {
+      tosModal.style.display = 'none';
+    }
+  });
+
   // Allow Enter key on password input to trigger login
   document.getElementById("password-input").addEventListener("keyup", (e) => {
     if(e.key === "Enter") checkPassword();
   });
-</script>
 
+  // Time update function
+  function updateLocalTime() {
+    const timeElem = document.getElementById('local-time');
+    const now = new Date();
+    let h = now.getHours();
+    const m = now.getMinutes();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12;
+    if (h === 0) h = 12;
+    const minStr = m < 10 ? '0' + m : m;
+    timeElem.textContent = `${h}:${minStr} ${ampm}`;
+  }
+
+  // Weather fetching using OpenWeatherMap API (free tier, no backend, via fetch)
+  // You must add your own API key here to enable weather:
+  const OPENWEATHER_API_KEY = "d2f03dde59a1d1a4a7dc48b05db2325e";
+  const weatherElem = document.getElementById('weather');
+
+  function fetchWeather() {
+    if (!navigator.geolocation) {
+      weatherElem.textContent = "No geolocation.";
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${OPENWEATHER_API_KEY}&units=imperial`;
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            if (data.weather && data.weather.length > 0 && data.main) {
+              const iconCode = data.weather[0].icon;
+              const temp = Math.round(data.main.temp);
+              const desc = data.weather[0].main;
+              weatherElem.innerHTML = `<img src="https://openweathermap.org/img/wn/${iconCode}.png" alt="${desc}" style="vertical-align:middle; width:20px; height:20px;"> ${temp}°F ${desc}`;
+            } else {
+              weatherElem.textContent = "Weather unavailable";
+            }
+          })
+          .catch(() => {
+            weatherElem.textContent = "Weather error";
+          });
+      },
+      () => {
+        weatherElem.textContent = "Location denied";
+      }
+    );
+  }
+
+  // Update time every 30 seconds
+  setInterval(updateLocalTime, 30000);
+  updateLocalTime();
+
+  // Try fetching weather every 10 minutes
+  fetchWeather();
+  setInterval(fetchWeather, 600000);
+
+  // Initialize particles.js
+  particlesJS('particles-js', {
+    "particles": {
+      "number": {
+        "value": 40,
+        "density": {
+          "enable": true,
+          "value_area": 800
+        }
+      },
+      "color": {
+        "value": "#3399ff"
+      },
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "#000"
+        }
+      },
+      "opacity": {
+        "value": 0.15,
+        "random": true,
+        "anim": {
+          "enable": true,
+          "speed": 0.8,
+          "opacity_min": 0.05,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 3,
+        "random": true,
+        "anim": {
+          "enable": false
+        }
+      },
+      "line_linked": {
+        "enable": true,
+        "distance": 120,
+        "color": "#3399ff",
+        "opacity": 0.1,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 1,
+        "direction": "none",
+        "random": true,
+        "straight": false,
+        "out_mode": "out",
+        "bounce": false,
+        "attract": {
+          "enable": false
+        }
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {
+          "enable": false
+        },
+        "onclick": {
+          "enable": false
+        },
+        "resize": true
+      }
+    },
+    "retina_detect": true
+  });
+
+  // Show changelog modal on first load after password unlock
+  function showChangelogOnLoad() {
+    toggleChangelog(true);
+  }
+
+  // Show changelog automatically when logged in
+  // We call this only after password success:
+  // (For the first load in this demo, changelog won't show on password input screen.)
+  // So we can show it now after password success
+  // Uncomment to auto show changelog on login:
+  // showChangelogOnLoad();
+
+</script>
 </body>
 </html>
-
-
