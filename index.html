@@ -4,774 +4,702 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ShadowSite</title>
-
 <style>
-  /* Reset */
-  * {
-    box-sizing: border-box;
+  :root {
+    /* Default theme colors (blue) */
+    --color-primary: #00aaff;
+    --color-primary-light: #66d0ff;
+    --color-background-light: #f5faff;
+    --color-background-dark: #0a0a0a;
+    --color-text-light: #222;
+    --color-text-dark: #ddd;
+    --color-link: var(--color-primary);
+    --color-link-hover: var(--color-primary-light);
   }
+
+  /* Dark mode */
+  body.dark {
+    background-color: var(--color-background-dark);
+    color: var(--color-text-dark);
+  }
+  /* Light mode */
+  body.light {
+    background-color: var(--color-background-light);
+    color: var(--color-text-light);
+  }
+
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #0a0a0a;
-    color: #d0e8ff;
-    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    background-color: var(--color-background-dark);
+    color: var(--color-text-dark);
   }
 
-  /* Container and layout */
-  #container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 1rem 15px 3rem;
-    position: relative;
-    z-index: 10;
+  a {
+    color: var(--color-link);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  a:hover, a:focus {
+    color: var(--color-link-hover);
+    outline: none;
   }
 
   header {
-    padding: 20px 0 10px;
-    text-align: center;
-  }
-  header h1 {
-    font-size: 3rem;
-    color: #00aaff;
-    margin: 0 0 5px;
-    text-shadow: 0 0 10px #00aaff88;
-  }
-  header p.description {
-    font-size: 1.15rem;
-    font-weight: 500;
-    margin: 0;
-    color: #99ccee;
+    background-color: var(--color-primary);
+    color: #001a2e;
+    padding: 15px 20px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    user-select: none;
   }
 
-  /* Top nav bar */
   nav {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #050505;
-    border-bottom: 1px solid #004466;
-    box-shadow: 0 0 10px #0066aa22 inset;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    flex-wrap: wrap;
+    background-color: var(--color-primary);
   }
-  nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  nav ul li {
-    margin: 0 0.5rem;
-  }
-  nav ul li button {
-    background: transparent;
+  nav button.tablink {
+    flex-grow: 1;
+    background-color: var(--color-primary);
     border: none;
-    color: #55bbff;
-    font-size: 1rem;
-    padding: 10px 16px;
+    padding: 12px 15px;
+    color: #001a2e;
+    font-weight: bold;
     cursor: pointer;
-    transition: color 0.3s, box-shadow 0.3s;
-    border-radius: 6px;
-    text-shadow: 0 0 6px #33aaff44;
+    transition: background-color 0.3s ease;
   }
-  nav ul li button:hover,
-  nav ul li button.active {
-    color: #00ddff;
-    box-shadow: 0 0 12px #00ddff88;
+  nav button.tablink:hover,
+  nav button.tablink.active {
+    background-color: var(--color-primary-light);
+    color: #000;
     outline: none;
   }
 
-  /* Weather & Time in nav */
-  #local-info {
-    margin-left: 20px;
-    font-size: 0.9rem;
-    color: #55bbff;
-    font-weight: 600;
-    text-shadow: 0 0 6px #33aaff44;
-    white-space: nowrap;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  #local-info .temp {
-    font-weight: 700;
-  }
-  #local-info .condition {
-    font-style: italic;
-  }
-  #local-info img {
-    width: 20px;
-    height: 20px;
-    filter: drop-shadow(0 0 2px #00aaff88);
+  main {
+    padding: 20px;
+    min-height: 70vh;
   }
 
-  /* Tab content */
-  .tab {
+  section.tab {
     display: none;
-    padding: 1rem 0 0;
   }
-  .tab.active {
+  section.tab.active {
     display: block;
   }
 
-  /* Announcement box */
+  /* Announcement Box */
   #announcement {
-    background: #002233cc;
-    border: 1px solid #00aaffcc;
-    padding: 15px 20px;
-    border-radius: 10px;
+    background-color: var(--color-primary);
+    padding: 12px 15px;
+    border-radius: 6px;
     margin-bottom: 20px;
-    font-size: 1.1rem;
-    box-shadow: 0 0 10px #00aaffaa;
-    text-align: center;
+    font-weight: bold;
+    color: #001a2e;
   }
 
-  /* Users Favorites box */
+  /* Users Favorites Box */
   #users-favorites {
-    background: #002233cc;
-    border: 1px solid #00aaffcc;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 30px;
-    box-shadow: 0 0 10px #00aaffaa;
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid var(--color-primary-light);
+    border-radius: 8px;
+    background-color: rgba(0, 170, 255, 0.1);
   }
-  #users-favorites h2 {
-    color: #00aaff;
+  #users-favorites h3 {
     margin-top: 0;
-    margin-bottom: 15px;
-    text-shadow: 0 0 10px #00aaffbb;
+    color: var(--color-primary);
   }
-  #users-favorites .category {
-    margin-bottom: 20px;
-  }
-  #users-favorites .category h3 {
-    border-bottom: 2px solid #00aaffaa;
-    padding-bottom: 6px;
-    margin-bottom: 10px;
-    color: #66ccff;
-    text-shadow: 0 0 6px #0099ddaa;
-  }
-  #users-favorites .category ul {
+  #users-favorites ul {
     list-style-type: disc;
     margin-left: 20px;
-    color: #bbeeff;
   }
-  #users-favorites .category ul li a {
-    color: #77bbff;
-    text-decoration: none;
-    transition: color 0.2s;
+  #users-favorites li a {
+    color: var(--color-primary);
   }
-  #users-favorites .category ul li a:hover {
-    color: #00ddff;
-    text-shadow: 0 0 8px #00ddffcc;
+  #users-favorites li a:hover {
+    color: var(--color-primary-light);
   }
 
-  /* Changelog & Credits style - match */
+  /* Changelog and Credits Box */
   #changelog, #credits {
-    background: #001a2ecc;
-    border: 1px solid #0099ddcc;
-    padding: 15px 20px;
-    border-radius: 12px;
-    margin-top: 30px;
-    box-shadow: 0 0 15px #0099ddbb;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(0, 170, 255, 0.15);
+    border: 1px solid var(--color-primary-light);
+    color: var(--color-text-dark);
   }
   #changelog h2, #credits h2 {
     margin-top: 0;
-    color: #00aaff;
-    text-shadow: 0 0 10px #00aaffcc;
+    color: var(--color-primary);
   }
-  #changelog ul, #credits ul {
-    margin-left: 20px;
-    color: #99ccff;
-  }
-  #changelog ul li, #credits ul li {
-    margin-bottom: 8px;
-  }
-
-  /* Proxy Links tab styles */
-  #proxy h2, #proxy h3 {
-    color: #00aaff;
-    text-shadow: 0 0 10px #00aaffbb;
-  }
-  #proxy p {
-    color: #aadfff;
-    margin-bottom: 1rem;
-  }
-  #proxy ul.link-list {
-    list-style-type: none;
-    padding-left: 0;
-    margin-bottom: 30px;
-  }
-  #proxy ul.link-list li {
-    margin-bottom: 6px;
-  }
-  #proxy ul.link-list li a {
-    color: #77bbff;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.25s;
-  }
-  #proxy ul.link-list li a:hover {
-    color: #00ddff;
-    text-shadow: 0 0 8px #00ddffcc;
-  }
-
-  /* Other tabs (Games, Entertainment, Unblocked, Support, TOS, Settings) */
-  #games, #entertainment, #unblocked, #support, #tos, #settings {
-    padding: 15px 5px 10px;
-  }
-  #games h2, #entertainment h2, #unblocked h2, #support h2, #tos h2, #settings h2 {
-    color: #00aaff;
-    margin-bottom: 15px;
-    text-shadow: 0 0 8px #00aaffbb;
-  }
-  #games ul, #entertainment ul, #unblocked ul, #support ul {
-    color: #bbeeff;
-  }
-  #games ul li, #entertainment ul li, #unblocked ul li, #support ul li {
-    margin-bottom: 8px;
-  }
-  #games ul li a, #entertainment ul li a, #unblocked ul li a, #support ul li a {
-    color: #77bbff;
-    text-decoration: none;
-  }
-  #games ul li a:hover, #entertainment ul li a:hover, #unblocked ul li a:hover, #support ul li a:hover {
-    color: #00ddff;
-    text-shadow: 0 0 8px #00ddffcc;
-  }
-  #tos p {
-    line-height: 1.4;
-    color: #aaccee;
-  }
-
-  /* Close button style for changelog */
-  #changelog .close-btn {
-    background: #004466;
-    border: none;
-    color: #99ccff;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 8px;
-    cursor: pointer;
+  #changelog button.close, #credits button.close {
     float: right;
-    margin-top: -10px;
-    margin-right: -10px;
-    box-shadow: 0 0 6px #00aaffaa;
-    transition: background-color 0.3s ease;
-  }
-  #changelog .close-btn:hover {
-    background: #0077cc;
-    color: #ccf4ff;
-  }
-
-  /* Particle canvas background */
-  #particles-js {
-    position: fixed;
-    top: 40px; /* under nav */
-    left: 0;
-    width: 100%;
-    height: calc(100% - 40px);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* Put content container above particles */
-  #container {
-    position: relative;
-    z-index: 10;
-  }
-
-  /* Password Overlay Styles */
-  #password-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: #001a2eee;
-    backdrop-filter: blur(6px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    color: #00aaff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    user-select: none;
-  }
-  #password-overlay h2 {
-    font-size: 2.2rem;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 0 8px #00aaffaa;
-  }
-  #password-overlay p {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    color: #99ccff;
-    text-align: center;
-    max-width: 300px;
-  }
-  #password-overlay input[type="password"] {
-    background: #003355;
-    border: 1px solid #0077cc;
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 1.2rem;
-    color: #aaffff;
-    width: 280px;
-    text-align: center;
-    outline: none;
-    box-shadow: 0 0 10px #00aaff88 inset;
-    transition: border-color 0.3s ease;
-  }
-  #password-overlay input[type="password"]:focus {
-    border-color: #00ddff;
-    box-shadow: 0 0 14px #00ddffcc inset;
-  }
-  #password-overlay button {
-    margin-top: 20px;
-    background: #0077cc;
+    background: none;
     border: none;
-    color: #ccf4ff;
-    font-weight: 700;
+    color: var(--color-primary);
     font-size: 1.2rem;
-    padding: 12px 40px;
-    border-radius: 10px;
+    font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 0 14px #00aaffcc;
-    transition: background-color 0.3s ease;
-  }
-  #password-overlay button:hover {
-    background: #00aaff;
-  }
-  #password-error {
-    margin-top: 15px;
-    color: #ff4444;
-    font-weight: 600;
-    text-shadow: none;
+    padding: 0 5px;
   }
 
-  /* Settings tab controls */
-  #settings label {
+  /* Weather & Time Bar */
+  #weather-time-bar {
+    background-color: rgba(0, 170, 255, 0.1);
+    color: var(--color-primary-light);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 5px 15px;
+    border-radius: 0 0 12px 12px;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
-    margin-bottom: 15px;
-    cursor: pointer;
+    user-select: none;
+    letter-spacing: 0.05em;
   }
-  #settings label input[type="checkbox"] {
-    margin-right: 12px;
-    width: 20px;
-    height: 20px;
-    accent-color: #00aaff;
+
+  /* Settings tab */
+  #settings label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
   }
-  #settings .desc {
-    color: #aadfff;
+  #settings input[type="text"], #settings input[type="url"], #settings select {
+    width: 250px;
+    padding: 7px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--color-primary-light);
+    background-color: transparent;
+    color: inherit;
     font-size: 1rem;
   }
+  #settings button {
+    margin-top: 12px;
+    padding: 10px 18px;
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: 8px;
+    color: #001a2e;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 8px var(--color-primary-light);
+    transition: background-color 0.3s ease;
+  }
+  #settings button:hover, #settings button:focus {
+    background-color: var(--color-primary-light);
+    outline: none;
+  }
+
+  /* Panic Key info */
+  #panic-info {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--color-primary-light);
+  }
+
+  /* Password screen */
+  #password-screen {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #001a2e;
+    color: #00aaff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  #password-screen input[type="password"] {
+    font-size: 1.3rem;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    width: 220px;
+    text-align: center;
+    letter-spacing: 0.2em;
+  }
+  #password-screen button {
+    font-size: 1.1rem;
+    background-color: var(--color-primary);
+    color: #001a2e;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 25px;
+    cursor: pointer;
+    box-shadow: 0 0 12px var(--color-primary-light);
+  }
+  #password-error {
+    color: #f00;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
 </style>
 </head>
 <body>
 
-<!-- Password Overlay -->
-<div id="password-overlay" role="dialog" aria-modal="true" aria-labelledby="pwTitle" aria-describedby="pwDesc">
-  <h2 id="pwTitle">Enter Password</h2>
-  <p id="pwDesc">Please enter the password to access ShadowSite.</p>
-  <input type="password" id="password-input" aria-label="Password input" autocomplete="off" />
+<div id="password-screen" aria-label="Password entry screen" role="dialog" aria-modal="true" aria-live="polite">
+  <label for="password-input" style="font-size:1.5rem; margin-bottom:10px;">Enter Password to Access ShadowSite:</label>
+  <input type="password" id="password-input" aria-describedby="password-error" placeholder="Password" autocomplete="off" />
   <button id="password-submit">Enter</button>
-  <div id="password-error" role="alert" aria-live="assertive" style="display:none;">Incorrect password, please try again.</div>
+  <div id="password-error" role="alert" aria-live="assertive"></div>
 </div>
 
-<nav>
-  <ul>
-    <li><button class="tab-btn active" data-tab="home">Home</button></li>
-    <li><button class="tab-btn" data-tab="proxy">Proxy</button></li>
-    <li><button class="tab-btn" data-tab="games">Games</button></li>
-    <li><button class="tab-btn" data-tab="entertainment">Entertainment</button></li>
-    <li><button class="tab-btn" data-tab="unblocked">Unblocked Games</button></li>
-    <li><button class="tab-btn" data-tab="support">Support</button></li>
-    <li><button class="tab-btn" data-tab="tos">TOS</button></li>
-    <li><button class="tab-btn" data-tab="settings">Settings</button></li>
-  </ul>
-  <div id="local-info" aria-live="polite" title="Local Time and Weather">
-    <span id="local-time" aria-label="Local time"></span>
-    <img id="weather-icon" src="" alt="" style="display:none;" />
-    <span id="weather-temp" class="temp"></span>
-    <span id="weather-condition" class="condition"></span>
-  </div>
+<header>ShadowSite</header>
+
+<nav role="navigation" aria-label="Primary">
+  <button class="tablink active" data-tab="home" aria-selected="true" tabindex="0">Home</button>
+  <button class="tablink" data-tab="proxy" tabindex="-1">Proxy</button>
+  <button class="tablink" data-tab="games" tabindex="-1">Games</button>
+  <button class="tablink" data-tab="entertainment" tabindex="-1">Entertainment</button>
+  <button class="tablink" data-tab="unblocked" tabindex="-1">Unblocked Games</button>
+  <button class="tablink" data-tab="support" tabindex="-1">Support</button>
+  <button class="tablink" data-tab="settings" tabindex="-1">Settings</button>
 </nav>
 
-<div id="particles-js"></div>
+<div id="weather-time-bar" aria-live="polite" aria-atomic="true" aria-label="Local time and weather information" role="region" style="display:none;">
+  Loading local time and weather...
+</div>
 
-<div id="container" aria-hidden="true">
+<main>
   <!-- Home Tab -->
   <section id="home" class="tab active" role="tabpanel" tabindex="0" aria-label="Home Tab">
-    <header>
-      <h1>ShadowSite</h1>
-      <p class="description">Your hub for proxies, games, and more.</p>
-    </header>
+    <h1>Welcome to ShadowSite</h1>
+    <p>Your go-to site for proxies, games, and entertainment.</p>
 
-    <div id="announcement" aria-live="polite" role="region" aria-label="Announcement">
-      <!-- CHANGE ANNOUNCEMENT TEXT HERE -->
-      <strong>Announcement:</strong> Welcome to ShadowSite! Check out the latest proxies and games below.
+    <div id="announcement" aria-live="polite" aria-atomic="true">
+      <!-- CHANGE ANNOUNCEMENT TEXT BELOW -->
+      <strong>Announcement:</strong> New proxies added! Check them out in the Proxy tab.
     </div>
 
-    <!-- Users Favorites -->
-    <div id="users-favorites" role="region" aria-label="Users Favorites">
-      <h2>Users Favorites</h2>
-      <div class="category" id="favorites-proxy">
-        <h3>Favorite Proxies</h3>
+    <div id="users-favorites" aria-label="Users favorite proxies and games">
+      <h3>Users Favorites</h3>
+      <div>
+        <h4>Proxies</h4>
         <ul>
-          <li><a href="http://funlearning.ra3.us/" target="_blank" rel="noopener noreferrer">funlearning.ra3.us</a></li>
-          <li><a href="http://mathymath.cueros-roblans.com.ar/" target="_blank" rel="noopener noreferrer">mathymath.cueros-roblans.com.ar</a></li>
-          <li><a href="https://boltunblocker.com/" target="_blank" rel="noopener noreferrer">boltunblocker.com</a></li>
-          <li><a href="https://nirbytesboltxero.chickenkiller.com/" target="_blank" rel="noopener noreferrer">nirbytesboltxero.chickenkiller.com</a></li>
+          <li><a href="https://exampleproxy1.com" target="_blank" rel="noopener noreferrer">exampleproxy1.com</a></li>
+          <li><a href="https://exampleproxy2.com" target="_blank" rel="noopener noreferrer">exampleproxy2.com</a></li>
         </ul>
       </div>
-      <div class="category" id="favorites-games">
-        <h3>Favorite Games</h3>
+      <div>
+        <h4>Games</h4>
         <ul>
           <li><a href="https://examplegame1.com" target="_blank" rel="noopener noreferrer">Example Game 1</a></li>
           <li><a href="https://examplegame2.com" target="_blank" rel="noopener noreferrer">Example Game 2</a></li>
-          <li><a href="https://examplegame3.com" target="_blank" rel="noopener noreferrer">Example Game 3</a></li>
         </ul>
       </div>
     </div>
 
-    <!-- Changelog -->
-    <section id="changelog" aria-label="Changelog">
-      <button class="close-btn" aria-label="Close Changelog">&times;</button>
+    <div id="changelog" role="region" aria-label="Changelog">
+      <button class="close" aria-label="Close changelog">&times;</button>
       <h2>Changelog</h2>
       <ul>
-        <li>Added particles background on all tabs</li>
-        <li>Implemented local weather and time display</li>
-        <li>Users Favorites section with proxies and games added to home tab</li>
-        <li>Credits box styled and added to home tab</li>
-        <li>Proxy tab fully populated with all proxies</li>
-        <li>Maintained all original tabs and content</li>
-        <li>Added password protection overlay with password "shadow"</li>
-        <li>Added Settings tab with useful toggles</li>
+        <li>Added password protection.</li>
+        <li>Added dark/light mode and theme switcher.</li>
+        <li>Added panic key functionality.</li>
+        <li>Integrated weather and local time bar.</li>
+        <li>Updated support tab with Formspree.</li>
       </ul>
-    </section>
+    </div>
 
-    <!-- Credits -->
-    <section id="credits" aria-label="Credits">
+    <div id="credits" role="region" aria-label="Credits">
+      <button class="close" aria-label="Close credits">&times;</button>
       <h2>Credits</h2>
       <ul>
-        <li>Site developed by Blake Chesebro</li>
-        <li>Particles.js integration by OpenAI ChatGPT</li>
-        <li>Weather API by OpenWeatherMap</li>
-        <li>Proxy lists contributed by community</li>
+        <li>Site designed and coded by Blake Chesebro.</li>
+        <li>Weather data powered by OpenWeatherMap API.</li>
+        <li>Icons and graphics by free sources.</li>
       </ul>
-    </section>
+    </div>
   </section>
 
   <!-- Proxy Tab -->
   <section id="proxy" class="tab" role="tabpanel" tabindex="0" aria-label="Proxy Tab">
-    <h2>Proxy</h2>
+    <h2>Proxy Links</h2>
+    <p>Browse privately and bypass restrictions with these trusted proxy links. Use them to enhance your online privacy and access blocked content.</p>
 
-    <p>Below are some of the best proxies available:</p>
-
-    <h3>Chickenkiller Proxies</h3>
+    <!-- Bolt Proxies -->
+    <h3>Bolt Proxy Links</h3>
     <ul class="link-list">
       <li><a href="http://funlearning.ra3.us/" target="_blank" rel="noopener noreferrer">funlearning.ra3.us</a></li>
       <li><a href="http://mathymath.cueros-roblans.com.ar/" target="_blank" rel="noopener noreferrer">mathymath.cueros-roblans.com.ar</a></li>
-      <li><a href="https://boltunblocker.com/" target="_blank" rel="noopener noreferrer">boltunblocker.com</a></li>
+      <li><a href="https://fnrkrbvtpy.abbotsfordhallforhire.org.au/" target="_blank" rel="noopener noreferrer">fnrkrbvtpy.abbotsfordhallforhire.org.au</a></li>
+      <li><a href="http://boltunblocker.com/" target="_blank" rel="noopener noreferrer">boltunblocker.com</a></li>
+      <li><a href="https://anamoxe.baselinux.net/" target="_blank" rel="noopener noreferrer">anamoxe.baselinux.net</a></li>
       <li><a href="https://nirbytesboltxero.chickenkiller.com/" target="_blank" rel="noopener noreferrer">nirbytesboltxero.chickenkiller.com</a></li>
-      <li><a href="https://nqdufmlfhj.3cm.us/" target="_blank" rel="noopener noreferrer">nqdufmlfhj.3cm.us</a></li>
-      <li><a href="https://prochickenkiller.chickenkiller.com" target="_blank" rel="noopener noreferrer">prochickenkiller.chickenkiller.com</a></li>
-      <li><a href="https://chickenproxy.chickenkiller.com" target="_blank" rel="noopener noreferrer">chickenproxy.chickenkiller.com</a></li>
+      <li><a href="https://lnienmniry.baselinux.net" target="_blank" rel="noopener noreferrer">lnienmniry.baselinux.net</a></li>
+      <li><a href="https://samjabie.baselinux.net" target="_blank" rel="noopener noreferrer">samjabie.baselinux.net</a></li>
+      <li><a href="https://sandeking.baselinux.net" target="_blank" rel="noopener noreferrer">sandeking.baselinux.net</a></li>
+      <li><a href="http://neclcafxoz.expedicionesytrekking.com/" target="_blank" rel="noopener noreferrer">neclcafxoz.expedicionesytrekking.com</a></li>
+      <li><a href="http://evoodherne.mygadgets.com.ar/" target="_blank" rel="noopener noreferrer">evoodherne.mygadgets.com.ar</a></li>
+      <li><a href="https://boltnixe.baselinux.net/" target="_blank" rel="noopener noreferrer">boltnixe.baselinux.net</a></li>
+      <li><a href="https://clearinxg.baselinux.net" target="_blank" rel="noopener noreferrer">clearinxg.baselinux.net</a></li>
+      <li><a href="https://hansobe.baselinux.net" target="_blank" rel="noopener noreferrer">hansobe.baselinux.net</a></li>
+      <li><a href="https://jambali.baselinux.net" target="_blank" rel="noopener noreferrer">jambali.baselinux.net</a></li>
+      <li><a href="https://kantabolt.baselinux.net" target="_blank" rel="noopener noreferrer">kantabolt.baselinux.net</a></li>
+      <li><a href="https://nirbytesprobolt.chickenkiller.com" target="_blank" rel="noopener noreferrer">nirbytesprobolt.chickenkiller.com</a></li>
+      <li><a href="https://boletrp.chickenkiller.com" target="_blank" rel="noopener noreferrer">boletrp.chickenkiller.com</a></li>
+      <li><a href="https://clarendi.chickenkiller.com" target="_blank" rel="noopener noreferrer">clarendi.chickenkiller.com</a></li>
+      <li><a href="https://diksedi.chickenkiller.com" target="_blank" rel="noopener noreferrer">diksedi.chickenkiller.com</a></li>
+      <li><a href="https://jankdi.chickenkiller.com" target="_blank" rel="noopener noreferrer">jankdi.chickenkiller.com</a></li>
+      <li><a href="http://ffehzuwacg.3cm.us/" target="_blank" rel="noopener noreferrer">ffehzuwacg.3cm.us</a></li>
+      <li><a href="http://redswhyqsl.cartes.cl/" target="_blank" rel="noopener noreferrer">redswhyqsl.cartes.cl</a></li>
+      <li><a href="http://hvtcgxbxel.moot.es/" target="_blank" rel="noopener noreferrer">hvtcgxbxel.moot.es</a></li>
+      <li><a href="https://boltnirbytes.baselinux.net" target="_blank" rel="noopener noreferrer">boltnirbytes.baselinux.net</a></li>
+      <li><a href="https://boltvixero.baselinux.net" target="_blank" rel="noopener noreferrer">boltvixero.baselinux.net</a></li>
+      <li><a href="https://nirbytesboltx.baselinux.net" target="_blank" rel="noopener noreferrer">nirbytesboltx.baselinux.net</a></li>
+      <li><a href="https://rumpka.baselinux.net" target="_blank" rel="noopener noreferrer">rumpka.baselinux.net</a></li>
+      <li><a href="https://straline.baselinux.net" target="_blank" rel="noopener noreferrer">straline.baselinux.net</a></li>
+      <li><a href="https://proxybynirb.jundy.org" target="_blank" rel="noopener noreferrer">proxybynirb.jundy.org</a></li>
+      <li><a href="https://ntrakd.jundy.org" target="_blank" rel="noopener noreferrer">ntrakd.jundy.org</a></li>
+      <li><a href="https://salmonxei.jundy.org" target="_blank" rel="noopener noreferrer">salmonxei.jundy.org</a></li>
+      <li><a href="https://saugatranamgr.jundy.org" target="_blank" rel="noopener noreferrer">saugatranamgr.jundy.org</a></li>
     </ul>
 
+    <!-- Rammerhead Proxies -->
     <h3>Rammerhead Proxy Links</h3>
     <ul class="link-list">
       <li><a href="https://iam.steveward.ws/" target="_blank" rel="noopener noreferrer">iam.steveward.ws</a></li>
-      <li><a href="https://proxyslayer.xyz/" target="_blank" rel="noopener noreferrer">proxyslayer.xyz</a></li>
-      <li><a href="https://proxy.gameproxy.site/" target="_blank" rel="noopener noreferrer">proxy.gameproxy.site</a></li>
-      <li><a href="https://play.skribble.link/" target="_blank" rel="noopener noreferrer">play.skribble.link</a></li>
-      <li><a href="https://proxify.mayak.pro/" target="_blank" rel="noopener noreferrer">proxify.mayak.pro</a></li>
-      <li><a href="https://proxies.sprut.top/" target="_blank" rel="noopener noreferrer">proxies.sprut.top</a></li>
-      <li><a href="https://proxer.is-best.net/" target="_blank" rel="noopener noreferrer">proxer.is-best.net</a></li>
-      <li><a href="https://proxyfyi.org/" target="_blank" rel="noopener noreferrer">proxyfyi.org</a></li>
-      <li><a href="https://myproxy.at/" target="_blank" rel="noopener noreferrer">myproxy.at</a></li>
-      <li><a href="https://freshproxy.at/" target="_blank" rel="noopener noreferrer">freshproxy.at</a></li>
-      <li><a href="https://proxyzz.ml/" target="_blank" rel="noopener noreferrer">proxyzz.ml</a></li>
-      <li><a href="https://eproxy.ml/" target="_blank" rel="noopener noreferrer">eproxy.ml</a></li>
-      <li><a href="https://proxylib.at/" target="_blank" rel="noopener noreferrer">proxylib.at</a></li>
-      <li><a href="https://proxymoo.ml/" target="_blank" rel="noopener noreferrer">proxymoo.ml</a></li>
-      <li><a href="https://vortexproxy.ml/" target="_blank" rel="noopener noreferrer">vortexproxy.ml</a></li>
-      <li><a href="https://proxy0.ml/" target="_blank" rel="noopener noreferrer">proxy0.ml</a></li>
-      <li><a href="https://proxyninja.ml/" target="_blank" rel="noopener noreferrer">proxyninja.ml</a></li>
-      <li><a href="https://proxy.fastshar.com/" target="_blank" rel="noopener noreferrer">proxy.fastshar.com</a></li>
-      <li><a href="https://proxymoo.ml/" target="_blank" rel="noopener noreferrer">proxymoo.ml</a></li>
-      <li><a href="https://proxymate.tk/" target="_blank" rel="noopener noreferrer">proxymate.tk</a></li>
+      <li><a href="https://proxyslash.rocks" target="_blank" rel="noopener noreferrer">proxyslash.rocks</a></li>
+      <li><a href="https://proxy.space" target="_blank" rel="noopener noreferrer">proxy.space</a></li>
+      <li><a href="https://proxy.bscschool.net" target="_blank" rel="noopener noreferrer">proxy.bscschool.net</a></li>
+      <li><a href="https://bam.svelte.school" target="_blank" rel="noopener noreferrer">bam.svelte.school</a></li>
+      <li><a href="https://rammerhead.site" target="_blank" rel="noopener noreferrer">rammerhead.site</a></li>
+      <li><a href="https://proxy.rammerhead.site" target="_blank" rel="noopener noreferrer">proxy.rammerhead.site</a></li>
+      <li><a href="https://proxy-rhammerhead.com" target="_blank" rel="noopener noreferrer">proxy-rhammerhead.com</a></li>
     </ul>
   </section>
 
   <!-- Games Tab -->
   <section id="games" class="tab" role="tabpanel" tabindex="0" aria-label="Games Tab">
     <h2>Games</h2>
-    <ul>
+    <ul class="link-list">
       <li><a href="https://examplegame1.com" target="_blank" rel="noopener noreferrer">Example Game 1</a></li>
       <li><a href="https://examplegame2.com" target="_blank" rel="noopener noreferrer">Example Game 2</a></li>
       <li><a href="https://examplegame3.com" target="_blank" rel="noopener noreferrer">Example Game 3</a></li>
-      <!-- Add your actual game links here -->
+      <!-- Add more games as needed -->
     </ul>
   </section>
 
   <!-- Entertainment Tab -->
   <section id="entertainment" class="tab" role="tabpanel" tabindex="0" aria-label="Entertainment Tab">
     <h2>Entertainment</h2>
-    <ul>
-      <li><a href="https://youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-      <li><a href="https://netflix.com" target="_blank" rel="noopener noreferrer">Netflix</a></li>
-      <li><a href="https://spotify.com" target="_blank" rel="noopener noreferrer">Spotify</a></li>
-      <!-- Add more entertainment links -->
+    <ul class="link-list">
+      <li><a href="https://exampleentertainment1.com" target="_blank" rel="noopener noreferrer">Entertainment Site 1</a></li>
+      <li><a href="https://exampleentertainment2.com" target="_blank" rel="noopener noreferrer">Entertainment Site 2</a></li>
+      <li><a href="https://exampleentertainment3.com" target="_blank" rel="noopener noreferrer">Entertainment Site 3</a></li>
     </ul>
   </section>
 
   <!-- Unblocked Games Tab -->
   <section id="unblocked" class="tab" role="tabpanel" tabindex="0" aria-label="Unblocked Games Tab">
     <h2>Unblocked Games</h2>
-    <ul>
-      <li><a href="https://unblockedgames333.com" target="_blank" rel="noopener noreferrer">Unblocked Games 333</a></li>
-      <li><a href="https://sites.google.com/site/punblockedgames/" target="_blank" rel="noopener noreferrer">Punblocked Games</a></li>
-      <li><a href="https://sites.google.com/site/xyzunblockedgames/" target="_blank" rel="noopener noreferrer">XYZ Unblocked Games</a></li>
-      <!-- Add more unblocked games -->
+    <ul class="link-list">
+      <li><a href="https://unblockedgame1.com" target="_blank" rel="noopener noreferrer">Unblocked Game 1</a></li>
+      <li><a href="https://unblockedgame2.com" target="_blank" rel="noopener noreferrer">Unblocked Game 2</a></li>
+      <li><a href="https://unblockedgame3.com" target="_blank" rel="noopener noreferrer">Unblocked Game 3</a></li>
     </ul>
   </section>
 
   <!-- Support Tab -->
   <section id="support" class="tab" role="tabpanel" tabindex="0" aria-label="Support Tab">
     <h2>Support</h2>
-    <ul>
-      <li><a href="mailto:support@shadowsite.com">Email Support</a></li>
-      <li><a href="https://discord.gg/yourdiscordlink" target="_blank" rel="noopener noreferrer">Discord Server</a></li>
-      <li><a href="https://twitter.com/shadowsite" target="_blank" rel="noopener noreferrer">Twitter</a></li>
-      <!-- Add more support links -->
-    </ul>
-  </section>
-
-  <!-- Terms of Service Tab -->
-  <section id="tos" class="tab" role="tabpanel" tabindex="0" aria-label="Terms of Service Tab">
-    <h2>Terms of Service</h2>
-    <p>
-      By using this website, you agree to abide by the terms and conditions outlined here. The site is provided as-is, and we are not responsible for any misuse or loss.
-      Please respect all applicable laws and school policies.
-    </p>
+    <form id="contact-form" action="https://formspree.io/f/xnnzldvp" method="POST" target="_blank" novalidate>
+      <label for="name">Name <span aria-hidden="true" style="color:#f00">*</span></label><br />
+      <input type="text" id="name" name="name" placeholder="Your name" required style="width:100%; max-width:400px; padding:8px; margin-bottom:10px;" />
+      
+      <label for="email">Email <span aria-hidden="true" style="color:#f00">*</span></label><br />
+      <input type="email" id="email" name="email" placeholder="your.email@example.com" required style="width:100%; max-width:400px; padding:8px; margin-bottom:10px;" />
+      
+      <label for="message">Message <span aria-hidden="true" style="color:#f00">*</span></label><br />
+      <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required style="width:100%; max-width:400px; padding:8px; margin-bottom:10px;"></textarea>
+      
+      <button type="submit" style="background:var(--color-primary); color:#001a2e; border:none; padding:12px 28px; font-weight:bold; border-radius:8px; cursor:pointer; box-shadow: 0 0 10px var(--color-primary-light);">Send</button>
+    </form>
+    <p style="margin-top:15px; font-size:0.9rem; color:var(--color-primary-light);">We will respond as soon as possible. Thank you!</p>
   </section>
 
   <!-- Settings Tab -->
   <section id="settings" class="tab" role="tabpanel" tabindex="0" aria-label="Settings Tab">
     <h2>Settings</h2>
-    <label>
-      <input type="checkbox" id="toggle-particles" checked />
-      <span class="desc">Enable particles background</span>
-    </label>
-    <label>
-      <input type="checkbox" id="toggle-darkmode" disabled />
-      <span class="desc">Dark mode (coming soon)</span>
-    </label>
-    <p style="color:#5599cc; font-size:0.9rem; margin-top: 20px;">
-      More settings coming soon!
-    </p>
+
+    <label for="panic-key">Panic Hotkey (Press to instantly open URL):</label>
+    <input type="text" id="panic-key" placeholder="Press a key here to set hotkey" readonly aria-describedby="panic-info" />
+    <label for="panic-url" style="margin-top:6px;">Panic URL:</label>
+    <input type="url" id="panic-url" placeholder="https://example.com" />
+
+    <button id="clear-panic" style="background:#ff4444; color:#fff; margin-top:8px;">Clear Panic Key</button>
+
+    <p id="panic-info">Press the input box above and then press your desired hotkey.</p>
+
+    <hr style="margin: 25px 0; border-color: var(--color-primary-light);" />
+
+    <label for="mode-toggle">Color Mode:</label>
+    <select id="mode-toggle" aria-label="Choose light or dark mode">
+      <option value="dark">Dark Mode</option>
+      <option value="light">Light Mode</option>
+    </select>
+
+    <label for="theme-select" style="margin-top:15px;">Theme Color:</label>
+    <select id="theme-select" aria-label="Choose theme color">
+      <option value="blue">Blue</option>
+      <option value="red">Red</option>
+      <option value="green">Green</option>
+      <option value="purple">Purple</option>
+      <option value="orange">Orange</option>
+    </select>
   </section>
-</div>
+</main>
 
-<!-- Particles.js library -->
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
-  // Initialize particles.js with subtle blue particles background
-  let particlesEnabled = true;
-  function initParticles() {
-    particlesJS("particles-js", {
-      "particles": {
-        "number": {
-          "value": 45,
-          "density": {
-            "enable": true,
-            "value_area": 900
-          }
-        },
-        "color": {
-          "value": "#00aaff"
-        },
-        "shape": {
-          "type": "circle"
-        },
-        "opacity": {
-          "value": 0.07,
-          "random": true,
-          "anim": {
-            "enable": false
-          }
-        },
-        "size": {
-          "value": 3,
-          "random": true,
-          "anim": {
-            "enable": false
-          }
-        },
-        "line_linked": {
-          "enable": true,
-          "distance": 130,
-          "color": "#00aaff",
-          "opacity": 0.1,
-          "width": 1
-        },
-        "move": {
-          "enable": true,
-          "speed": 0.7,
-          "direction": "none",
-          "random": true,
-          "straight": false,
-          "out_mode": "out"
-        }
-      },
-      "interactivity": {
-        "detect_on": "canvas",
-        "events": {
-          "onhover": {
-            "enable": false
-          },
-          "onclick": {
-            "enable": false
-          },
-          "resize": true
-        }
-      },
-      "retina_detect": true
-    });
-  }
-  initParticles();
-
-  // Handle toggling particles background from settings
-  const toggleParticles = document.getElementById('toggle-particles');
-  toggleParticles.addEventListener('change', () => {
-    if (toggleParticles.checked) {
-      if (!particlesEnabled) {
-        initParticles();
-        particlesEnabled = true;
-        document.getElementById('particles-js').style.display = 'block';
-      }
-    } else {
-      // Remove or hide particles canvas by replacing it with empty canvas
-      document.getElementById('particles-js').style.display = 'none';
-      particlesEnabled = false;
-    }
-  });
-
-  // Tab switching logic
-  const tabButtons = document.querySelectorAll("nav ul li button.tab-btn");
-  const tabs = document.querySelectorAll(".tab");
-
-  tabButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      // Remove active from all buttons & tabs
-      tabButtons.forEach(b => b.classList.remove("active"));
-      tabs.forEach(t => t.classList.remove("active"));
-
-      // Add active to clicked button & corresponding tab
-      btn.classList.add("active");
-      const tabId = btn.getAttribute("data-tab");
-      document.getElementById(tabId).classList.add("active");
-    });
-  });
-
-  // Changelog close button
-  const changelog = document.getElementById("changelog");
-  const changelogCloseBtn = changelog.querySelector(".close-btn");
-  changelogCloseBtn.addEventListener("click", () => {
-    changelog.style.display = "none";
-  });
-
-  // Local time & weather
-  const localTimeElem = document.getElementById("local-time");
-  const weatherIconElem = document.getElementById("weather-icon");
-  const weatherTempElem = document.getElementById("weather-temp");
-  const weatherConditionElem = document.getElementById("weather-condition");
-
-  function updateLocalTime() {
-    const now = new Date();
-    const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    localTimeElem.textContent = timeString;
-  }
-  updateLocalTime();
-  setInterval(updateLocalTime, 60000);
-
-  // Weather API integration - OpenWeatherMap
-  const weatherAPIKey = 'd2f03dde59a1d1a4a7dc48b05db2325e'; // <-- Replace with your API key
-
-  function fetchWeather(lat, lon) {
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherAPIKey}`;
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        if(data && data.weather && data.weather.length > 0){
-          const iconCode = data.weather[0].icon;
-          weatherIconElem.src = `https://openweathermap.org/img/wn/${iconCode}.png`;
-          weatherIconElem.alt = data.weather[0].description;
-          weatherIconElem.style.display = 'inline-block';
-          weatherTempElem.textContent = `${Math.round(data.main.temp)}°F`;
-          weatherConditionElem.textContent = data.weather[0].main;
-        } else {
-          weatherIconElem.style.display = 'none';
-          weatherTempElem.textContent = '';
-          weatherConditionElem.textContent = '';
-        }
-      })
-      .catch(err => {
-        console.warn('Weather fetch failed:', err);
-        weatherIconElem.style.display = 'none';
-        weatherTempElem.textContent = '';
-        weatherConditionElem.textContent = '';
-      });
-  }
-
-  // Get geolocation for weather
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      pos => {
-        fetchWeather(pos.coords.latitude, pos.coords.longitude);
-      },
-      err => {
-        console.warn('Geolocation denied or unavailable.');
-      }
-    );
-  }
-
-  // Password protection logic
-  const passwordOverlay = document.getElementById('password-overlay');
+  // Password protection
+  const passwordScreen = document.getElementById('password-screen');
   const passwordInput = document.getElementById('password-input');
   const passwordSubmit = document.getElementById('password-submit');
   const passwordError = document.getElementById('password-error');
-  const container = document.getElementById('container');
+  const correctPassword = 'shadow';
 
-  passwordSubmit.addEventListener('click', checkPassword);
-  passwordInput.addEventListener('keydown', (e) => {
-    if(e.key === 'Enter'){
-      checkPassword();
-    }
-  });
+  function hidePasswordScreen() {
+    passwordScreen.style.display = 'none';
+    // Show weather/time bar after entering
+    document.getElementById('weather-time-bar').style.display = 'flex';
+  }
 
-  function checkPassword() {
-    const val = passwordInput.value.trim();
-    if(val === 'shadow'){
-      // Hide overlay and show site content
-      passwordOverlay.style.display = 'none';
-      container.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'auto';
+  passwordSubmit.addEventListener('click', () => {
+    if(passwordInput.value === correctPassword) {
+      hidePasswordScreen();
     } else {
-      passwordError.style.display = 'block';
+      passwordError.textContent = 'Incorrect password. Try again.';
       passwordInput.value = '';
       passwordInput.focus();
     }
+  });
+
+  passwordInput.addEventListener('keydown', e => {
+    if(e.key === 'Enter') {
+      passwordSubmit.click();
+    }
+  });
+
+  // Tabs functionality
+  const tabs = document.querySelectorAll('nav button.tablink');
+  const tabSections = document.querySelectorAll('main section.tab');
+
+  function switchTab(newTab) {
+    tabs.forEach(tab => {
+      const isTarget = tab.dataset.tab === newTab;
+      tab.classList.toggle('active', isTarget);
+      tab.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+      tab.tabIndex = isTarget ? 0 : -1;
+    });
+    tabSections.forEach(section => {
+      section.classList.toggle('active', section.id === newTab);
+    });
   }
 
-  // Prevent scrolling behind password screen
-  document.body.style.overflow = 'hidden';
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+    tab.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const currentIndex = Array.from(tabs).indexOf(document.activeElement);
+        let newIndex;
+        if (e.key === 'ArrowRight') {
+          newIndex = (currentIndex + 1) % tabs.length;
+        } else {
+          newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+        }
+        tabs[newIndex].focus();
+      }
+    });
+  });
+
+  // Changelog & Credits close buttons
+  document.querySelectorAll('#changelog button.close, #credits button.close').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.target.parentElement.style.display = 'none';
+    });
+  });
+
+  // Weather & local time bar
+  const weatherTimeBar = document.getElementById('weather-time-bar');
+  async function updateWeatherTime() {
+    try {
+      // Get geolocation
+      if (!navigator.geolocation) {
+        weatherTimeBar.textContent = 'Geolocation not supported.';
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(async position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        // Get weather from OpenWeatherMap (you need to insert your API key here)
+        const apiKey = ''; // Insert your OpenWeatherMap API key here
+        if(!apiKey) {
+          weatherTimeBar.textContent = 'Please insert your OpenWeatherMap API key in the code.';
+          return;
+        }
+
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`);
+        const data = await response.json();
+
+        const temp = data.main.temp.toFixed(1);
+        const conditions = data.weather[0].description;
+        const city = data.name;
+
+        // Get local time
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+        weatherTimeBar.textContent = `Local Time: ${timeString} | Weather in ${city}: ${temp}°C, ${conditions}`;
+      }, error => {
+        weatherTimeBar.textContent = 'Unable to get location.';
+      });
+    } catch (error) {
+      weatherTimeBar.textContent = 'Error fetching weather/time.';
+    }
+  }
+  updateWeatherTime();
+  setInterval(updateWeatherTime, 60000);
+
+  // Settings - Panic Key
+  const panicKeyInput = document.getElementById('panic-key');
+  const panicUrlInput = document.getElementById('panic-url');
+  const clearPanicBtn = document.getElementById('clear-panic');
+
+  // Load saved panic key/url from localStorage
+  function loadPanicSettings() {
+    const savedKey = localStorage.getItem('panicKey');
+    const savedUrl = localStorage.getItem('panicUrl');
+    if(savedKey) panicKeyInput.value = savedKey.toUpperCase();
+    if(savedUrl) panicUrlInput.value = savedUrl;
+  }
+  loadPanicSettings();
+
+  // When user focuses on panic key input, listen for next key press
+  panicKeyInput.addEventListener('focus', () => {
+    panicKeyInput.value = '';
+    const onKeyDown = e => {
+      e.preventDefault();
+      // Only accept single character or function keys (simplify)
+      let key = e.key.toUpperCase();
+      if(key === 'ESCAPE' || key === 'SHIFT' || key === 'CONTROL' || key === 'ALT' || key === 'TAB') {
+        // Ignore modifier keys only
+        return;
+      }
+      panicKeyInput.value = key;
+      localStorage.setItem('panicKey', key);
+      panicKeyInput.blur();
+      document.removeEventListener('keydown', onKeyDown);
+    };
+    document.addEventListener('keydown', onKeyDown);
+  });
+
+  panicUrlInput.addEventListener('change', () => {
+    localStorage.setItem('panicUrl', panicUrlInput.value);
+  });
+
+  clearPanicBtn.addEventListener('click', () => {
+    panicKeyInput.value = '';
+    panicUrlInput.value = '';
+    localStorage.removeItem('panicKey');
+    localStorage.removeItem('panicUrl');
+  });
+
+  // Listen globally for panic key press
+  document.addEventListener('keydown', e => {
+    const savedKey = localStorage.getItem('panicKey');
+    const savedUrl = localStorage.getItem('panicUrl');
+    if(savedKey && savedUrl) {
+      if(e.key.toUpperCase() === savedKey) {
+        // Redirect immediately to panic URL
+        window.location.href = savedUrl;
+      }
+    }
+  });
+
+  // Settings - Dark/Light Mode and Theme Color
+
+  const modeSelect = document.getElementById('mode-toggle');
+  const themeSelect = document.getElementById('theme-select');
+
+  // Theme colors definitions
+  const themeColors = {
+    blue: '#00aaff',
+    red: '#ff4444',
+    green: '#44bb44',
+    purple: '#8855cc',
+    orange: '#ff8800'
+  };
+
+  function applyTheme(colorName) {
+    const color = themeColors[colorName] || themeColors.blue;
+    document.documentElement.style.setProperty('--color-primary', color);
+    // lighten version
+    const lighten = lightenColor(color, 30);
+    document.documentElement.style.setProperty('--color-primary-light', lighten);
+    document.documentElement.style.setProperty('--color-link', color);
+    document.documentElement.style.setProperty('--color-link-hover', lighten);
+  }
+
+  // Lighten color helper
+  function lightenColor(color, percent) {
+    // Assumes hex color like #RRGGBB
+    let num = parseInt(color.slice(1), 16),
+        r = (num >> 16) + percent,
+        g = ((num >> 8) & 0x00FF) + percent,
+        b = (num & 0x0000FF) + percent;
+
+    r = (r > 255) ? 255 : r;
+    g = (g > 255) ? 255 : g;
+    b = (b > 255) ? 255 : b;
+
+    return `rgb(${r},${g},${b})`;
+  }
+
+  // Load saved mode and theme
+  function loadSettings() {
+    const savedMode = localStorage.getItem('colorMode');
+    const savedTheme = localStorage.getItem('themeColor');
+
+    if(savedMode) {
+      document.body.classList.remove('light', 'dark');
+      document.body.classList.add(savedMode);
+      modeSelect.value = savedMode;
+    } else {
+      // default dark
+      document.body.classList.add('dark');
+      modeSelect.value = 'dark';
+    }
+
+    if(savedTheme && themeColors[savedTheme]) {
+      applyTheme(savedTheme);
+      themeSelect.value = savedTheme;
+    } else {
+      applyTheme('blue');
+      themeSelect.value = 'blue';
+    }
+  }
+
+  modeSelect.addEventListener('change', () => {
+    const mode = modeSelect.value;
+    document.body.classList.remove('light', 'dark');
+    document.body.classList.add(mode);
+    localStorage.setItem('colorMode', mode);
+  });
+
+  themeSelect.addEventListener('change', () => {
+    const theme = themeSelect.value;
+    applyTheme(theme);
+    localStorage.setItem('themeColor', theme);
+  });
+
+  loadSettings();
 
 </script>
 
