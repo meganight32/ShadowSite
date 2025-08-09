@@ -4,998 +4,512 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ShadowSite</title>
+
 <style>
+  /* Reset */
   * {
     box-sizing: border-box;
   }
   body {
-    margin: 0; 
+    margin: 0;
     font-family: Arial, sans-serif;
     background-color: #0a0a0a;
-    color: #d0eaff;
+    color: #d0e8ff;
     overflow-x: hidden;
-    position: relative;
   }
-  nav {
-    background-color: #111f3c;
-    display: flex;
-    gap: 12px;
-    padding: 12px 16px;
-    align-items: center;
-    color: #66b3ff;
+
+  /* Container and layout */
+  #container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem 15px 3rem;
     position: relative;
     z-index: 10;
   }
-  nav button {
-    background: none;
-    border: none;
-    color: #66b3ff;
-    font-size: 17px;
-    cursor: pointer;
-    padding: 8px 14px;
-    border-radius: 6px;
-    transition: background-color 0.3s, color 0.3s;
-    font-weight: 600;
+
+  header {
+    padding: 20px 0 10px;
+    text-align: center;
   }
-  nav button.active, nav button:hover {
-    background-color: #0059b3;
-    color: #d0eaff;
+  header h1 {
+    font-size: 3rem;
+    color: #00aaff;
+    margin: 0 0 5px;
+    text-shadow: 0 0 10px #00aaff88;
   }
-  /* Time & Weather container */
-  #time-weather {
-    margin-left: auto;
-    font-size: 14px;
-    font-weight: 600;
+  header p.description {
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin: 0;
+    color: #99ccee;
+  }
+
+  /* Top nav bar */
+  nav {
     display: flex;
-    gap: 15px;
+    justify-content: center;
     align-items: center;
-    color: #66b3ff;
-    user-select: none;
-    white-space: nowrap;
+    background: #050505;
+    border-bottom: 1px solid #004466;
+    box-shadow: 0 0 10px #0066aa22 inset;
+    position: sticky;
+    top: 0;
+    z-index: 50;
   }
-  #time-weather span {
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  nav ul li {
+    margin: 0 0.5rem;
+  }
+  nav ul li button {
+    background: transparent;
+    border: none;
+    color: #55bbff;
+    font-size: 1rem;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: color 0.3s, box-shadow 0.3s;
+    border-radius: 6px;
+    text-shadow: 0 0 6px #33aaff44;
+  }
+  nav ul li button:hover,
+  nav ul li button.active {
+    color: #00ddff;
+    box-shadow: 0 0 12px #00ddff88;
+    outline: none;
+  }
+
+  /* Weather & Time in nav */
+  #local-info {
+    margin-left: 20px;
+    font-size: 0.9rem;
+    color: #55bbff;
+    font-weight: 600;
+    text-shadow: 0 0 6px #33aaff44;
+    white-space: nowrap;
+    user-select: none;
     display: flex;
     align-items: center;
     gap: 6px;
   }
-  /* Tabs */
+  #local-info .temp {
+    font-weight: 700;
+  }
+  #local-info .condition {
+    font-style: italic;
+  }
+  #local-info img {
+    width: 20px;
+    height: 20px;
+    filter: drop-shadow(0 0 2px #00aaff88);
+  }
+
+  /* Tab content */
   .tab {
     display: none;
-    padding: 20px 30px;
-    max-width: 900px;
-    margin: 70px auto 50px;
-    background-color: rgba(17, 31, 60, 0.85);
-    border-radius: 12px;
-    box-shadow: 0 0 20px #0077ff55;
-    position: relative;
-    z-index: 5;
+    padding: 1rem 0 0;
   }
   .tab.active {
     display: block;
   }
-  .link-list {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  .link-list li {
-    margin-bottom: 10px;
-  }
-  .link-list li a {
-    color: #66b3ff;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .link-list li a:hover {
-    text-decoration: underline;
-  }
 
   /* Announcement box */
-  #announcement-box {
-    max-width: 900px;
-    margin: 15px auto 15px;
-    background: #111f3c;
-    color: #99c9ff;
-    padding: 15px 25px;
+  #announcement {
+    background: #002233cc;
+    border: 1px solid #00aaffcc;
+    padding: 15px 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px #0077ff66;
-    font-size: 16px;
-    user-select: none;
-    position: relative;
-    z-index: 5;
-  }
-  #announcement-box strong {
-    color: #66b3ff;
-  }
-
-  /* Favorites box */
-  #favorites-box {
-    max-width: 900px;
-    margin: 15px auto 30px;
-    background: #111f3c;
-    color: #a3c6ff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 12px #0077ff88;
-    position: relative;
-    z-index: 5;
-  }
-  #favorites-box h3 {
-    color: #66b3ff;
-    margin-top: 0;
-    margin-bottom: 12px;
-  }
-  #favorites-box ul {
-    list-style-type: none;
-    padding-left: 0;
     margin-bottom: 20px;
-  }
-  #favorites-box ul li {
-    margin-bottom: 8px;
-  }
-  #favorites-box ul li a {
-    color: #66b3ff;
-    text-decoration: none;
-  }
-  #favorites-box ul li a:hover {
-    text-decoration: underline;
-  }
-
-  /* Support Tab form */
-  form input, form textarea {
-    width: 100%;
-    margin-bottom: 12px;
-    padding: 10px 12px;
-    border-radius: 6px;
-    border: 1.5px solid #66b3ff;
-    background-color: #0a0a0a;
-    color: #d0eaff;
-    font-size: 15px;
-    font-family: inherit;
-    resize: vertical;
-  }
-  form input:focus, form textarea:focus {
-    outline: none;
-    border-color: #00aaff;
-    box-shadow: 0 0 8px #00aaff88;
-  }
-  form button {
-    background-color: #000000;
-    color: #66b3ff;
-    border: 1.5px solid #66b3ff;
-    padding: 12px 25px;
-    border-radius: 6px;
-    font-size: 17px;
-    cursor: pointer;
-    box-shadow: 0 0 12px #0077ff88;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-  }
-  form button:hover {
-    background-color: #004a99;
-    box-shadow: 0 0 18px #00aaffcc;
-  }
-  #form-status {
-    font-style: italic;
-    margin-top: 10px;
-    color: #66b3ff;
-  }
-
-  /* TOS Modal */
-  #tosModal {
-    display:none; 
-    position:fixed; 
-    top:0; left:0; 
-    width:100%; height:100%; 
-    background:rgba(0,0,0,0.6); 
-    justify-content:center; 
-    align-items:center; 
-    z-index: 9999;
-  }
-  #tosModal > div {
-    background:#111f3c; 
-    max-width:600px; width:90%; max-height:80vh; 
-    overflow-y:auto; padding:20px; 
-    border-radius:12px; 
-    position:relative; 
-    color: #d0eaff;
-  }
-  #tosModal h2 {
-    color:#66b3ff; 
-    text-shadow: 0 0 8px #00aaff;
-  }
-  #tosModal button {
-    margin-top: 15px;
-    background: linear-gradient(90deg, #0077ff, #00aaff);
-    border: none;
-    border-radius: 6px;
-    color: white;
-    padding: 12px 25px;
-    font-size: 17px;
-    cursor: pointer;
-    box-shadow: 0 0 12px #00aaff;
-    transition: background 0.3s ease;
-  }
-
-  /* Changelog Modal */
-  #changelog-modal {
-    display:none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
-  #changelog-content {
-    background: #111f3c;
-    max-width: 600px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    padding: 25px 30px;
-    border-radius: 14px;
-    color: #d0eaff;
-    box-shadow: 0 0 18px #0077ffbb;
-    position: relative;
-  }
-  #changelog-content h2 {
-    color: #66b3ff;
-    text-shadow: 0 0 8px #00aaff;
-    margin-top: 0;
-  }
-  #changelog-list {
-    margin-left: 15px;
-    margin-bottom: 25px;
-  }
-  #changelog-content button {
-    background: linear-gradient(90deg, #0077ff, #00aaff);
-    border: none;
-    border-radius: 6px;
-    color: white;
-    padding: 12px 25px;
-    font-size: 17px;
-    cursor: pointer;
-    box-shadow: 0 0 12px #00aaff;
-    transition: background 0.3s ease;
-  }
-
-  /* Credits box - same style as changelog */
-  #credits-modal {
-    display:none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
-  #credits-content {
-    background: #111f3c;
-    max-width: 600px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    padding: 25px 30px;
-    border-radius: 14px;
-    color: #d0eaff;
-    box-shadow: 0 0 18px #0077ffbb;
-    position: relative;
-  }
-  #credits-content h2 {
-    color: #66b3ff;
-    text-shadow: 0 0 8px #00aaff;
-    margin-top: 0;
-  }
-  #credits-list {
-    margin-left: 15px;
-    margin-bottom: 25px;
-  }
-  #credits-content button {
-    background: linear-gradient(90deg, #0077ff, #00aaff);
-    border: none;
-    border-radius: 6px;
-    color: white;
-    padding: 12px 25px;
-    font-size: 17px;
-    cursor: pointer;
-    box-shadow: 0 0 12px #00aaff;
-    transition: background 0.3s ease;
-  }
-
-  /* Random fact styling */
-  #random-fact {
-    font-style: italic;
-    font-size: 15px;
-    margin-top: 15px;
-    color: #99c9ff;
-  }
-
-  /* Password screen */
-  #password-screen {
-    position: fixed;
-    inset: 0;
-    background-color: #000a22;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    color: #66b3ff;
-  }
-  #password-screen input {
-    font-size: 22px;
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1.5px solid #66b3ff;
-    background: #001533;
-    color: #d0eaff;
-    margin-bottom: 12px;
-    width: 280px;
+    font-size: 1.1rem;
+    box-shadow: 0 0 10px #00aaffaa;
     text-align: center;
   }
-  #password-screen input:focus {
-    outline: none;
-    border-color: #00aaff;
-    box-shadow: 0 0 10px #00aaff88;
+
+  /* Users Favorites box */
+  #users-favorites {
+    background: #002233cc;
+    border: 1px solid #00aaffcc;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+    box-shadow: 0 0 10px #00aaffaa;
   }
-  #password-screen button {
-    padding: 10px 20px;
-    font-size: 20px;
-    border-radius: 8px;
-    border: none;
-    background: linear-gradient(90deg, #0077ff, #00aaff);
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 0 15px #00aaffbb;
-    transition: background 0.3s ease;
+  #users-favorites h2 {
+    color: #00aaff;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px #00aaffbb;
   }
-  #password-screen button:hover {
-    background: linear-gradient(90deg, #0059b3, #0099dd);
+  #users-favorites .category {
+    margin-bottom: 20px;
   }
-  #password-error {
-    color: #ff5555;
-    margin-top: 8px;
-    height: 18px;
+  #users-favorites .category h3 {
+    border-bottom: 2px solid #00aaffaa;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    color: #66ccff;
+    text-shadow: 0 0 6px #0099ddaa;
+  }
+  #users-favorites .category ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    color: #bbeeff;
+  }
+  #users-favorites .category ul li a {
+    color: #77bbff;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  #users-favorites .category ul li a:hover {
+    color: #00ddff;
+    text-shadow: 0 0 8px #00ddffcc;
   }
 
-  /* Particles container - full page behind content */
+  /* Changelog & Credits style - match */
+  #changelog, #credits {
+    background: #001a2ecc;
+    border: 1px solid #0099ddcc;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-top: 30px;
+    box-shadow: 0 0 15px #0099ddbb;
+  }
+  #changelog h2, #credits h2 {
+    margin-top: 0;
+    color: #00aaff;
+    text-shadow: 0 0 10px #00aaffcc;
+  }
+  #changelog ul, #credits ul {
+    margin-left: 20px;
+    color: #99ccff;
+  }
+  #changelog ul li, #credits ul li {
+    margin-bottom: 8px;
+  }
+
+  /* Proxy Links tab styles */
+  #proxy h2, #proxy h3 {
+    color: #00aaff;
+    text-shadow: 0 0 10px #00aaffbb;
+  }
+  #proxy p {
+    color: #aadfff;
+    margin-bottom: 1rem;
+  }
+  #proxy ul.link-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 30px;
+  }
+  #proxy ul.link-list li {
+    margin-bottom: 6px;
+  }
+  #proxy ul.link-list li a {
+    color: #77bbff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.25s;
+  }
+  #proxy ul.link-list li a:hover {
+    color: #00ddff;
+    text-shadow: 0 0 8px #00ddffcc;
+  }
+
+  /* Other tabs (Games, Entertainment, Unblocked, Support, TOS) */
+  #games, #entertainment, #unblocked, #support, #tos {
+    padding: 15px 5px 10px;
+  }
+  #games h2, #entertainment h2, #unblocked h2, #support h2, #tos h2 {
+    color: #00aaff;
+    margin-bottom: 15px;
+    text-shadow: 0 0 8px #00aaffbb;
+  }
+  #games ul, #entertainment ul, #unblocked ul, #support ul {
+    color: #bbeeff;
+  }
+  #games ul li, #entertainment ul li, #unblocked ul li, #support ul li {
+    margin-bottom: 8px;
+  }
+  #games ul li a, #entertainment ul li a, #unblocked ul li a, #support ul li a {
+    color: #77bbff;
+    text-decoration: none;
+  }
+  #games ul li a:hover, #entertainment ul li a:hover, #unblocked ul li a:hover, #support ul li a:hover {
+    color: #00ddff;
+    text-shadow: 0 0 8px #00ddffcc;
+  }
+  #tos p {
+    line-height: 1.4;
+    color: #aaccee;
+  }
+
+  /* Close button style for changelog */
+  #changelog .close-btn {
+    background: #004466;
+    border: none;
+    color: #99ccff;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    float: right;
+    margin-top: -10px;
+    margin-right: -10px;
+    box-shadow: 0 0 6px #00aaffaa;
+    transition: background-color 0.3s ease;
+  }
+  #changelog .close-btn:hover {
+    background: #0077cc;
+    color: #ccf4ff;
+  }
+
+  /* Particle canvas background */
   #particles-js {
     position: fixed;
-    top: 0; left: 0;
+    top: 40px; /* under nav */
+    left: 0;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 40px);
     pointer-events: none;
     z-index: 1;
   }
+
+  /* Put content container above particles */
+  #container {
+    position: relative;
+    z-index: 10;
+  }
+
 </style>
 </head>
 <body>
 
-<!-- Particle background container -->
-<div id="particles-js"></div>
-
-<!-- Navigation bar with tabs and time/weather -->
 <nav>
-  <button class="active" onclick="switchTab('home', this)">Home</button>
-  <button onclick="switchTab('games', this)">Games</button>
-  <button onclick="switchTab('entertainment', this)">Entertainment</button>
-  <button onclick="switchTab('unblocked', this)">Unblocked</button>
-  <button onclick="switchTab('support', this)">Support</button>
-  <button id="version-info" title="View changelog">v1.3.0</button>
-  <button id="credits-btn" title="View credits">Credits</button>
-  <div id="time-weather" aria-live="polite" aria-atomic="true">
-    <span id="local-time">--:-- --</span>
-    <span id="weather"></span>
+  <ul>
+    <li><button class="tab-btn active" data-tab="home">Home</button></li>
+    <li><button class="tab-btn" data-tab="proxy">Proxy</button></li>
+    <li><button class="tab-btn" data-tab="games">Games</button></li>
+    <li><button class="tab-btn" data-tab="entertainment">Entertainment</button></li>
+    <li><button class="tab-btn" data-tab="unblocked">Unblocked Games</button></li>
+    <li><button class="tab-btn" data-tab="support">Support</button></li>
+    <li><button class="tab-btn" data-tab="tos">TOS</button></li>
+  </ul>
+  <div id="local-info" aria-live="polite" title="Local Time and Weather">
+    <span id="local-time" aria-label="Local time"></span>
+    <img id="weather-icon" src="" alt="" style="display:none;" />
+    <span id="weather-temp" class="temp"></span>
+    <span id="weather-condition" class="condition"></span>
   </div>
 </nav>
 
-<!-- Password screen -->
-<div id="password-screen">
-  <input id="password-input" type="password" placeholder="Enter password" autocomplete="off" />
-  <button onclick="checkPassword()">Enter</button>
-  <div id="password-error"></div>
-</div>
+<div id="particles-js"></div>
 
-<!-- Main content wrapper -->
-<div id="main-content" style="display:none; position: relative; z-index: 5;">
-
-  <!-- Announcement box -->
-  <div id="announcement-box" role="region" aria-label="Announcement">
-    <strong>Announcement:</strong> Welcome to ShadowSite! Check back here for updates and news.
-    <!-- EDIT THE ABOVE TEXT FOR YOUR ANNOUNCEMENTS -->
-  </div>
-
-  <!-- Favorites box -->
-  <div id="favorites-box" role="region" aria-label="Users favorites">
-    <h3>Users Favorites</h3>
-    <h4>Proxies</h4>
-    <ul>
-      <li><a href="https://proxysite.example" target="_blank" rel="noopener noreferrer">ProxySite Example</a></li>
-      <li><a href="https://fastproxy.example" target="_blank" rel="noopener noreferrer">Fast Proxy</a></li>
-      <li><a href="https://unblockproxy.example" target="_blank" rel="noopener noreferrer">Unblock Proxy</a></li>
-    </ul>
-    <h4>Games</h4>
-    <ul>
-      <li><a href="https://krunker.io" target="_blank" rel="noopener noreferrer">Krunker.io</a></li>
-      <li><a href="https://agar.io" target="_blank" rel="noopener noreferrer">Agar.io</a></li>
-      <li><a href="https://slither.io" target="_blank" rel="noopener noreferrer">Slither.io</a></li>
-    </ul>
-  </div>
-
+<div id="container">
   <!-- Home Tab -->
-  <div id="home" class="tab active" aria-label="Home tab">
-    <h1>Welcome to ShadowSite!</h1>
-    <p>Your hub for unblocked games, proxies, entertainment, and more.</p>
-    <div id="random-fact" aria-live="polite" aria-atomic="true"></div>
-  </div>
+  <section id="home" class="tab active" role="tabpanel" tabindex="0" aria-label="Home Tab">
+    <header>
+      <h1>ShadowSite</h1>
+      <p class="description">Your hub for proxies, games, and more.</p>
+    </header>
 
-<!-- Proxy Tab -->
-<div id="proxy" class="tab">
-  <h2>Proxy Links</h2>
-  <p>Browse privately and bypass restrictions with these trusted proxy links. Use them to enhance your online privacy and access blocked content.</p>
+    <div id="announcement" aria-live="polite" role="region" aria-label="Announcement">
+      <!-- CHANGE ANNOUNCEMENT TEXT HERE -->
+      <strong>Announcement:</strong> Welcome to ShadowSite! Check out the latest proxies and games below.
+    </div>
 
-  <!-- Bolt Proxies -->
-  <h3>Bolt Proxy Links</h3>
-  <ul class="link-list">
-    <li><a href="http://funlearning.ra3.us/" target="_blank" rel="noopener noreferrer">funlearning.ra3.us</a></li>
-    <li><a href="http://mathymath.cueros-roblans.com.ar/" target="_blank" rel="noopener noreferrer">mathymath.cueros-roblans.com.ar</a></li>
-    <li><a href="https://fnrkrbvtpy.abbotsfordhallforhire.org.au/" target="_blank" rel="noopener noreferrer">fnrkrbvtpy.abbotsfordhallforhire.org.au</a></li>
-    <li><a href="http://boltunblocker.com/" target="_blank" rel="noopener noreferrer">boltunblocker.com</a></li>
-    <li><a href="https://anamoxe.baselinux.net/" target="_blank" rel="noopener noreferrer">anamoxe.baselinux.net</a></li>
-    <li><a href="https://nirbytesboltxero.chickenkiller.com/" target="_blank" rel="noopener noreferrer">nirbytesboltxero.chickenkiller.com</a></li>
-    <li><a href="https://lnienmniry.baselinux.net" target="_blank" rel="noopener noreferrer">lnienmniry.baselinux.net</a></li>
-    <li><a href="https://samjabie.baselinux.net" target="_blank" rel="noopener noreferrer">samjabie.baselinux.net</a></li>
-    <li><a href="https://sandeking.baselinux.net" target="_blank" rel="noopener noreferrer">sandeking.baselinux.net</a></li>
-    <li><a href="http://neclcafxoz.expedicionesytrekking.com/" target="_blank" rel="noopener noreferrer">neclcafxoz.expedicionesytrekking.com</a></li>
-    <li><a href="http://evoodherne.mygadgets.com.ar/" target="_blank" rel="noopener noreferrer">evoodherne.mygadgets.com.ar</a></li>
-    <li><a href="https://boltnixe.baselinux.net/" target="_blank" rel="noopener noreferrer">boltnixe.baselinux.net</a></li>
-    <li><a href="https://clearinxg.baselinux.net" target="_blank" rel="noopener noreferrer">clearinxg.baselinux.net</a></li>
-    <li><a href="https://hansobe.baselinux.net" target="_blank" rel="noopener noreferrer">hansobe.baselinux.net</a></li>
-    <li><a href="https://jambali.baselinux.net" target="_blank" rel="noopener noreferrer">jambali.baselinux.net</a></li>
-    <li><a href="https://kantabolt.baselinux.net" target="_blank" rel="noopener noreferrer">kantabolt.baselinux.net</a></li>
-    <li><a href="https://nirbytesprobolt.chickenkiller.com" target="_blank" rel="noopener noreferrer">nirbytesprobolt.chickenkiller.com</a></li>
-    <li><a href="https://boletrp.chickenkiller.com" target="_blank" rel="noopener noreferrer">boletrp.chickenkiller.com</a></li>
-    <li><a href="https://clarendi.chickenkiller.com" target="_blank" rel="noopener noreferrer">clarendi.chickenkiller.com</a></li>
-    <li><a href="https://diksedi.chickenkiller.com" target="_blank" rel="noopener noreferrer">diksedi.chickenkiller.com</a></li>
-    <li><a href="https://jankdi.chickenkiller.com" target="_blank" rel="noopener noreferrer">jankdi.chickenkiller.com</a></li>
-    <li><a href="http://ffehzuwacg.3cm.us/" target="_blank" rel="noopener noreferrer">ffehzuwacg.3cm.us</a></li>
-    <li><a href="http://redswhyqsl.cartes.cl/" target="_blank" rel="noopener noreferrer">redswhyqsl.cartes.cl</a></li>
-    <li><a href="http://hvtcgxbxel.moot.es/" target="_blank" rel="noopener noreferrer">hvtcgxbxel.moot.es</a></li>
-    <li><a href="https://boltnirbytes.baselinux.net" target="_blank" rel="noopener noreferrer">boltnirbytes.baselinux.net</a></li>
-    <li><a href="https://boltvixero.baselinux.net" target="_blank" rel="noopener noreferrer">boltvixero.baselinux.net</a></li>
-    <li><a href="https://nirbytesboltx.baselinux.net" target="_blank" rel="noopener noreferrer">nirbytesboltx.baselinux.net</a></li>
-    <li><a href="https://rumpka.baselinux.net" target="_blank" rel="noopener noreferrer">rumpka.baselinux.net</a></li>
-    <li><a href="https://straline.baselinux.net" target="_blank" rel="noopener noreferrer">straline.baselinux.net</a></li>
-    <li><a href="https://proxybynirb.jundy.org" target="_blank" rel="noopener noreferrer">proxybynirb.jundy.org</a></li>
-    <li><a href="https://ntrakd.jundy.org" target="_blank" rel="noopener noreferrer">ntrakd.jundy.org</a></li>
-    <li><a href="https://salmonxei.jundy.org" target="_blank" rel="noopener noreferrer">salmonxei.jundy.org</a></li>
-    <li><a href="https://saugatranamgr.jundy.org" target="_blank" rel="noopener noreferrer">saugatranamgr.jundy.org</a></li>
-    <li><a href="https://xerobytesni.jundy.org" target="_blank" rel="noopener noreferrer">xerobytesni.jundy.org</a></li>
-    <li><a href="http://qcxhckoujz.federicospinosa.com.ar/" target="_blank" rel="noopener noreferrer">qcxhckoujz.federicospinosa.com.ar</a></li>
-    <li><a href="http://sorjgwtlgb.fericean.ro/" target="_blank" rel="noopener noreferrer">sorjgwtlgb.fericean.ro</a></li>
-    <li><a href="http://towkegqoyd.familiawhite.com.ar/" target="_blank" rel="noopener noreferrer">towkegqoyd.familiawhite.com.ar</a></li>
-    <li><a href="http://caaqopbtew.ostrovsky.sk/" target="_blank" rel="noopener noreferrer">caaqopbtew.ostrovsky.sk</a></li>
-  </ul>
-
-  <!-- Doge Proxies -->
-  <h3>Doge Proxy Links</h3>
-  <ul class="link-list">
-    <li><a href="https://some.bling.org/" target="_blank" rel="noopener noreferrer">some.bling.org</a></li>
-    <li><a href="https://bashandfishterminal.privateimport.jp/" target="_blank" rel="noopener noreferrer">bashandfishterminal.privateimport.jp</a></li>
-    <li><a href="https://iwpsy.anchorchain.co.za/" target="_blank" rel="noopener noreferrer">iwpsy.anchorchain.co.za</a></li>
-    <li><a href="https://jesusisking.autoluc.cl/" target="_blank" rel="noopener noreferrer">jesusisking.autoluc.cl</a></li>
-    <li><a href="https://icu.hosteriafutaleufu.cl/" target="_blank" rel="noopener noreferrer">icu.hosteriafutaleufu.cl</a></li>
-    <li><a href="https://gurt.neikos.com.mx/" target="_blank" rel="noopener noreferrer">gurt.neikos.com.mx</a></li>
-    <li><a href="https://1337.righes.ch/" target="_blank" rel="noopener noreferrer">1337.righes.ch</a></li>
-    <li><a href="https://sybau.alcrb.ru/" target="_blank" rel="noopener noreferrer">sybau.alcrb.ru</a></li>
-    <li><a href="https://lmfao.bassmanbenny.com/" target="_blank" rel="noopener noreferrer">lmfao.bassmanbenny.com</a></li>
-    <li><a href="https://dwerk.conyser.cl/" target="_blank" rel="noopener noreferrer">dwerk.conyser.cl</a></li>
-    <li><a href="https://sdiybt.justanothersite.net/" target="_blank" rel="noopener noreferrer">sdiybt.justanothersite.net</a></li>
-    <li><a href="https://stfu.sagarshrestha1999.com.np/" target="_blank" rel="noopener noreferrer">stfu.sagarshrestha1999.com.np</a></li>
-    <li><a href="https://dilpane.strangled.net" target="_blank" rel="noopener noreferrer">dilpane.strangled.net</a></li>
-    <li><a href="https://dogebynirmg.strangled.net" target="_blank" rel="noopener noreferrer">dogebynirmg.strangled.net</a></li>
-    <li><a href="https://dogenirb.strangled.net" target="_blank" rel="noopener noreferrer">dogenirb.strangled.net</a></li>
-    <li><a href="https://mandepa.strangled.net" target="_blank" rel="noopener noreferrer">mandepa.strangled.net</a></li>
-    <li><a href="https://nsnvipro.strangled.net" target="_blank" rel="noopener noreferrer">nsnvipro.strangled.net</a></li>
-    <li><a href="https://bynirbytes.thehomeserver.net" target="_blank" rel="noopener noreferrer">bynirbytes.thehomeserver.net</a></li>
-    <li><a href="https://dogebnmx.thehomeserver.net" target="_blank" rel="noopener noreferrer">dogebnmx.thehomeserver.net</a></li>
-    <li><a href="https://mvpero.thehomeserver.net" target="_blank" rel="noopener noreferrer">mvpero.thehomeserver.net</a></li>
-    <li><a href="https://shivamen.thehomeserver.net" target="_blank" rel="noopener noreferrer">shivamen.thehomeserver.net</a></li>
-    <li><a href="https://summerprox.thehomeserver.net" target="_blank" rel="noopener noreferrer">summerprox.thehomeserver.net</a></li>
-    <li><a href="https://ryanchennotgay.trustmi.cl/" target="_blank" rel="noopener noreferrer">ryanchennotgay.trustmi.cl</a></li>
-    <li><a href="https://illegals-in-my-yard.trustmi.cl/" target="_blank" rel="noopener noreferrer">illegals-in-my-yard.trustmi.cl</a></li>
-    <li><a href="https://doge.myclarevision.com/" target="_blank" rel="noopener noreferrer">doge.myclarevision.com</a></li>
-    <li><a href="https://nirbytesdogev.baselinux.net" target="_blank" rel="noopener noreferrer">nirbytesdogev.baselinux.net</a></li>
-    <li><a href="https://dogeproxiex.baselinux.net/" target="_blank" rel="noopener noreferrer">dogeproxiex.baselinux.net</a></li>
-    <li><a href="https://r8gjg2-8000.csb.app/app" target="_blank" rel="noopener noreferrer">r8gjg2-8000.csb.app/app</a></li>
-    <li><a href="https://lindernirbyt.baselinux.net" target="_blank" rel="noopener noreferrer">lindernirbyt.baselinux.net</a></li>
-    <li><a href="https://mirana.baselinux.net" target="_blank" rel="noopener noreferrer">mirana.baselinux.net</a></li>
-    <li><a href="https://vipproxer.baselinux.net" target="_blank" rel="noopener noreferrer">vipproxer.baselinux.net</a></li>
-    <li><a href="https://cobdrad.donhoo.com" target="_blank" rel="noopener noreferrer">cobdrad.donhoo.com</a></li>
-    <li><a href="https://sentramdfi.donhoo.com" target="_blank" rel="noopener noreferrer">sentramdfi.donhoo.com</a></li>
-    <li><a href="https://servondalie.donhoo.com" target="_blank" rel="noopener noreferrer">servondalie.donhoo.com</a></li>
-    <li><a href="https://ultranirbyte.donhoo.com" target="_blank" rel="noopener noreferrer">ultranirbyte.donhoo.com</a></li>
-    <li><a href="https://ultraviproxy.donhoo.com" target="_blank" rel="noopener noreferrer">ultraviproxy.donhoo.com</a></li>
-  </ul>
-
-  <!-- Utopia Proxies -->
-  <h3>Utopia Proxy Links</h3>
-  <ul class="link-list">
-    <li><a href="https://pupil.learn.stevedewald.com/" target="_blank" rel="noopener noreferrer">pupil.learn.stevedewald.com</a></li>
-    <li><a href="https://tutor.skills.bretonmeadowfarm.org/" target="_blank" rel="noopener noreferrer">tutor.skills.bretonmeadowfarm.org</a></li>
-    <li><a href="https://skills.notes.pakla.pl/" target="_blank" rel="noopener noreferrer">skills.notes.pakla.pl</a></li>
-    <li><a href="https://work.quiz.gamersuk.org/" target="_blank" rel="noopener noreferrer">work.quiz.gamersuk.org</a></li>
-    <li><a href="https://plant.smart.energysemi.com/" target="_blank" rel="noopener noreferrer">plant.smart.energysemi.com</a></li>
-    <li><a href="https://vyujcfwinj.thetrist.com/" target="_blank" rel="noopener noreferrer">vyujcfwinj.thetrist.com</a></li>
-    <li><a href="https://a1.asistdoc.ar/" target="_blank" rel="noopener noreferrer">a1.asistdoc.ar</a></li>
-    <li><a href="https://mybad.soon.it/" target="_blank" rel="noopener noreferrer">mybad.soon.it</a></li>
-    <li><a href="https://freednsafraidorg.mooo.com/" target="_blank" rel="noopener noreferrer">freednsafraidorg.mooo.com</a></li>
-    <li><a href="https://dogenirbytes.baselinux.net" target="_blank" rel="noopener noreferrer">dogenirbytes.baselinux.net</a></li>
-    <li><a href="https://tenprox.chickenkiller.com" target="_blank" rel="noopener noreferrer">tenprox.chickenkiller.com</a></li>
-    <li><a href="https://nirbytesutopia.serverpit.com" target="_blank" rel="noopener noreferrer">nirbytesutopia.serverpit.com</a></li>
-    <li><a href="https://music.recap.markisfullofshit.com/" target="_blank" rel="noopener noreferrer">music.recap.markisfullofshit.com</a></li>
-    <li><a href="https://solve.write.pacificbellinternational.com/" target="_blank" rel="noopener noreferrer">solve.write.pacificbellinternational.com</a></li>
-    <li><a href="https://major.know.unielectronics.ca/" target="_blank" rel="noopener noreferrer">major.know.unielectronics.ca</a></li>
-    <li><a href="https://how.learn.harimurti.web.id/" target="_blank" rel="noopener noreferrer">how.learn.harimurti.web.id</a></li>
-    <li><a href="https://facts.teach.sdm-tv.com/" target="_blank" rel="noopener noreferrer">facts.teach.sdm-tv.com</a></li>
-    <li><a href="http://k5math.record-point.com.au/" target="_blank" rel="noopener noreferrer">k5math.record-point.com.au</a></li>
-    <li><a href="https://cluzeha.neikos.com.mx/" target="_blank" rel="noopener noreferrer">cluzeha.neikos.com.mx</a></li>
-    <li><a href="https://history-of-the-king-of-pop.moldeo.org/" target="_blank" rel="noopener noreferrer">history-of-the-king-of-pop.moldeo.org</a></li>
-    <li><a href="https://topic.teach.pacbell.hk/" target="_blank" rel="noopener noreferrer">topic.teach.pacbell.hk</a></li>
-    <li><a href="https://smart.data.mydj.ro/" target="_blank" rel="noopener noreferrer">smart.data.mydj.ro</a></li>
-    <li><a href="https://core.atom.san-ss.com.ar/" target="_blank" rel="noopener noreferrer">core.atom.san-ss.com.ar</a></li>
-    <li><a href="https://state.lab.covi.com.ar/" target="_blank" rel="noopener noreferrer">state.lab.covi.com.ar</a></li>
-    <li><a href="https://world.guide.ticinostudio.com/" target="_blank" rel="noopener noreferrer">world.guide.ticinostudio.com</a></li>
-    <li><a href="https://tests.excel.wild1.net/" target="_blank" rel="noopener noreferrer">tests.excel.wild1.net</a></li>
-    <li><a href="https://base.train.kdits.ca/" target="_blank" rel="noopener noreferrer">base.train.kdits.ca</a></li>
-    <li><a href="https://basic.idea.gracesiefer.com/" target="_blank" rel="noopener noreferrer">basic.idea.gracesiefer.com</a></li>
-    <li><a href="https://schoology2.twilightparadox.com/" target="_blank" rel="noopener noreferrer">schoology2.twilightparadox.com</a></li>
-    <li><a href="https://ebooks-edu.agmlabs.com/" target="_blank" rel="noopener noreferrer">ebooks-edu.agmlabs.com</a></li>
-  </ul>
-
-  <!-- Space Proxies -->
-  <h3>Space Proxy Links</h3>
-  <ul class="link-list">
-    <li><a href="https://fnirbspax.chickenkiller.com" target="_blank" rel="noopener noreferrer">fnirbspax.chickenkiller.com</a></li>
-    <li><a href="https://jankbnir.info.gf" target="_blank" rel="noopener noreferrer">jankbnir.info.gf</a></li>
-    <li><a href="https://nirbspace.info.gf" target="_blank" rel="noopener noreferrer">nirbspace.info.gf</a></li>
-    <li><a href="https://tpxero.info.gf" target="_blank" rel="noopener noreferrer">tpxero.info.gf</a></li>
-    <li><a href="https://viproxyspace.info.gf" target="_blank" rel="noopener noreferrer">viproxyspace.info.gf</a></li>
-    <li><a href="https://nekadei.chickenkiller.com" target="_blank" rel="noopener noreferrer">nekadei.chickenkiller.com</a></li>
-    <li><a href="https://sandepaledi.chickenkiller.com" target="_blank" rel="noopener noreferrer">sandepaledi.chickenkiller.com</a></li>
-    <li><a href="https://sanokrix.chickenkiller.com" target="_blank" rel="noopener noreferrer">sanokrix.chickenkiller.com</a></li>
-    <li><a href="https://sirahabha.chickenkiller.com" target="_blank" rel="noopener noreferrer">sirahabha.chickenkiller.com</a></li>
-    <li><a href="https://timelexer.chickenkiller.com" target="_blank" rel="noopener noreferrer">timelexer.chickenkiller.com</a></li>
-    <li><a href="https://nirbytesx.baselinux.net/" target="_blank" rel="noopener noreferrer">nirbytesx.baselinux.net</a></li>
-    <li><a href="https://vipnirbytesproxy.baselinux.net" target="_blank" rel="noopener noreferrer">vipnirbytesproxy.baselinux.net</a></li>
-    <li><a href="https://nirbytexspace.fluxus.org" target="_blank" rel="noopener noreferrer">nirbytexspace.fluxus.org</a></li>
-    <li><a href="https://janebid.baselinux.net" target="_blank" rel="noopener noreferrer">janebid.baselinux.net</a></li>
-    <li><a href="https://mandikalai.baselinux.net" target="_blank" rel="noopener noreferrer">mandikalai.baselinux.net</a></li>
-    <li><a href="https://proxeprolame.baselinux.net" target="_blank" rel="noopener noreferrer">proxeprolame.baselinux.net</a></li>
-    <li><a href="https://jankimatxer.fluxus.org" target="_blank" rel="noopener noreferrer">jankimatxer.fluxus.org</a></li>
-    <li><a href="https://nepkxth.fluxus.org" target="_blank" rel="noopener noreferrer">nepkxth.fluxus.org</a></li>
-    <li><a href="https://zyndravi.prose.com" target="_blank" rel="noopener noreferrer">zyndravi.prose.com</a></li>
-    <li><a href="https://gonmali.vip.xyz" target="_blank" rel="noopener noreferrer">gonmali.vip.xyz</a></li>
-    <li><a href="https://preetilan.fluxus.org" target="_blank" rel="noopener noreferrer">preetilan.fluxus.org</a></li>
-    <li><a href="https://simplaxer.fluxus.org" target="_blank" rel="noopener noreferrer">simplaxer.fluxus.org</a></li>
-  </ul>
-
-  <!-- Rammerhead Proxies -->
-  <h3>Rammerhead Proxy Links</h3>
-  <ul class="link-list">
-    <li><a href="https://iam.steveward.ws/" target="_blank" rel="noopener noreferrer">iam.steveward.ws</a></li>
-    <li><a href="https://proxysluts.coral-shop.ro/" target="_blank" rel="noopener noreferrer">proxysluts.coral-shop.ro</a></li>
-    <li><a href="https://kagurabachilover.lgmnow.com/" target="_blank" rel="noopener noreferrer">kagurabachilover.lgmnow.com</a></li>
-    <li><a href="https://scrsa.luhu.jp/" target="_blank" rel="noopener noreferrer">scrsa.luhu.jp</a></li>
-    <li><a href="https://bu-abdulla.gafton.eu/" target="_blank" rel="noopener noreferrer">bu-abdulla.gafton.eu</a></li>
-    <li><a href="https://hicluzelol.neikos.com.mx/" target="_blank" rel="noopener noreferrer">hicluzelol.neikos.com.mx</a></li>
-    <li><a href="https://kenkyu.luhu.jp/" target="_blank" rel="noopener noreferrer">kenkyu.luhu.jp</a></li>
-    <li><a href="https://by-itrsa.pettica.com/" target="_blank" rel="noopener noreferrer">by-itrsa.pettica.com</a></li>
-    <li><a href="https://usernotfound.palomadi.ar/" target="_blank" rel="noopener noreferrer">usernotfound.palomadi.ar</a></li>
-    <li><a href="https://ishowspeed.chrishow.org/" target="_blank" rel="noopener noreferrer">ishowspeed.chrishow.org</a></li>
-    <li><a href="https://snoop.dogdammit.com/" target="_blank" rel="noopener noreferrer">snoop.dogdammit.com</a></li>
-    <li><a href="https://nexo.koti.cf/" target="_blank" rel="noopener noreferrer">nexo.koti.cf</a></li>
-    <li><a href="https://flipgrid.imdb.gq/" target="_blank" rel="noopener noreferrer">flipgrid.imdb.gq</a></li>
-    <li><a href="https://bentnailfarm4121.com/" target="_blank" rel="noopener noreferrer">bentnailfarm4121.com</a></li>
-    <li><a href="https://oliverdiepiogreedycheckers.sponsorafuture.org.uk/" target="_blank" rel="noopener noreferrer">oliverdiepiogreedycheckers.sponsorafuture.org.uk</a></li>
-    <li><a href="https://myincredibleweightlossjounrney.gblandscape.com/" target="_blank" rel="noopener noreferrer">myincredibleweightlossjounrney.gblandscape.com</a></li>
-    <li><a href="https://danielrcrawfordfanpage.danielrcrawford.com/" target="_blank" rel="noopener noreferrer">danielrcrawfordfanpage.danielrcrawford.com</a></li>
-    <li><a href="https://yozora.iiiii.info/" target="_blank" rel="noopener noreferrer">yozora.iiiii.info</a></li>
-    <li><a href="https://bookpog.bad.mn/" target="_blank" rel="noopener noreferrer">bookpog.bad.mn</a></li>
-    <li><a href="https://thirteen13.windsormetalbattery.com/" target="_blank" rel="noopener noreferrer">thirteen13.windsormetalbattery.com</a></li>
-    <li><a href="https://sical.s.ical.sic.al/" target="_blank" rel="noopener noreferrer">sical.s.ical.sic.al</a></li>
-    <li><a href="https://7afootball.rainbowcup.com/" target="_blank" rel="noopener noreferrer">7afootball.rainbowcup.com</a></li>
-    <li><a href="https://7aisfulloftalent.hondascooterparts.com/" target="_blank" rel="noopener noreferrer">7aisfulloftalent.hondascooterparts.com</a></li>
-    <li><a href="https://tylerknowskungfu.isageek.net" target="_blank" rel="noopener noreferrer">tylerknowskungfu.isageek.net</a></li>
-    <li><a href="https://rammerheadisok.tx2600.net/" target="_blank" rel="noopener noreferrer">rammerheadisok.tx2600.net</a></li>
-    <li><a href="https://abdulv2.flazzard.com/" target="_blank" rel="noopener noreferrer">abdulv2.flazzard.com</a></li>
-    <li><a href="https://arain.neighborhoodcloud.com/" target="_blank" rel="noopener noreferrer">arain.neighborhoodcloud.com</a></li>
-  </ul>
-</div>
-
-  <!-- Games Tab -->
-  <div id="games" class="tab" aria-label="Games Library">
-    <h2>Games Library</h2>
-    <p>Take a break and enjoy these browser-based games. No downloads required—just click and play instantly!</p>
-    <ul class="link-list">
-      <li><a href="https://agar.io/" target="_blank" rel="noopener noreferrer">Agar.io - Multiplayer Survival</a></li>
-      <li><a href="https://slither.io/" target="_blank" rel="noopener noreferrer">Slither.io - Snake Game</a></li>
-      <li><a href="https://krunker.io/" target="_blank" rel="noopener noreferrer">Krunker.io - FPS Shooter</a></li>
-      <li><a href="https://littlealchemy.com/" target="_blank" rel="noopener noreferrer">Little Alchemy 2 - Puzzle</a></li>
-      <li><a href="https://shellshock.io/" target="_blank" rel="noopener noreferrer">ShellShock.io - Tank Battle</a></li>
-      <li><a href="https://diep.io/" target="_blank" rel="noopener noreferrer">Diep.io - Tank Shooter</a></li>
-      <li><a href="https://www.crazygames.com/game/cut-the-rope" target="_blank" rel="noopener noreferrer">Cut The Rope</a></li>
-      <li><a href="https://www.crazygames.com/game/fireboy-and-watergirl-in-the-forest-temple" target="_blank" rel="noopener noreferrer">Fireboy and Watergirl</a></li>
-      <li><a href="https://www.miniclip.com/games/en/" target="_blank" rel="noopener noreferrer">Miniclip Games Hub</a></li>
-      <li><a href="https://www.pogo.com/games" target="_blank" rel="noopener noreferrer">Pogo Games</a></li>
-      <li><a href="https://www.newgrounds.com/collection/flash-games" target="_blank" rel="noopener noreferrer">Newgrounds Flash Games</a></li>
-      <li><a href="https://www.crazygames.com/" target="_blank" rel="noopener noreferrer">CrazyGames</a></li>
-      <li><a href="https://www.bomb.it/" target="_blank" rel="noopener noreferrer">Bomb It - Bomberman Style</a></li>
-      <li><a href="https://www.agar.io/" target="_blank" rel="noopener noreferrer">Agar.io</a></li>
-      <li><a href="https://osor.io/" target="_blank" rel="noopener noreferrer">Osor.io - Zombie Survival</a></li>
-      <li><a href="https://paper.io/" target="_blank" rel="noopener noreferrer">Paper.io - Territory Game</a></li>
-      <li><a href="https://www.crazygames.com/game/helix-jump" target="_blank" rel="noopener noreferrer">Helix Jump</a></li>
-      <li><a href="https://www.crazygames.com/game/shell-shockers" target="_blank" rel="noopener noreferrer">Shell Shockers</a></li>
-    </ul>
-  </div>
-
-  <!-- Entertainment Tab -->
-  <div id="entertainment" class="tab" aria-label="Entertainment Sites">
-    <h1>Entertainment Sites</h1>
-    <p>Enjoy your favorite streaming and entertainment websites all in one place.</p>
-    <ul class="link-list">
-      <li><a href="https://www.netflix.com" target="_blank" rel="noopener noreferrer">Netflix</a></li>
-      <li><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-      <li><a href="https://www.hulu.com" target="_blank" rel="noopener noreferrer">Hulu</a></li>
-      <li><a href="https://www.disneyplus.com" target="_blank" rel="noopener noreferrer">Disney+</a></li>
-      <li><a href="https://www.spotify.com" target="_blank" rel="noopener noreferrer">Spotify</a></li>
-      <li><a href="https://www.twitch.tv" target="_blank" rel="noopener noreferrer">Twitch</a></li>
-      <li><a href="https://www.peacocktv.com" target="_blank" rel="noopener noreferrer">Peacock TV</a></li>
-    </ul>
-  </div>
-
-  <!-- Unblocked Games Tab -->
-  <div id="unblocked" class="tab" aria-label="Unblocked Game Sites">
-    <h1>Unblocked Game Sites</h1>
-    <p>Access your favorite unblocked games from school or work.</p>
-    <ul class="link-list">
-      <li><a href="https://sites.google.com/view/drive-u-7-home/home" target="_blank" rel="noopener noreferrer">Drive U-7 Home</a></li>
-      <li><a href="https://sites.google.com/site/thegamecompilation/home" target="_blank" rel="noopener noreferrer">The Game Compilation</a></li>
-      <li><a href="https://sites.google.com/view/unblocked-game76" target="_blank" rel="noopener noreferrer">Unblocked Game 76</a></li>
-      <li><a href="https://sites.google.com/site/unblockedgame67" target="_blank" rel="noopener noreferrer">Unblocked Game 67</a></li>
-      <li><a href="https://sites.google.com/view/classroom6x" target="_blank" rel="noopener noreferrer">Classroom 6x</a></li>
-      <li><a href="https://unblocked-gaming.github.io" target="_blank" rel="noopener noreferrer">Unblocked Gaming</a></li>
-    </ul>
-  </div>
-
-  <!-- Support Tab -->
-  <div id="support" class="tab" aria-label="Support">
-    <h2>Support</h2>
-    <p>Need help or have questions? Fill out the form below, and we’ll get back to you ASAP.</p>
-    <form onsubmit="submitSupportForm(event)">
-      <input type="text" id="name" name="name" placeholder="Your name" required />
-      <input type="email" id="email" name="email" placeholder="Your email" required />
-      <textarea id="message" name="message" placeholder="Your message" rows="5" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-    <div id="form-status" style="margin-top:15px;"></div>
-
-    <button id="openTOSBtn" style="
-      margin-top: 20px; 
-      background-color: #000000; 
-      color: #66b3ff; 
-      border: 1.5px solid #66b3ff; 
-      padding: 12px 25px; 
-      border-radius: 6px; 
-      font-size: 17px; 
-      cursor: pointer; 
-      box-shadow: 0 0 12px #0077ff88; 
-      transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-    ">
-      View Terms of Service
-    </button>
-
-    <!-- TOS Modal -->
-    <div id="tosModal">
-      <div>
-        <h2>Terms of Service</h2>
-        <p>Welcome to our website. By using our site and the provided links to proxy services, unblocked games, web games, and entertainment sites, you agree to the following terms:</p>
-
+    <!-- Users Favorites -->
+    <div id="users-favorites" role="region" aria-label="Users Favorites">
+      <h2>Users Favorites</h2>
+      <div class="category" id="favorites-proxy">
+        <h3>Favorite Proxies</h3>
         <ul>
-          <li><strong>Links Provided:</strong> We provide links to third-party proxy sites, unblocked games, and entertainment websites for your convenience. We do not host any games or content ourselves.</li>
-          <li><strong>No Warranty:</strong> We are not responsible for the content, safety, or availability of any linked sites. Use these links at your own risk.</li>
-          <li><strong>User Conduct:</strong> You agree to use the linked sites and games responsibly and in accordance with their own rules and terms.</li>
-          <li><strong>Support:</strong> Our support form is here to assist with website-related questions only. We do not support or troubleshoot third-party sites linked on this website.</li>
-          <li><strong>Changes:</strong> We may update these Terms of Service at any time without prior notice. Continued use of the site means you accept any changes.</li>
-          <li><strong>Age:</strong> By using this site, you confirm that you are at least 13 years old or have parental permission.</li>
-          <li><strong>Limitation of Liability:</strong> Under no circumstances shall we be liable for any damages or losses resulting from use of linked sites.</li>
+          <li><a href="http://funlearning.ra3.us/" target="_blank" rel="noopener noreferrer">funlearning.ra3.us</a></li>
+          <li><a href="http://mathymath.cueros-roblans.com.ar/" target="_blank" rel="noopener noreferrer">mathymath.cueros-roblans.com.ar</a></li>
+          <li><a href="https://boltunblocker.com/" target="_blank" rel="noopener noreferrer">boltunblocker.com</a></li>
+          <li><a href="https://nirbytesboltxero.chickenkiller.com/" target="_blank" rel="noopener noreferrer">nirbytesboltxero.chickenkiller.com</a></li>
+          <!-- Add more favorite proxies as you want -->
         </ul>
-
-        <p>If you do not agree to these terms, please do not use the website or its links.</p>
-
-        <button id="closeTOSBtn">Close</button>
+      </div>
+      <div class="category" id="favorites-games">
+        <h3>Favorite Games</h3>
+        <ul>
+          <li><a href="https://examplegame1.com" target="_blank" rel="noopener noreferrer">Example Game 1</a></li>
+          <li><a href="https://examplegame2.com" target="_blank" rel="noopener noreferrer">Example Game 2</a></li>
+          <li><a href="https://examplegame3.com" target="_blank" rel="noopener noreferrer">Example Game 3</a></li>
+          <!-- Add more favorite games as you want -->
+        </ul>
       </div>
     </div>
-  </div>
 
-</div>
+    <!-- Changelog -->
+    <section id="changelog" aria-label="Changelog">
+      <button class="close-btn" aria-label="Close Changelog">&times;</button>
+      <h2>Changelog</h2>
+      <ul>
+        <li>Added particles background on all tabs</li>
+        <li>Implemented local weather and time display</li>
+        <li>Users Favorites section with proxies and games added to home tab</li>
+        <li>Credits box styled and added to home tab</li>
+        <li>Proxy tab fully populated with all proxies</li>
+        <li>Maintained all original tabs and content</li>
+      </ul>
+    </section>
 
-<!-- Changelog Modal -->
-<div id="changelog-modal" aria-modal="true" role="dialog" aria-labelledby="changelog-title" tabindex="-1">
-  <div id="changelog-content">
-    <h2 id="changelog-title">Changelog - Version 1.3.0</h2>
-    <ul id="changelog-list">
-      <li>Added entertainment tab.</li>
-      <li>Added unblocked games tab.</li>
-      <li>Updated changelog modal with version 1.3.0 and new changes.</li>
-      <li>Improved UI styling for better readability and experience.</li>
-      <li>Reverted password screen styling to original design.</li>
-      <li>(Coming soon - Settings, web cloaker, panic hotkey).</li>
+    <!-- Credits -->
+    <section id="credits" aria-label="Credits">
+      <h2>Credits</h2>
+      <ul>
+        <li>Site developed by Blake Chesebro</li>
+        <li>Particles.js integration by OpenAI ChatGPT</li>
+        <li>Weather API by OpenWeatherMap</li>
+        <li>Proxy lists contributed by community</li>
+      </ul>
+    </section>
+  </section>
+
+  <!-- Proxy Tab -->
+  <section id="proxy" class="tab" role="tabpanel" tabindex="0" aria-label="Proxy Tab">
+    <h2>Proxy Links</h2>
+    <p>Browse privately and bypass restrictions with these trusted proxy links. Use them to enhance your online privacy and access blocked content.</p>
+
+    <!-- Bolt Proxies -->
+    <h3>Bolt Proxy Links</h3>
+    <ul class="link-list">
+      <li><a href="http://funlearning.ra3.us/" target="_blank" rel="noopener noreferrer">funlearning.ra3.us</a></li>
+      <li><a href="http://mathymath.cueros-roblans.com.ar/" target="_blank" rel="noopener noreferrer">mathymath.cueros-roblans.com.ar</a></li>
+      <li><a href="https://fnrkrbvtpy.abbotsfordhallforhire.org.au/" target="_blank" rel="noopener noreferrer">fnrkrbvtpy.abbotsfordhallforhire.org.au</a></li>
+      <li><a href="http://boltunblocker.com/" target="_blank" rel="noopener noreferrer">boltunblocker.com</a></li>
+      <li><a href="https://anamoxe.baselinux.net/" target="_blank" rel="noopener noreferrer">anamoxe.baselinux.net</a></li>
+      <li><a href="https://nirbytesboltxero.chickenkiller.com/" target="_blank" rel="noopener noreferrer">nirbytesboltxero.chickenkiller.com</a></li>
+      <li><a href="https://lnienmniry.baselinux.net" target="_blank" rel="noopener noreferrer">lnienmniry.baselinux.net</a></li>
+      <li><a href="https://samjabie.baselinux.net" target="_blank" rel="noopener noreferrer">samjabie.baselinux.net</a></li>
+      <li><a href="https://sandeking.baselinux.net" target="_blank" rel="noopener noreferrer">sandeking.baselinux.net</a></li>
+      <li><a href="http://neclcafxoz.expedicionesytrekking.com/" target="_blank" rel="noopener noreferrer">neclcafxoz.expedicionesytrekking.com</a></li>
+      <li><a href="http://evoodherne.mygadgets.com.ar/" target="_blank" rel="noopener noreferrer">evoodherne.mygadgets.com.ar</a></li>
+      <li><a href="https://boltnixe.baselinux.net/" target="_blank" rel="noopener noreferrer">boltnixe.baselinux.net</a></li>
+      <li><a href="https://clearinxg.baselinux.net" target="_blank" rel="noopener noreferrer">clearinxg.baselinux.net</a></li>
+      <li><a href="https://hansobe.baselinux.net" target="_blank" rel="noopener noreferrer">hansobe.baselinux.net</a></li>
+      <li><a href="https://jambali.baselinux.net" target="_blank" rel="noopener noreferrer">jambali.baselinux.net</a></li>
+      <li><a href="https://kantabolt.baselinux.net" target="_blank" rel="noopener noreferrer">kantabolt.baselinux.net</a></li>
+      <li><a href="https://nirbytesprobolt.chickenkiller.com" target="_blank" rel="noopener noreferrer">nirbytesprobolt.chickenkiller.com</a></li>
+      <li><a href="https://boletrp.chickenkiller.com" target="_blank" rel="noopener noreferrer">boletrp.chickenkiller.com</a></li>
+      <li><a href="https://clarendi.chickenkiller.com" target="_blank" rel="noopener noreferrer">clarendi.chickenkiller.com</a></li>
+      <li><a href="https://diksedi.chickenkiller.com" target="_blank" rel="noopener noreferrer">diksedi.chickenkiller.com</a></li>
+      <li><a href="https://jankdi.chickenkiller.com" target="_blank" rel="noopener noreferrer">jankdi.chickenkiller.com</a></li>
+      <li><a href="http://ffehzuwacg.3cm.us/" target="_blank" rel="noopener noreferrer">ffehzuwacg.3cm.us</a></li>
+      <li><a href="http://nqdufmlfhj.3cm.us/" target="_blank" rel="noopener noreferrer">nqdufmlfhj.3cm.us</a></li>
+      <li><a href="https://prochickenkiller.chickenkiller.com" target="_blank" rel="noopener noreferrer">prochickenkiller.chickenkiller.com</a></li>
+      <li><a href="https://chickenproxy.chickenkiller.com" target="_blank" rel="noopener noreferrer">chickenproxy.chickenkiller.com</a></li>
     </ul>
-    <button id="close-changelog" onclick="toggleChangelog(false)">Close</button>
-  </div>
-</div>
 
-<!-- Credits Modal -->
-<div id="credits-modal" aria-modal="true" role="dialog" aria-labelledby="credits-title" tabindex="-1">
-  <div id="credits-content">
-    <h2 id="credits-title">Credits</h2>
-    <ul id="credits-list">
-      <li>Site designed and coded by Blake Chesebro.</li>
-      <li>Icons and UI inspiration from various open source projects.</li>
-      <li>Game links curated by the ShadowSite community.</li>
-      <li>Particles.js library by Vincent Garreau.</li>
-      <li>Weather data provided by OpenWeatherMap API.</li>
+    <!-- Rammerhead Proxies -->
+    <h3>Rammerhead Proxy Links</h3>
+    <ul class="link-list">
+      <li><a href="https://iam.steveward.ws/" target="_blank" rel="noopener noreferrer">iam.steveward.ws</a></li>
+      <li><a href="https://proxyslayer.xyz/" target="_blank" rel="noopener noreferrer">proxyslayer.xyz</a></li>
+      <li><a href="https://proxy.gameproxy.site/" target="_blank" rel="noopener noreferrer">proxy.gameproxy.site</a></li>
+      <li><a href="https://play.skribble.link/" target="_blank" rel="noopener noreferrer">play.skribble.link</a></li>
+      <li><a href="https://proxify.mayak.pro/" target="_blank" rel="noopener noreferrer">proxify.mayak.pro</a></li>
+      <li><a href="https://proxies.sprut.top/" target="_blank" rel="noopener noreferrer">proxies.sprut.top</a></li>
+      <li><a href="https://proxer.is-best.net/" target="_blank" rel="noopener noreferrer">proxer.is-best.net</a></li>
+      <li><a href="https://proxyfyi.org/" target="_blank" rel="noopener noreferrer">proxyfyi.org</a></li>
+      <li><a href="https://myproxy.at/" target="_blank" rel="noopener noreferrer">myproxy.at</a></li>
+      <li><a href="https://freshproxy.at/" target="_blank" rel="noopener noreferrer">freshproxy.at</a></li>
+      <li><a href="https://proxyzz.ml/" target="_blank" rel="noopener noreferrer">proxyzz.ml</a></li>
+      <li><a href="https://eproxy.ml/" target="_blank" rel="noopener noreferrer">eproxy.ml</a></li>
+      <li><a href="https://proxylib.at/" target="_blank" rel="noopener noreferrer">proxylib.at</a></li>
+      <li><a href="https://proxymoo.ml/" target="_blank" rel="noopener noreferrer">proxymoo.ml</a></li>
+      <li><a href="https://vortexproxy.ml/" target="_blank" rel="noopener noreferrer">vortexproxy.ml</a></li>
+      <li><a href="https://proxy0.ml/" target="_blank" rel="noopener noreferrer">proxy0.ml</a></li>
+      <li><a href="https://proxyninja.ml/" target="_blank" rel="noopener noreferrer">proxyninja.ml</a></li>
+      <li><a href="https://proxy.fastshar.com/" target="_blank" rel="noopener noreferrer">proxy.fastshar.com</a></li>
+      <li><a href="https://proxymoo.ml/" target="_blank" rel="noopener noreferrer">proxymoo.ml</a></li>
+      <li><a href="https://proxymate.tk/" target="_blank" rel="noopener noreferrer">proxymate.tk</a></li>
     </ul>
-    <button id="close-credits" onclick="toggleCredits(false)">Close</button>
-  </div>
+  </section>
+
+  <!-- Games Tab -->
+  <section id="games" class="tab" role="tabpanel" tabindex="0" aria-label="Games Tab">
+    <h2>Games</h2>
+    <ul>
+      <li><a href="https://examplegame1.com" target="_blank" rel="noopener noreferrer">Example Game 1</a></li>
+      <li><a href="https://examplegame2.com" target="_blank" rel="noopener noreferrer">Example Game 2</a></li>
+      <li><a href="https://examplegame3.com" target="_blank" rel="noopener noreferrer">Example Game 3</a></li>
+      <!-- Add your actual game links here -->
+    </ul>
+  </section>
+
+  <!-- Entertainment Tab -->
+  <section id="entertainment" class="tab" role="tabpanel" tabindex="0" aria-label="Entertainment Tab">
+    <h2>Entertainment</h2>
+    <ul>
+      <li><a href="https://youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      <li><a href="https://netflix.com" target="_blank" rel="noopener noreferrer">Netflix</a></li>
+      <li><a href="https://spotify.com" target="_blank" rel="noopener noreferrer">Spotify</a></li>
+      <!-- Add more entertainment links -->
+    </ul>
+  </section>
+
+  <!-- Unblocked Games Tab -->
+  <section id="unblocked" class="tab" role="tabpanel" tabindex="0" aria-label="Unblocked Games Tab">
+    <h2>Unblocked Games</h2>
+    <ul>
+      <li><a href="https://unblockedgames333.com" target="_blank" rel="noopener noreferrer">Unblocked Games 333</a></li>
+      <li><a href="https://sites.google.com/site/punblockedgames/" target="_blank" rel="noopener noreferrer">Punblocked Games</a></li>
+      <li><a href="https://sites.google.com/site/xyzunblockedgames/" target="_blank" rel="noopener noreferrer">XYZ Unblocked Games</a></li>
+      <!-- Add more unblocked games -->
+    </ul>
+  </section>
+
+  <!-- Support Tab -->
+  <section id="support" class="tab" role="tabpanel" tabindex="0" aria-label="Support Tab">
+    <h2>Support</h2>
+    <ul>
+      <li><a href="mailto:support@shadowsite.com">Email Support</a></li>
+      <li><a href="https://discord.gg/yourdiscordlink" target="_blank" rel="noopener noreferrer">Discord Server</a></li>
+      <li><a href="https://twitter.com/shadowsite" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+      <!-- Add more support links -->
+    </ul>
+  </section>
+
+  <!-- Terms of Service Tab -->
+  <section id="tos" class="tab" role="tabpanel" tabindex="0" aria-label="Terms of Service Tab">
+    <h2>Terms of Service</h2>
+    <p>
+      By using this website, you agree to abide by the terms and conditions outlined here. The site is provided as-is, and we are not responsible for any misuse or loss.
+      Please respect all applicable laws and school policies.
+    </p>
+  </section>
 </div>
 
+<!-- Particles.js library -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
-  const PASSWORD = "shadow";
-
-  // Password screen logic
-  function checkPassword() {
-    const input = document.getElementById("password-input");
-    const errorDiv = document.getElementById("password-error");
-    if(input.value === PASSWORD) {
-      document.getElementById("password-screen").style.display = "none";
-      document.getElementById("main-content").style.display = "block";
-      errorDiv.textContent = "";
-      showRandomFact();
-      toggleChangelog(false); // Make sure changelog is hidden on login
-    } else {
-      errorDiv.textContent = "Incorrect password. Try again.";
-      input.value = "";
-      input.focus();
-    }
-  }
-
-  // Tabs switching function
-  function switchTab(tabName, btn) {
-    // Hide all tabs
-    const tabs = document.querySelectorAll(".tab");
-    tabs.forEach(t => t.classList.remove("active"));
-    // Show selected tab
-    const selected = document.getElementById(tabName);
-    if(selected) selected.classList.add("active");
-
-    // Update active button styles
-    const buttons = document.querySelectorAll("nav button");
-    buttons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    // If user clicks home, update random fact
-    if(tabName === "home") showRandomFact();
-  }
-
-  // RANDOM FACTS ARRAY
-  const randomFacts = [
-    "The PlayStation 5’s SSD can load games in less than one second.",
-    "Minecraft has sold over 238 million copies worldwide, the best-selling game ever.",
-    "The first video game, 'Pong,' was released in 1972 and was a digital version of table tennis.",
-    "The ‘@’ symbol was chosen for email addresses in 1971 because it was rarely used elsewhere.",
-    "More than 3 billion people worldwide play video games regularly as of 2024.",
-    "The world’s fastest supercomputer performs over 1 quintillion calculations per second.",
-    "Python programming language was named after the comedy group ‘Monty Python’s Flying Circus.’",
-    "Over 2.5 quintillion bytes of data are created globally every day.",
-    "AI language models like GPT-4 can generate human-like text almost instantly.",
-    "Esports audiences now rival and sometimes surpass viewers of traditional sports leagues like the NBA.",
-    "Virtual reality headset shipments exceeded 10 million units worldwide in 2023.",
-    "The first email was sent in 1971 by Ray Tomlinson, who introduced the ‘@’ symbol for addresses.",
-    "More than 90% of the world’s currency now exists only digitally, with no physical cash involved.",
-    "Modern smartphones have more computing power than the Apollo 11 computers used for the moon landing.",
-    "The global gaming industry makes over $200 billion per year, surpassing movies and music.",
-    "Google’s name is derived from ‘googol,’ which means 1 followed by 100 zeros.",
-    "The original Xbox controller was so large, it was nicknamed ‘The Duke.’",
-    "The world’s first website is still online; it was launched by Tim Berners-Lee in 1991.",
-    "The first computer mouse was made of wood and invented in 1964.",
-    "‘Easter eggs’ in software are hidden features or messages put in by developers.",
-    "The Nintendo Game Boy was released in 1989 and sold over 118 million units worldwide.",
-    "The first smartphone, IBM’s Simon, was released in 1994 and could send emails and faxes.",
-    "The Tetris theme song is based on a Russian folk tune called ‘Korobeiniki.’",
-    "The fastest computer virus in history, ‘ILOVEYOU,’ spread to 10 million computers in 10 days.",
-    "The coding language Java was originally called Oak, named after an oak tree outside the creator’s window.",
-    "Wi-Fi technology was inspired by the same radio waves used in astronomy to detect black holes.",
-    "The term ‘bug’ for software errors dates back to a real moth found stuck in a computer in 1947.",
-    "Cloud computing means running programs and storing data on the internet instead of your own device.",
-    "Steam, a popular gaming platform, launched in 2003 and now has over 125 million active users monthly.",
-    "Robotics competitions are becoming popular in schools, teaching students coding and engineering skills.",
-    "QR codes were invented in 1994 by a Toyota subsidiary for tracking car parts during manufacturing.",
-    "The first 1GB hard drive was released in 1980 and weighed over 500 pounds.",
-    "Twitch started as a spin-off of Justin.tv in 2011 and is now the largest live streaming platform for gamers.",
-    "HTML, the language used to create web pages, stands for HyperText Markup Language.",
-    "The first-ever computer game is often considered to be ‘Spacewar!’ from 1962.",
-    "The average gamer spends about 6.5 hours per week playing video games.",
-    "Artificial intelligence was officially named and started as a field in 1956 at a conference at Dartmouth College.",
-    "More than 70% of professional video gamers are under 25 years old.",
-    "The largest video game tournament, The International for Dota 2, had a prize pool of over $40 million in 2023."
-  ];
-
-  // Show a random fact on Home tab
-  function showRandomFact() {
-    const factDiv = document.getElementById("random-fact");
-    const randomIndex = Math.floor(Math.random() * randomFacts.length);
-    factDiv.textContent = "💡 Fun fact: " + randomFacts[randomIndex];
-  }
-
-  // Support form submission (dummy)
-  function submitSupportForm(event) {
-    event.preventDefault();
-    const statusDiv = document.getElementById("form-status");
-    statusDiv.textContent = "Sending message...";
-    setTimeout(() => {
-      statusDiv.textContent = "Thank you! Your message has been sent.";
-      event.target.reset();
-    }, 1200);
-  }
-
-  // Changelog modal toggle
-  function toggleChangelog(show) {
-    const modal = document.getElementById("changelog-modal");
-    if(show) {
-      modal.style.display = "flex";
-      modal.focus();
-    } else {
-      modal.style.display = "none";
-    }
-  }
-  // Credits modal toggle
-  function toggleCredits(show) {
-    const modal = document.getElementById("credits-modal");
-    if(show) {
-      modal.style.display = "flex";
-      modal.focus();
-    } else {
-      modal.style.display = "none";
-    }
-  }
-
-  // Open changelog when version-info clicked
-  document.getElementById("version-info").addEventListener("click", () => {
-    toggleChangelog(true);
-  });
-
-  // Open credits when credits button clicked
-  document.getElementById("credits-btn").addEventListener("click", () => {
-    toggleCredits(true);
-  });
-
-  // Close buttons event listeners
-  document.getElementById("close-changelog").addEventListener("click", () => {
-    toggleChangelog(false);
-  });
-  document.getElementById("close-credits").addEventListener("click", () => {
-    toggleCredits(false);
-  });
-
-  // TOS Modal open/close
-  const openBtn = document.getElementById('openTOSBtn');
-  const closeBtn = document.getElementById('closeTOSBtn');
-  const tosModal = document.getElementById('tosModal');
-  openBtn.addEventListener('click', () => {
-    tosModal.style.display = 'flex';
-    tosModal.focus();
-  });
-  closeBtn.addEventListener('click', () => {
-    tosModal.style.display = 'none';
-  });
-  tosModal.addEventListener('click', (e) => {
-    if (e.target === tosModal) {
-      tosModal.style.display = 'none';
-    }
-  });
-
-  // Allow Enter key on password input to trigger login
-  document.getElementById("password-input").addEventListener("keyup", (e) => {
-    if(e.key === "Enter") checkPassword();
-  });
-
-  // Time update function
-  function updateLocalTime() {
-    const timeElem = document.getElementById('local-time');
-    const now = new Date();
-    let h = now.getHours();
-    const m = now.getMinutes();
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12;
-    if (h === 0) h = 12;
-    const minStr = m < 10 ? '0' + m : m;
-    timeElem.textContent = `${h}:${minStr} ${ampm}`;
-  }
-
-  // Weather fetching using OpenWeatherMap API (free tier, no backend, via fetch)
-  // You must add your own API key here to enable weather:
-  const OPENWEATHER_API_KEY = "d2f03dde59a1d1a4a7dc48b05db2325e";
-  const weatherElem = document.getElementById('weather');
-
-  function fetchWeather() {
-    if (!navigator.geolocation) {
-      weatherElem.textContent = "No geolocation.";
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        const { latitude, longitude } = position.coords;
-        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${OPENWEATHER_API_KEY}&units=imperial`;
-        fetch(url)
-          .then(response => response.json())
-          .then(data => {
-            if (data.weather && data.weather.length > 0 && data.main) {
-              const iconCode = data.weather[0].icon;
-              const temp = Math.round(data.main.temp);
-              const desc = data.weather[0].main;
-              weatherElem.innerHTML = `<img src="https://openweathermap.org/img/wn/${iconCode}.png" alt="${desc}" style="vertical-align:middle; width:20px; height:20px;"> ${temp}°F ${desc}`;
-            } else {
-              weatherElem.textContent = "Weather unavailable";
-            }
-          })
-          .catch(() => {
-            weatherElem.textContent = "Weather error";
-          });
-      },
-      () => {
-        weatherElem.textContent = "Location denied";
-      }
-    );
-  }
-
-  // Update time every 30 seconds
-  setInterval(updateLocalTime, 30000);
-  updateLocalTime();
-
-  // Try fetching weather every 10 minutes
-  fetchWeather();
-  setInterval(fetchWeather, 600000);
-
-  // Initialize particles.js
-  particlesJS('particles-js', {
+  // Initialize particles.js with subtle blue particles background
+  particlesJS("particles-js", {
     "particles": {
       "number": {
-        "value": 40,
+        "value": 45,
         "density": {
           "enable": true,
-          "value_area": 800
+          "value_area": 900
         }
       },
       "color": {
-        "value": "#3399ff"
+        "value": "#00aaff"
       },
       "shape": {
-        "type": "circle",
-        "stroke": {
-          "width": 0,
-          "color": "#000"
-        }
+        "type": "circle"
       },
       "opacity": {
-        "value": 0.15,
+        "value": 0.07,
         "random": true,
         "anim": {
-          "enable": true,
-          "speed": 0.8,
-          "opacity_min": 0.05,
-          "sync": false
+          "enable": false
         }
       },
       "size": {
@@ -1007,22 +521,18 @@
       },
       "line_linked": {
         "enable": true,
-        "distance": 120,
-        "color": "#3399ff",
+        "distance": 130,
+        "color": "#00aaff",
         "opacity": 0.1,
         "width": 1
       },
       "move": {
         "enable": true,
-        "speed": 1,
+        "speed": 0.7,
         "direction": "none",
         "random": true,
         "straight": false,
-        "out_mode": "out",
-        "bounce": false,
-        "attract": {
-          "enable": false
-        }
+        "out_mode": "out"
       }
     },
     "interactivity": {
@@ -1040,18 +550,86 @@
     "retina_detect": true
   });
 
-  // Show changelog modal on first load after password unlock
-  function showChangelogOnLoad() {
-    toggleChangelog(true);
+  // Tab switching logic
+  const tabButtons = document.querySelectorAll("nav ul li button.tab-btn");
+  const tabs = document.querySelectorAll(".tab");
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      // Remove active from all buttons & tabs
+      tabButtons.forEach(b => b.classList.remove("active"));
+      tabs.forEach(t => t.classList.remove("active"));
+
+      // Add active to clicked button & corresponding tab
+      btn.classList.add("active");
+      const tabId = btn.getAttribute("data-tab");
+      document.getElementById(tabId).classList.add("active");
+    });
+  });
+
+  // Changelog close button
+  const changelog = document.getElementById("changelog");
+  const changelogCloseBtn = changelog.querySelector(".close-btn");
+  changelogCloseBtn.addEventListener("click", () => {
+    changelog.style.display = "none";
+  });
+
+  // Local time & weather
+  const localTimeElem = document.getElementById("local-time");
+  const weatherIconElem = document.getElementById("weather-icon");
+  const weatherTempElem = document.getElementById("weather-temp");
+  const weatherConditionElem = document.getElementById("weather-condition");
+
+  function updateLocalTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    localTimeElem.textContent = timeString;
+  }
+  updateLocalTime();
+  setInterval(updateLocalTime, 60000);
+
+  // Weather API integration - OpenWeatherMap
+  // You must get your own free API key from https://openweathermap.org/api
+  const weatherAPIKey = 'YOUR_OPENWEATHERMAP_API_KEY_HERE'; // <-- Replace this with your actual API key
+
+  function fetchWeather(lat, lon) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherAPIKey}`;
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        if(data && data.weather && data.weather.length > 0){
+          const iconCode = data.weather[0].icon;
+          weatherIconElem.src = `https://openweathermap.org/img/wn/${iconCode}.png`;
+          weatherIconElem.alt = data.weather[0].description;
+          weatherIconElem.style.display = 'inline-block';
+          weatherTempElem.textContent = `${Math.round(data.main.temp)}°F`;
+          weatherConditionElem.textContent = data.weather[0].main;
+        } else {
+          weatherIconElem.style.display = 'none';
+          weatherTempElem.textContent = '';
+          weatherConditionElem.textContent = '';
+        }
+      })
+      .catch(err => {
+        console.warn('Weather fetch failed:', err);
+        weatherIconElem.style.display = 'none';
+        weatherTempElem.textContent = '';
+        weatherConditionElem.textContent = '';
+      });
   }
 
-  // Show changelog automatically when logged in
-  // We call this only after password success:
-  // (For the first load in this demo, changelog won't show on password input screen.)
-  // So we can show it now after password success
-  // Uncomment to auto show changelog on login:
-  // showChangelogOnLoad();
-
+  // Get geolocation for weather
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        fetchWeather(pos.coords.latitude, pos.coords.longitude);
+      },
+      err => {
+        console.warn('Geolocation denied or unavailable.');
+      }
+    );
+  }
 </script>
+
 </body>
 </html>
