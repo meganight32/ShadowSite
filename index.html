@@ -55,12 +55,14 @@
     position: sticky;
     top: 0;
     z-index: 50;
+    flex-wrap: wrap;
   }
   nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
+    flex-wrap: wrap;
   }
   nav ul li {
     margin: 0 0.5rem;
@@ -219,11 +221,11 @@
     text-shadow: 0 0 8px #00ddffcc;
   }
 
-  /* Other tabs (Games, Entertainment, Unblocked, Support, TOS) */
-  #games, #entertainment, #unblocked, #support, #tos {
+  /* Other tabs (Games, Entertainment, Unblocked, Support, TOS, Settings) */
+  #games, #entertainment, #unblocked, #support, #tos, #settings {
     padding: 15px 5px 10px;
   }
-  #games h2, #entertainment h2, #unblocked h2, #support h2, #tos h2 {
+  #games h2, #entertainment h2, #unblocked h2, #support h2, #tos h2, #settings h2 {
     color: #00aaff;
     margin-bottom: 15px;
     text-shadow: 0 0 8px #00aaffbb;
@@ -284,9 +286,102 @@
     z-index: 10;
   }
 
+  /* Password Overlay Styles */
+  #password-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #001a2eee;
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    color: #00aaff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
+  }
+  #password-overlay h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 8px #00aaffaa;
+  }
+  #password-overlay p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #99ccff;
+    text-align: center;
+    max-width: 300px;
+  }
+  #password-overlay input[type="password"] {
+    background: #003355;
+    border: 1px solid #0077cc;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 1.2rem;
+    color: #aaffff;
+    width: 280px;
+    text-align: center;
+    outline: none;
+    box-shadow: 0 0 10px #00aaff88 inset;
+    transition: border-color 0.3s ease;
+  }
+  #password-overlay input[type="password"]:focus {
+    border-color: #00ddff;
+    box-shadow: 0 0 14px #00ddffcc inset;
+  }
+  #password-overlay button {
+    margin-top: 20px;
+    background: #0077cc;
+    border: none;
+    color: #ccf4ff;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 12px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 14px #00aaffcc;
+    transition: background-color 0.3s ease;
+  }
+  #password-overlay button:hover {
+    background: #00aaff;
+  }
+  #password-error {
+    margin-top: 15px;
+    color: #ff4444;
+    font-weight: 600;
+    text-shadow: none;
+  }
+
+  /* Settings tab controls */
+  #settings label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
+  #settings label input[type="checkbox"] {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    accent-color: #00aaff;
+  }
+  #settings .desc {
+    color: #aadfff;
+    font-size: 1rem;
+  }
 </style>
 </head>
 <body>
+
+<!-- Password Overlay -->
+<div id="password-overlay" role="dialog" aria-modal="true" aria-labelledby="pwTitle" aria-describedby="pwDesc">
+  <h2 id="pwTitle">Enter Password</h2>
+  <p id="pwDesc">Please enter the password to access ShadowSite.</p>
+  <input type="password" id="password-input" aria-label="Password input" autocomplete="off" />
+  <button id="password-submit">Enter</button>
+  <div id="password-error" role="alert" aria-live="assertive" style="display:none;">Incorrect password, please try again.</div>
+</div>
 
 <nav>
   <ul>
@@ -297,6 +392,7 @@
     <li><button class="tab-btn" data-tab="unblocked">Unblocked Games</button></li>
     <li><button class="tab-btn" data-tab="support">Support</button></li>
     <li><button class="tab-btn" data-tab="tos">TOS</button></li>
+    <li><button class="tab-btn" data-tab="settings">Settings</button></li>
   </ul>
   <div id="local-info" aria-live="polite" title="Local Time and Weather">
     <span id="local-time" aria-label="Local time"></span>
@@ -308,7 +404,7 @@
 
 <div id="particles-js"></div>
 
-<div id="container">
+<div id="container" aria-hidden="true">
   <!-- Home Tab -->
   <section id="home" class="tab active" role="tabpanel" tabindex="0" aria-label="Home Tab">
     <header>
@@ -331,7 +427,6 @@
           <li><a href="http://mathymath.cueros-roblans.com.ar/" target="_blank" rel="noopener noreferrer">mathymath.cueros-roblans.com.ar</a></li>
           <li><a href="https://boltunblocker.com/" target="_blank" rel="noopener noreferrer">boltunblocker.com</a></li>
           <li><a href="https://nirbytesboltxero.chickenkiller.com/" target="_blank" rel="noopener noreferrer">nirbytesboltxero.chickenkiller.com</a></li>
-          <!-- Add more favorite proxies as you want -->
         </ul>
       </div>
       <div class="category" id="favorites-games">
@@ -340,7 +435,6 @@
           <li><a href="https://examplegame1.com" target="_blank" rel="noopener noreferrer">Example Game 1</a></li>
           <li><a href="https://examplegame2.com" target="_blank" rel="noopener noreferrer">Example Game 2</a></li>
           <li><a href="https://examplegame3.com" target="_blank" rel="noopener noreferrer">Example Game 3</a></li>
-          <!-- Add more favorite games as you want -->
         </ul>
       </div>
     </div>
@@ -356,6 +450,8 @@
         <li>Credits box styled and added to home tab</li>
         <li>Proxy tab fully populated with all proxies</li>
         <li>Maintained all original tabs and content</li>
+        <li>Added password protection overlay with password "shadow"</li>
+        <li>Added Settings tab with useful toggles</li>
       </ul>
     </section>
 
@@ -373,40 +469,21 @@
 
   <!-- Proxy Tab -->
   <section id="proxy" class="tab" role="tabpanel" tabindex="0" aria-label="Proxy Tab">
-    <h2>Proxy Links</h2>
-    <p>Browse privately and bypass restrictions with these trusted proxy links. Use them to enhance your online privacy and access blocked content.</p>
+    <h2>Proxy</h2>
 
-    <!-- Bolt Proxies -->
-    <h3>Bolt Proxy Links</h3>
+    <p>Below are some of the best proxies available:</p>
+
+    <h3>Chickenkiller Proxies</h3>
     <ul class="link-list">
       <li><a href="http://funlearning.ra3.us/" target="_blank" rel="noopener noreferrer">funlearning.ra3.us</a></li>
       <li><a href="http://mathymath.cueros-roblans.com.ar/" target="_blank" rel="noopener noreferrer">mathymath.cueros-roblans.com.ar</a></li>
-      <li><a href="https://fnrkrbvtpy.abbotsfordhallforhire.org.au/" target="_blank" rel="noopener noreferrer">fnrkrbvtpy.abbotsfordhallforhire.org.au</a></li>
-      <li><a href="http://boltunblocker.com/" target="_blank" rel="noopener noreferrer">boltunblocker.com</a></li>
-      <li><a href="https://anamoxe.baselinux.net/" target="_blank" rel="noopener noreferrer">anamoxe.baselinux.net</a></li>
+      <li><a href="https://boltunblocker.com/" target="_blank" rel="noopener noreferrer">boltunblocker.com</a></li>
       <li><a href="https://nirbytesboltxero.chickenkiller.com/" target="_blank" rel="noopener noreferrer">nirbytesboltxero.chickenkiller.com</a></li>
-      <li><a href="https://lnienmniry.baselinux.net" target="_blank" rel="noopener noreferrer">lnienmniry.baselinux.net</a></li>
-      <li><a href="https://samjabie.baselinux.net" target="_blank" rel="noopener noreferrer">samjabie.baselinux.net</a></li>
-      <li><a href="https://sandeking.baselinux.net" target="_blank" rel="noopener noreferrer">sandeking.baselinux.net</a></li>
-      <li><a href="http://neclcafxoz.expedicionesytrekking.com/" target="_blank" rel="noopener noreferrer">neclcafxoz.expedicionesytrekking.com</a></li>
-      <li><a href="http://evoodherne.mygadgets.com.ar/" target="_blank" rel="noopener noreferrer">evoodherne.mygadgets.com.ar</a></li>
-      <li><a href="https://boltnixe.baselinux.net/" target="_blank" rel="noopener noreferrer">boltnixe.baselinux.net</a></li>
-      <li><a href="https://clearinxg.baselinux.net" target="_blank" rel="noopener noreferrer">clearinxg.baselinux.net</a></li>
-      <li><a href="https://hansobe.baselinux.net" target="_blank" rel="noopener noreferrer">hansobe.baselinux.net</a></li>
-      <li><a href="https://jambali.baselinux.net" target="_blank" rel="noopener noreferrer">jambali.baselinux.net</a></li>
-      <li><a href="https://kantabolt.baselinux.net" target="_blank" rel="noopener noreferrer">kantabolt.baselinux.net</a></li>
-      <li><a href="https://nirbytesprobolt.chickenkiller.com" target="_blank" rel="noopener noreferrer">nirbytesprobolt.chickenkiller.com</a></li>
-      <li><a href="https://boletrp.chickenkiller.com" target="_blank" rel="noopener noreferrer">boletrp.chickenkiller.com</a></li>
-      <li><a href="https://clarendi.chickenkiller.com" target="_blank" rel="noopener noreferrer">clarendi.chickenkiller.com</a></li>
-      <li><a href="https://diksedi.chickenkiller.com" target="_blank" rel="noopener noreferrer">diksedi.chickenkiller.com</a></li>
-      <li><a href="https://jankdi.chickenkiller.com" target="_blank" rel="noopener noreferrer">jankdi.chickenkiller.com</a></li>
-      <li><a href="http://ffehzuwacg.3cm.us/" target="_blank" rel="noopener noreferrer">ffehzuwacg.3cm.us</a></li>
-      <li><a href="http://nqdufmlfhj.3cm.us/" target="_blank" rel="noopener noreferrer">nqdufmlfhj.3cm.us</a></li>
+      <li><a href="https://nqdufmlfhj.3cm.us/" target="_blank" rel="noopener noreferrer">nqdufmlfhj.3cm.us</a></li>
       <li><a href="https://prochickenkiller.chickenkiller.com" target="_blank" rel="noopener noreferrer">prochickenkiller.chickenkiller.com</a></li>
       <li><a href="https://chickenproxy.chickenkiller.com" target="_blank" rel="noopener noreferrer">chickenproxy.chickenkiller.com</a></li>
     </ul>
 
-    <!-- Rammerhead Proxies -->
     <h3>Rammerhead Proxy Links</h3>
     <ul class="link-list">
       <li><a href="https://iam.steveward.ws/" target="_blank" rel="noopener noreferrer">iam.steveward.ws</a></li>
@@ -484,70 +561,106 @@
       Please respect all applicable laws and school policies.
     </p>
   </section>
+
+  <!-- Settings Tab -->
+  <section id="settings" class="tab" role="tabpanel" tabindex="0" aria-label="Settings Tab">
+    <h2>Settings</h2>
+    <label>
+      <input type="checkbox" id="toggle-particles" checked />
+      <span class="desc">Enable particles background</span>
+    </label>
+    <label>
+      <input type="checkbox" id="toggle-darkmode" disabled />
+      <span class="desc">Dark mode (coming soon)</span>
+    </label>
+    <p style="color:#5599cc; font-size:0.9rem; margin-top: 20px;">
+      More settings coming soon!
+    </p>
+  </section>
 </div>
 
 <!-- Particles.js library -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
   // Initialize particles.js with subtle blue particles background
-  particlesJS("particles-js", {
-    "particles": {
-      "number": {
-        "value": 45,
-        "density": {
+  let particlesEnabled = true;
+  function initParticles() {
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 45,
+          "density": {
+            "enable": true,
+            "value_area": 900
+          }
+        },
+        "color": {
+          "value": "#00aaff"
+        },
+        "shape": {
+          "type": "circle"
+        },
+        "opacity": {
+          "value": 0.07,
+          "random": true,
+          "anim": {
+            "enable": false
+          }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": {
+            "enable": false
+          }
+        },
+        "line_linked": {
           "enable": true,
-          "value_area": 900
-        }
-      },
-      "color": {
-        "value": "#00aaff"
-      },
-      "shape": {
-        "type": "circle"
-      },
-      "opacity": {
-        "value": 0.07,
-        "random": true,
-        "anim": {
-          "enable": false
-        }
-      },
-      "size": {
-        "value": 3,
-        "random": true,
-        "anim": {
-          "enable": false
-        }
-      },
-      "line_linked": {
-        "enable": true,
-        "distance": 130,
-        "color": "#00aaff",
-        "opacity": 0.1,
-        "width": 1
-      },
-      "move": {
-        "enable": true,
-        "speed": 0.7,
-        "direction": "none",
-        "random": true,
-        "straight": false,
-        "out_mode": "out"
-      }
-    },
-    "interactivity": {
-      "detect_on": "canvas",
-      "events": {
-        "onhover": {
-          "enable": false
+          "distance": 130,
+          "color": "#00aaff",
+          "opacity": 0.1,
+          "width": 1
         },
-        "onclick": {
-          "enable": false
-        },
-        "resize": true
+        "move": {
+          "enable": true,
+          "speed": 0.7,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": false
+          },
+          "onclick": {
+            "enable": false
+          },
+          "resize": true
+        }
+      },
+      "retina_detect": true
+    });
+  }
+  initParticles();
+
+  // Handle toggling particles background from settings
+  const toggleParticles = document.getElementById('toggle-particles');
+  toggleParticles.addEventListener('change', () => {
+    if (toggleParticles.checked) {
+      if (!particlesEnabled) {
+        initParticles();
+        particlesEnabled = true;
+        document.getElementById('particles-js').style.display = 'block';
       }
-    },
-    "retina_detect": true
+    } else {
+      // Remove or hide particles canvas by replacing it with empty canvas
+      document.getElementById('particles-js').style.display = 'none';
+      particlesEnabled = false;
+    }
   });
 
   // Tab switching logic
@@ -589,8 +702,7 @@
   setInterval(updateLocalTime, 60000);
 
   // Weather API integration - OpenWeatherMap
-  // You must get your own free API key from https://openweathermap.org/api
-  const weatherAPIKey = 'YOUR_OPENWEATHERMAP_API_KEY_HERE'; // <-- Replace this with your actual API key
+  const weatherAPIKey = 'd2f03dde59a1d1a4a7dc48b05db2325e'; // <-- Replace with your API key
 
   function fetchWeather(lat, lon) {
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${weatherAPIKey}`;
@@ -629,6 +741,38 @@
       }
     );
   }
+
+  // Password protection logic
+  const passwordOverlay = document.getElementById('password-overlay');
+  const passwordInput = document.getElementById('password-input');
+  const passwordSubmit = document.getElementById('password-submit');
+  const passwordError = document.getElementById('password-error');
+  const container = document.getElementById('container');
+
+  passwordSubmit.addEventListener('click', checkPassword);
+  passwordInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      checkPassword();
+    }
+  });
+
+  function checkPassword() {
+    const val = passwordInput.value.trim();
+    if(val === 'shadow'){
+      // Hide overlay and show site content
+      passwordOverlay.style.display = 'none';
+      container.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'auto';
+    } else {
+      passwordError.style.display = 'block';
+      passwordInput.value = '';
+      passwordInput.focus();
+    }
+  }
+
+  // Prevent scrolling behind password screen
+  document.body.style.overflow = 'hidden';
+
 </script>
 
 </body>
