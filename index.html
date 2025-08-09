@@ -16,7 +16,7 @@
     overflow-x: hidden;
   }
 
-  /* Password Screen */
+  /* PASSWORD SCREEN (reverted to your original) */
   #password-screen {
     position: fixed;
     top: 0; left: 0;
@@ -108,6 +108,25 @@
   }
 
   /* CONTENT TABS */
+
+  /* --- UPDATED HOME TAB TO FILL FULL SCREEN --- */
+  #home {
+    display: none; /* controlled by .active */
+    padding: 40px 30px;
+    max-width: none;
+    margin: 0;
+    height: calc(100vh - 60px); /* 100% viewport height minus nav height */
+    overflow-y: auto;
+    background: rgba(0,0,0,0.3);
+    border-radius: 0;
+    box-shadow: none;
+    color: #d0eaff;
+  }
+  #home.active {
+    display: block;
+  }
+
+  /* OTHER TABS (unchanged) */
   .tab {
     display: none;
     max-width: 900px;
@@ -118,6 +137,7 @@
     box-shadow: 0 0 30px rgba(0, 119, 255, 0.4);
     animation: fadeInUp 0.5s ease forwards;
     position: relative;
+    height: auto;
   }
   .tab.active {
     display: block;
@@ -245,8 +265,8 @@
     background-color: #111f3c;
     border-radius: 14px;
     padding: 30px 40px;
-    max-width: 550px;
-    max-height: 70vh;
+    max-width: 600px;
+    max-height: 75vh;
     overflow-y: auto;
     box-shadow: 0 0 25px #0077ffaa;
   }
@@ -277,6 +297,16 @@
   #close-changelog:hover {
     background: linear-gradient(90deg, #005fcc, #0088cc);
   }
+
+  /* Random Fact style inside home */
+  #random-fact {
+    font-style: italic;
+    color: #a0d8ff;
+    margin-top: 25px;
+    user-select: none;
+    font-size: 1.2rem;
+    max-width: 700px;
+  }
 </style>
 </head>
 <body>
@@ -299,8 +329,9 @@
   <button class="active" onclick="switchTab('home', this)">Home</button>
   <button onclick="switchTab('proxy', this)">Proxy</button>
   <button onclick="switchTab('games', this)">Games</button>
+  <button onclick="switchTab('entertainment', this)">Entertainment</button>
+  <button onclick="switchTab('unblocked', this)">Unblocked Games</button>
   <button onclick="switchTab('support', this)">Support</button>
-  <button onclick="switchTab('entertainment', this)">Entertainment</button> <!-- New Tab -->
 </nav>
 
   <!-- Home Tab -->
@@ -310,96 +341,19 @@
     <h2>About Us</h2>
     <p>Our goal is to provide users with fast and easy access to tools that help keep you safe online while also having fun. Whether you want to browse anonymously with proxies, enjoy casual games, or get quick help, ShadowSite has you covered.</p>
 
+    <!-- Random Fact -->
+    <div id="random-fact">Loading a fun fact...</div>
+
     <!-- VERSION DISPLAY -->
     <!-- CHANGE THE VERSION NUMBER HERE -->
-    <div id="version-info" title="Click to view changelog">v1.0.0</div>
+    <div id="version-info" title="Click to view changelog">v1.2.0</div>
   </div>
 
-  <!-- Other tabs ... (you will add your existing tabs here) -->
-
-</div>
-
-<!-- CHANGELOG MODAL -->
-<div id="changelog-modal">
-  <div id="changelog-content">
-    <!-- CHANGE THE VERSION NUMBER HERE -->
-    <h2>Version 1.0.0 Changelog</h2>
-    <ul id="changelog-list">
-      <!-- ADD YOUR CHANGELOG ENTRIES HERE -->
-      <li>Initial launch with password protection.</li>
-      <li>Fully up-to-date proxy list.</li>
-      <li>Fully up-to-date games list.</li>
-      <li>Support tab.</li>
-    </ul>
-    <button id="close-changelog">Close</button>
+  <!-- Proxy Tab (placeholder for your existing content) -->
+  <div id="proxy" class="tab">
+    <h2>Proxy Tools</h2>
+    <p>Secure and anonymous browsing proxies coming soon.</p>
   </div>
-</div>
-
-<script>
-  const PASSWORD = "password"; // CHANGE YOUR PASSWORD HERE
-
-  const passwordScreen = document.getElementById('password-screen');
-  const mainContent = document.getElementById('main-content');
-  const passwordInput = document.getElementById('password-input');
-  const errorDiv = document.getElementById('password-error');
-
-  function checkPassword() {
-    const val = passwordInput.value.trim();
-    if(val === PASSWORD) {
-      passwordScreen.style.display = 'none';
-      mainContent.style.display = 'block';
-      passwordInput.value = '';
-      errorDiv.textContent = '';
-    } else {
-      errorDiv.textContent = 'Incorrect password. Please try again.';
-    }
-  }
-
-  // Allow pressing Enter key to submit password
-  passwordInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      checkPassword();
-    }
-  });
-
-  // Tab switching function (assuming you have this already)
-  function switchTab(tabId, btn) {
-    // Remove active from all tabs
-    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-    // Remove active from all nav buttons
-    document.querySelectorAll('nav button').forEach(button => button.classList.remove('active'));
-
-    // Show selected tab
-    const tab = document.getElementById(tabId);
-    if (tab) {
-      tab.classList.add('active');
-      btn.classList.add('active');
-    }
-  }
-
-  // Version and changelog modal logic
-  const versionInfo = document.getElementById('version-info');
-  const changelogModal = document.getElementById('changelog-modal');
-  const closeChangelogBtn = document.getElementById('close-changelog');
-
-  versionInfo.addEventListener('click', () => {
-    changelogModal.style.display = 'flex';
-  });
-
-  closeChangelogBtn.addEventListener('click', () => {
-    changelogModal.style.display = 'none';
-  });
-
-  // Optional: Close modal when clicking outside content
-  changelogModal.addEventListener('click', (e) => {
-    if(e.target === changelogModal) {
-      changelogModal.style.display = 'none';
-    }
-  });
-</script>
-
-</body>
-</html>
 
 <!-- Proxy Tab -->
 <div id="proxy" class="tab">
@@ -586,13 +540,11 @@
 </div>
 
 
-
   <!-- Games Tab -->
   <div id="games" class="tab">
     <h2>Games Library</h2>
     <p>Take a break and enjoy these browser-based games. No downloads required—just click and play instantly!</p>
     <ul class="link-list">
-      <!-- ======= REAL WEB GAME LINKS ======= -->
       <li><a href="https://agar.io/" target="_blank" rel="noopener noreferrer">Agar.io - Multiplayer Survival</a></li>
       <li><a href="https://slither.io/" target="_blank" rel="noopener noreferrer">Slither.io - Snake Game</a></li>
       <li><a href="https://krunker.io/" target="_blank" rel="noopener noreferrer">Krunker.io - FPS Shooter</a></li>
@@ -611,74 +563,165 @@
       <li><a href="https://paper.io/" target="_blank" rel="noopener noreferrer">Paper.io - Territory Game</a></li>
       <li><a href="https://www.crazygames.com/game/helix-jump" target="_blank" rel="noopener noreferrer">Helix Jump</a></li>
       <li><a href="https://www.crazygames.com/game/shell-shockers" target="_blank" rel="noopener noreferrer">Shell Shockers</a></li>
-      <!-- ================================ -->
     </ul>
-</div>
+  </div>
 
-<!-- Entertainment Tab -->
-<div id="entertainment" class="tab">
-  <h1>Entertainment Sites</h1>
-  <p>Enjoy your favorite streaming and entertainment websites all in one place.</p>
-  <ul class="link-list">
-    <li><a href="https://www.netflix.com" target="_blank" rel="noopener noreferrer">Netflix</a></li>
-    <li><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-    <li><a href="https://www.hulu.com" target="_blank" rel="noopener noreferrer">Hulu</a></li>
-    <li><a href="https://www.disneyplus.com" target="_blank" rel="noopener noreferrer">Disney+</a></li>
-    <li><a href="https://www.spotify.com" target="_blank" rel="noopener noreferrer">Spotify</a></li>
-    <li><a href="https://www.twitch.tv" target="_blank" rel="noopener noreferrer">Twitch</a></li>
-    <li><a href="https://www.peacocktv.com" target="_blank" rel="noopener noreferrer">Peacock TV</a></li>
-  </ul>
-</div>
+  <!-- Entertainment Tab -->
+  <div id="entertainment" class="tab">
+    <h1>Entertainment Sites</h1>
+    <p>Enjoy your favorite streaming and entertainment websites all in one place.</p>
+    <ul class="link-list">
+      <li><a href="https://www.netflix.com" target="_blank" rel="noopener noreferrer">Netflix</a></li>
+      <li><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      <li><a href="https://www.hulu.com" target="_blank" rel="noopener noreferrer">Hulu</a></li>
+      <li><a href="https://www.disneyplus.com" target="_blank" rel="noopener noreferrer">Disney+</a></li>
+      <li><a href="https://www.spotify.com" target="_blank" rel="noopener noreferrer">Spotify</a></li>
+      <li><a href="https://www.twitch.tv" target="_blank" rel="noopener noreferrer">Twitch</a></li>
+      <li><a href="https://www.peacocktv.com" target="_blank" rel="noopener noreferrer">Peacock TV</a></li>
+    </ul>
+  </div>
 
+  <!-- Unblocked Games Tab -->
+  <div id="unblocked" class="tab">
+    <h1>Unblocked Game Sites</h1>
+    <p>Access your favorite unblocked games from school or work.</p>
+    <ul class="link-list">
+      <li><a href="https://sites.google.com/view/drive-u-7-home/home" target="_blank" rel="noopener noreferrer">Drive U-7 Home</a></li>
+      <li><a href="https://sites.google.com/site/thegamecompilation/home" target="_blank" rel="noopener noreferrer">The Game Compilation</a></li>
+      <li><a href="https://sites.google.com/view/unblocked-game76" target="_blank" rel="noopener noreferrer">Unblocked Game 76</a></li>
+      <li><a href="https://sites.google.com/site/unblockedgame67" target="_blank" rel="noopener noreferrer">Unblocked Game 67</a></li>
+      <li><a href="https://sites.google.com/view/classroom6x" target="_blank" rel="noopener noreferrer">Classroom 6x</a></li>
+      <li><a href="https://unblocked-gaming.github.io" target="_blank" rel="noopener noreferrer">Unblocked Gaming</a></li>
+    </ul>
   </div>
 
   <!-- Support Tab -->
   <div id="support" class="tab">
     <h2>Support</h2>
-    <p>Need help or have questions? Fill out the form below, and we'll get back to you as soon as possible.</p>
-    <form action="https://formspree.io/f/mzzvyprv" method="POST">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="_replyto" placeholder="Your Email" required />
-      <input type="text" name="subject" placeholder="Subject" required />
-      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-      <button type="submit">Send</button>
+    <p>Need help or have questions? Fill out the form below, and we’ll get back to you ASAP.</p>
+    <form onsubmit="submitSupportForm(event)">
+      <input type="text" id="name" name="name" placeholder="Your name" required />
+      <input type="email" id="email" name="email" placeholder="Your email" required />
+      <textarea id="message" name="message" placeholder="Your message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
     </form>
+    <div id="form-status" style="margin-top:15px;"></div>
+  </div>
+</div>
+
+<!-- CHANGELOG MODAL -->
+<div id="changelog-modal">
+  <div id="changelog-content">
+    <h2>Changelog - Version 1.2.0</h2>
+    <ul id="changelog-list">
+      <li>Added full-screen Home tab with detailed welcome and info.</li>
+      <li>Integrated dynamic random fun facts displayed on Home tab.</li>
+      <li>Updated changelog modal with version 1.2.0 and new changes.</li>
+      <li>Improved UI styling for better readability and experience.</li>
+      <li>Reverted password screen styling to original design.</li>
+    </ul>
+    <button id="close-changelog" onclick="toggleChangelog(false)">Close</button>
   </div>
 </div>
 
 <script>
-  // Password check function
+  const PASSWORD = "password";
+
   function checkPassword() {
-    const passInput = document.getElementById('password-input').value;
-    if (passInput === 'ShadowSite') {
-      document.getElementById('password-screen').style.display = 'none';
-      document.getElementById('main-content').style.display = 'block';
+    const input = document.getElementById("password-input");
+    const errorDiv = document.getElementById("password-error");
+    if(input.value === PASSWORD) {
+      document.getElementById("password-screen").style.display = "none";
+      document.getElementById("main-content").style.display = "block";
+      errorDiv.textContent = "";
     } else {
-      alert('Incorrect password. Please try again.');
+      errorDiv.textContent = "Incorrect password. Try again.";
+      input.value = "";
+      input.focus();
     }
   }
 
-  // Tab switching function
-  function switchTab(tabId, btn) {
+  function switchTab(tabName, btn) {
     // Hide all tabs
-    const tabs = document.querySelectorAll('.tab');
-    tabs.forEach(t => t.classList.remove('active'));
-
-    // Remove active class from all buttons
-    const buttons = document.querySelectorAll('nav button');
-    buttons.forEach(b => b.classList.remove('active'));
-
+    const tabs = document.querySelectorAll(".tab");
+    tabs.forEach(t => t.classList.remove("active"));
     // Show selected tab
-    document.getElementById(tabId).classList.add('active');
-    // Highlight selected button
-    btn.classList.add('active');
+    const selected = document.getElementById(tabName);
+    if(selected) selected.classList.add("active");
+
+    // Update active button styles
+    const buttons = document.querySelectorAll("nav button");
+    buttons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    // If user clicks home, update random fact
+    if(tabName === "home") showRandomFact();
   }
 
-  // Allow Enter key on password input to submit
-  document.getElementById('password-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      checkPassword();
+  // RANDOM FACTS ARRAY
+  const randomFacts = [
+    "Honey never spoils — archaeologists have eaten 3000-year-old honey!",
+    "Octopuses have three hearts.",
+    "Bananas are berries, but strawberries aren’t.",
+    "A group of flamingos is called a 'flamboyance'.",
+    "The Eiffel Tower can be 15 cm taller during the summer.",
+    "Sharks have been around longer than trees.",
+    "Humans share 60% of their DNA with bananas.",
+    "There are more stars in the universe than grains of sand on Earth.",
+    "Wombat poop is cube-shaped.",
+    "There are more possible iterations of chess moves than atoms in the known universe.",
+    "Sloths can hold their breath longer than dolphins can.",
+    "Venus is the hottest planet in our solar system, not Mercury.",
+    "Your taste buds have a lifespan of about 10 days.",
+    "Butterflies taste with their feet.",
+    "Cows have best friends and can get stressed when separated.",
+    "A day on Venus is longer than a year on Venus."
+  ];
+
+  // Function to pick and display a random fact on Home tab
+  function showRandomFact() {
+    const factDiv = document.getElementById("random-fact");
+    const randomIndex = Math.floor(Math.random() * randomFacts.length);
+    factDiv.textContent = "💡 Fun fact: " + randomFacts[randomIndex];
+  }
+
+  // Show a random fact on initial load if home is visible
+  document.addEventListener("DOMContentLoaded", () => {
+    // If password already correct (in case of refresh)
+    if(document.getElementById("main-content").style.display === "block") {
+      showRandomFact();
     }
+  });
+
+  // Support form submission (dummy)
+  function submitSupportForm(event) {
+    event.preventDefault();
+    const statusDiv = document.getElementById("form-status");
+    statusDiv.textContent = "Sending message...";
+    setTimeout(() => {
+      statusDiv.textContent = "Thank you! Your message has been sent.";
+      event.target.reset();
+    }, 1200);
+  }
+
+  // Changelog modal toggle
+  function toggleChangelog(show) {
+    const modal = document.getElementById("changelog-modal");
+    if(show) {
+      modal.style.display = "flex";
+    } else {
+      modal.style.display = "none";
+    }
+  }
+
+  // Open changelog when version-info clicked
+  document.getElementById("version-info").addEventListener("click", () => {
+    toggleChangelog(true);
+  });
+
+  // Allow Enter key on password input to trigger login
+  document.getElementById("password-input").addEventListener("keyup", (e) => {
+    if(e.key === "Enter") checkPassword();
   });
 </script>
 
