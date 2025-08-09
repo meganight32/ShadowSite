@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ShadowSite</title>
 <style>
+  /* Your existing styles (truncated here for brevity) */
   * {
     box-sizing: border-box;
   }
@@ -16,388 +17,371 @@
     overflow-x: hidden;
   }
 
-#openTOSBtn:hover {
-  background-color: #0077ff;
-  color: #d0eaff;
-  box-shadow: 0 0 20px #00aaff;
-}
-
-/* PASSWORD SCREEN (reverted to your original) */
-#password-screen {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: radial-gradient(circle at center, #001022, #000000);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  text-align: center;
-  padding: 0 20px;
-}
-#password-screen h1 {
-  font-size: 3rem;
-  margin-bottom: 0.1rem;
-  color: #66b3ff;
-  text-shadow: 0 0 10px #00aaff;
-  user-select: none;
-}
-#password-screen p.subtitle {
-  font-size: 1.2rem;
-  color: #a0cfff;
-  margin-bottom: 25px;
-  user-select: none;
-}
-#password-screen input {
-  padding: 12px 15px;
-  font-size: 18px;
-  border-radius: 6px;
-  border: none;
-  outline: none;
-  width: 280px;
-  margin-bottom: 15px;
-  background-color: rgba(255 255 255 / 0.1);
-  color: #d0eaff;
-  text-align: center;
-}
-#password-screen input::placeholder {
-  color: #88bbff;
-}
-#password-screen button {
-  padding: 12px 30px;
-  font-size: 18px;
-  border: none;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #0077ff, #00aaff);
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 10px #00aaff;
-  transition: background 0.3s ease;
-}
-#password-screen button:hover {
-  background: linear-gradient(90deg, #005fcc, #0088cc);
-}
-#password-error {
-  color: #ff6666;
-  margin-top: 10px;
-  min-height: 20px;
-}
-
-/* NAVBAR */
-nav {
-  background: linear-gradient(90deg, #000, #003366);
-  padding: 15px 0;
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  box-shadow: 0 2px 15px rgba(0,0,0,0.5);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-nav button {
-  background: transparent;
-  border: none;
-  color: #d0eaff;
-  font-size: 17px;
-  cursor: pointer;
-  padding: 10px 20px;
-  border-radius: 6px;
-  transition: background 0.3s, transform 0.2s;
-  position: relative;
-}
-nav button:hover,
-nav button.active {
-  background: rgba(0, 119, 255, 0.3);
-  transform: translateY(-2px);
-}
-
-/* CONTENT TABS */
-
-/* --- UPDATED HOME TAB TO FILL FULL SCREEN --- */
-#home {
-  display: none; /* controlled by .active */
-  padding: 40px 30px;
-  max-width: none;
-  margin: 0;
-  height: calc(100vh - 60px); /* 100% viewport height minus nav height */
-  overflow-y: auto;
-  background: rgba(0,0,0,0.3);
-  border-radius: 0;
-  box-shadow: none;
-  color: #d0eaff;
-}
-#home.active {
-  display: block;
-}
-
-/* OTHER TABS (unchanged) */
-.tab {
-  display: none;
-  max-width: 900px;
-  margin: 25px auto;
-  padding: 20px;
-  background: rgba(0,0,0,0.3);
-  border-radius: 12px;
-  box-shadow: 0 0 30px rgba(0, 119, 255, 0.4);
-  animation: fadeInUp 0.5s ease forwards;
-  position: relative;
-  height: auto;
-}
-.tab.active {
-  display: block;
-}
-
-/* Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  #openTOSBtn:hover {
+    background-color: #0077ff;
+    color: #d0eaff;
+    box-shadow: 0 0 20px #00aaff;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  /* PASSWORD SCREEN */
+  #password-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: radial-gradient(circle at center, #001022, #000000);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    text-align: center;
+    padding: 0 20px;
   }
-}
+  #password-screen h1 {
+    font-size: 3rem;
+    margin-bottom: 0.1rem;
+    color: #66b3ff;
+    text-shadow: 0 0 10px #00aaff;
+    user-select: none;
+  }
+  #password-screen p.subtitle {
+    font-size: 1.2rem;
+    color: #a0cfff;
+    margin-bottom: 25px;
+    user-select: none;
+  }
+  #password-screen input {
+    padding: 12px 15px;
+    font-size: 18px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    width: 280px;
+    margin-bottom: 15px;
+    background-color: rgba(255 255 255 / 0.1);
+    color: #d0eaff;
+    text-align: center;
+  }
+  #password-screen input::placeholder {
+    color: #88bbff;
+  }
+  #password-screen button {
+    padding: 12px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #0077ff, #00aaff);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 10px #00aaff;
+    transition: background 0.3s ease;
+  }
+  #password-screen button:hover {
+    background: linear-gradient(90deg, #005fcc, #0088cc);
+  }
+  #password-error {
+    color: #ff6666;
+    margin-top: 10px;
+    min-height: 20px;
+  }
 
-/* HEADINGS */
-h1, h2 {
-  color: #66b3ff;
-  text-shadow: 0 0 8px #00aaff;
-}
+  /* NAVBAR */
+  nav {
+    background: linear-gradient(90deg, #000, #003366);
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.5);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav button {
+    background: transparent;
+    border: none;
+    color: #d0eaff;
+    font-size: 17px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: background 0.3s, transform 0.2s;
+    position: relative;
+  }
+  nav button:hover,
+  nav button.active {
+    background: rgba(0, 119, 255, 0.3);
+    transform: translateY(-2px);
+  }
 
-/* LINKS */
-a {
-  color: #66b3ff;
-  text-decoration: none;
-}
-a:hover {
-  color: #00cfff;
-  text-shadow: 0 0 15px #00cfff;
-}
+  /* CONTENT TABS */
+  #home {
+    display: none; /* controlled by .active */
+    padding: 40px 30px;
+    max-width: none;
+    margin: 0;
+    height: calc(100vh - 60px); /* 100% viewport height minus nav height */
+    overflow-y: auto;
+    background: rgba(0,0,0,0.3);
+    border-radius: 0;
+    box-shadow: none;
+    color: #d0eaff;
+  }
+  #home.active {
+    display: block;
+  }
+  .tab {
+    display: none;
+    max-width: 900px;
+    margin: 25px auto;
+    padding: 20px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 119, 255, 0.4);
+    animation: fadeInUp 0.5s ease forwards;
+    position: relative;
+    height: auto;
+  }
+  .tab.active {
+    display: block;
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  h1, h2 {
+    color: #66b3ff;
+    text-shadow: 0 0 8px #00aaff;
+  }
+  a {
+    color: #66b3ff;
+    text-decoration: none;
+  }
+  a:hover {
+    color: #00cfff;
+    text-shadow: 0 0 15px #00cfff;
+  }
+  ul.link-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  ul.link-list li {
+    margin-bottom: 8px;
+  }
+  ul.link-list li a {
+    display: block;
+    padding: 10px 15px;
+    background: rgba(0, 119, 255, 0.15);
+    border-radius: 8px;
+    transition: background 0.3s;
+  }
+  ul.link-list li a:hover {
+    background: rgba(0, 119, 255, 0.35);
+  }
+  form {
+    max-width: 420px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  form input, form textarea {
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(255 255 255 / 0.1);
+    color: #d0eaff;
+    font-size: 16px;
+    resize: vertical;
+  }
+  form input::placeholder, form textarea::placeholder {
+    color: #a8caff;
+  }
+  form button {
+    background: linear-gradient(90deg, #0077ff, #00aaff);
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 17px;
+    cursor: pointer;
+    box-shadow: 0 0 12px #00aaff;
+    transition: background 0.3s;
+  }
+  form button:hover {
+    background: linear-gradient(90deg, #005fcc, #0088cc);
+  }
 
-/* LINK LISTS */
-ul.link-list {
-  list-style: none;
-  padding-left: 0;
-}
-ul.link-list li {
-  margin-bottom: 8px;
-}
-ul.link-list li a {
-  display: block;
-  padding: 10px 15px;
-  background: rgba(0, 119, 255, 0.15);
-  border-radius: 8px;
-  transition: background 0.3s;
-}
-ul.link-list li a:hover {
-  background: rgba(0, 119, 255, 0.35);
-}
+  /* VERSION INFO at bottom-left of Home tab */
+  #version-info {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    font-size: 0.9rem;
+    color: #888;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid #444;
+    padding: 5px 12px;
+    border-radius: 8px;
+    background-color: #111;
+    box-shadow: 0 0 10px #0077ff88;
+    transition: background-color 0.3s ease;
+    z-index: 1500;
+  }
+  #version-info:hover {
+    background-color: #0077ff22;
+    color: #00aaff;
+  }
 
-/* FORM */
-form {
-  max-width: 420px;
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-form input, form textarea {
-  padding: 12px 15px;
-  border-radius: 6px;
-  border: none;
-  background: rgba(255 255 255 / 0.1);
-  color: #d0eaff;
-  font-size: 16px;
-  resize: vertical;
-}
-form input::placeholder, form textarea::placeholder {
-  color: #a8caff;
-}
-form button {
-  background: linear-gradient(90deg, #0077ff, #00aaff);
-  border: none;
-  color: white;
-  padding: 12px 25px;
-  border-radius: 6px;
-  font-size: 17px;
-  cursor: pointer;
-  box-shadow: 0 0 12px #00aaff;
-  transition: background 0.3s;
-}
-form button:hover {
-  background: linear-gradient(90deg, #005fcc, #0088cc);
-}
+  /* CREDITS button style */
+  #credits-info {
+    position: fixed;
+    bottom: 15px;
+    left: 90px; /* next to version-info */
+    font-size: 0.9rem;
+    color: #888;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid #444;
+    padding: 5px 12px;
+    border-radius: 8px;
+    background-color: #111;
+    box-shadow: 0 0 10px #0077ff88;
+    transition: background-color 0.3s ease;
+    z-index: 1500;
+  }
+  #credits-info:hover {
+    background-color: #0077ff22;
+    color: #00aaff;
+  }
 
-/* VERSION INFO at bottom-left of Home tab */
-#version-info {
-  position: fixed;
-  bottom: 15px;
-  left: 15px;
-  font-size: 0.9rem;
-  color: #888;
-  cursor: pointer;
-  user-select: none;
-  border: 1px solid #444;
-  padding: 5px 12px;
-  border-radius: 8px;
-  background-color: #111;
-  box-shadow: 0 0 10px #0077ff88;
-  transition: background-color 0.3s ease;
-  z-index: 1500;
-}
-#version-info:hover {
-  background-color: #0077ff22;
-  color: #00aaff;
-}
+  /* Changelog modal */
+  #changelog-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0,0,0,0.85);
+    color: #d0eaff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  #changelog-content {
+    background-color: #111f3c;
+    border-radius: 14px;
+    padding: 30px 40px;
+    max-width: 600px;
+    max-height: 75vh;
+    overflow-y: auto;
+    box-shadow: 0 0 25px #0077ffaa;
+  }
+  #changelog-content h2 {
+    margin-top: 0;
+    color: #66b3ff;
+    text-shadow: 0 0 8px #00aaff;
+  }
+  #changelog-list {
+    margin-top: 15px;
+    padding-left: 20px;
+  }
+  #changelog-list li {
+    margin-bottom: 10px;
+  }
+  #close-changelog {
+    margin-top: 20px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    background: linear-gradient(90deg, #0077ff, #00aaff);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 12px #00aaff;
+    transition: background 0.3s ease;
+  }
+  #close-changelog:hover {
+    background: linear-gradient(90deg, #005fcc, #0088cc);
+  }
 
-/* CREDITS BUTTON styling (matches version-info) */
-#credits-info {
-  position: fixed;
-  bottom: 15px;
-  left: 90px; /* placed to the right of version-info */
-  font-size: 0.9rem;
-  color: #888;
-  cursor: pointer;
-  user-select: none;
-  border: 1px solid #444;
-  padding: 5px 12px;
-  border-radius: 8px;
-  background-color: #111;
-  box-shadow: 0 0 10px #0077ff88;
-  transition: background-color 0.3s ease;
-  z-index: 1500;
-}
-#credits-info:hover {
-  background-color: #0077ff22;
-  color: #00aaff;
-}
+  /* Credits modal */
+  #credits-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0,0,0,0.85);
+    color: #d0eaff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  #credits-modal > div {
+    background-color: #111f3c;
+    border-radius: 14px;
+    padding: 30px 40px;
+    max-width: 600px;
+    max-height: 75vh;
+    overflow-y: auto;
+    box-shadow: 0 0 25px #0077ffaa;
+  }
+  #credits-modal h2 {
+    margin-top: 0;
+    color: #66b3ff;
+    text-shadow: 0 0 8px #00aaff;
+  }
+  #credits-list {
+    margin-top: 15px;
+    padding-left: 20px;
+    list-style: none;
+  }
+  #credits-list li {
+    margin-bottom: 10px;
+  }
+  #close-credits {
+    margin-top: 20px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    background: linear-gradient(90deg, #0077ff, #00aaff);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 12px #00aaff;
+    transition: background 0.3s ease;
+  }
+  #close-credits:hover {
+    background: linear-gradient(90deg, #005fcc, #0088cc);
+  }
 
-/* Changelog modal */
-#changelog-modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0; top: 0;
-  width: 100vw; height: 100vh;
-  background-color: rgba(0,0,0,0.85);
-  color: #d0eaff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-#changelog-content {
-  background-color: #111f3c;
-  border-radius: 14px;
-  padding: 30px 40px;
-  max-width: 600px;
-  max-height: 75vh;
-  overflow-y: auto;
-  box-shadow: 0 0 25px #0077ffaa;
-}
-#changelog-content h2 {
-  margin-top: 0;
-  color: #66b3ff;
-  text-shadow: 0 0 8px #00aaff;
-}
-#changelog-list {
-  margin-top: 15px;
-  padding-left: 20px;
-}
-#changelog-list li {
-  margin-bottom: 10px;
-}
-#close-changelog {
-  margin-top: 20px;
-  padding: 10px 22px;
-  font-size: 1rem;
-  background: linear-gradient(90deg, #0077ff, #00aaff);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 12px #00aaff;
-  transition: background 0.3s ease;
-}
-#close-changelog:hover {
-  background: linear-gradient(90deg, #005fcc, #0088cc);
-}
-
-/* Credits modal */
-#credits-modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0; top: 0;
-  width: 100vw; height: 100vh;
-  background-color: rgba(0,0,0,0.85);
-  color: #d0eaff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-#credits-modal > div {
-  background-color: #111f3c;
-  border-radius: 14px;
-  padding: 30px 40px;
-  max-width: 600px;
-  max-height: 75vh;
-  overflow-y: auto;
-  box-shadow: 0 0 25px #0077ffaa;
-}
-#credits-modal h2 {
-  margin-top: 0;
-  color: #66b3ff;
-  text-shadow: 0 0 8px #00aaff;
-}
-#credits-list {
-  margin-top: 15px;
-  padding-left: 20px;
-  list-style: none;
-}
-#credits-list li {
-  margin-bottom: 10px;
-}
-#close-credits {
-  margin-top: 20px;
-  padding: 10px 22px;
-  font-size: 1rem;
-  background: linear-gradient(90deg, #0077ff, #00aaff);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 12px #00aaff;
-  transition: background 0.3s ease;
-}
-#close-credits:hover {
-  background: linear-gradient(90deg, #005fcc, #0088cc);
-}
-
-/* Random Fact style inside home */
-#random-fact {
-  font-style: italic;
-  color: #a0d8ff;
-  margin-top: 25px;
-  user-select: none;
-  font-size: 1.2rem;
-  max-width: 700px;
-}
+  /* Random Fact style inside home */
+  #random-fact {
+    font-style: italic;
+    color: #a0d8ff;
+    margin-top: 25px;
+    user-select: none;
+    font-size: 1.2rem;
+    max-width: 700px;
+  }
 </style>
 </head>
 <body>
 
 <!-- PASSWORD SCREEN -->
 <div id="password-screen">
-  <!-- CHANGE SITE NAME HERE -->
   <h1>ShadowSite</h1>
-  <!-- CHANGE SUBTITLE/MESSAGE HERE -->
   <p class="subtitle">Enter the password to access your secure hub.</p>
-
   <input type="password" id="password-input" placeholder="Enter Password" autofocus />
   <button onclick="checkPassword()">Enter</button>
   <div id="password-error"></div>
@@ -425,17 +409,19 @@ form button:hover {
   <div id="random-fact">Loading a fun fact...</div>
 
   <!-- VERSION DISPLAY -->
-  <!-- CHANGE THE VERSION NUMBER HERE -->
   <div id="version-info" title="Click to view changelog">v1.3.0</div>
   <div id="credits-info" title="Click to view credits">Credits</div>
 </div>
 
-<!-- Changelog modal (keep your existing) -->
+<!-- Changelog modal -->
 <div id="changelog-modal">
   <div id="changelog-content">
     <h2>Changelog</h2>
     <ul id="changelog-list">
-      <!-- Your changelog items go here -->
+      <!-- Your changelog items here -->
+      <li>Initial release with password protection and proxy features.</li>
+      <li>Added games and entertainment tabs.</li>
+      <li>Improved UI and added credits modal.</li>
     </ul>
     <button id="close-changelog">Close</button>
   </div>
@@ -454,24 +440,60 @@ form button:hover {
 </div>
 
 <script>
-  // Version info click toggles changelog modal (assumed existing)
-  document.getElementById('version-info').addEventListener('click', () => {
-    const modal = document.getElementById('changelog-modal');
-    modal.style.display = 'flex';
-  });
-  document.getElementById('close-changelog').addEventListener('click', () => {
-    document.getElementById('changelog-modal').style.display = 'none';
+  // Password check and tab switch functions here (keep your existing or add)
+
+  // Open changelog modal on version-info click
+  const versionInfo = document.getElementById('version-info');
+  const changelogModal = document.getElementById('changelog-modal');
+  const closeChangelogBtn = document.getElementById('close-changelog');
+
+  versionInfo.addEventListener('click', () => {
+    changelogModal.style.display = 'flex';
   });
 
-  // Credits info click toggles credits modal
-  document.getElementById('credits-info').addEventListener('click', () => {
-    document.getElementById('credits-modal').style.display = 'flex';
-  });
-  document.getElementById('close-credits').addEventListener('click', () => {
-    document.getElementById('credits-modal').style.display = 'none';
+  closeChangelogBtn.addEventListener('click', () => {
+    changelogModal.style.display = 'none';
   });
 
-  // You can add your other JS functions (checkPassword, switchTab, etc.) below or keep existing
+  // Open credits modal on credits-info click
+  const creditsInfo = document.getElementById('credits-info');
+  const creditsModal = document.getElementById('credits-modal');
+  const closeCreditsBtn = document.getElementById('close-credits');
+
+  creditsInfo.addEventListener('click', () => {
+    creditsModal.style.display = 'flex';
+  });
+
+  closeCreditsBtn.addEventListener('click', () => {
+    creditsModal.style.display = 'none';
+  });
+
+  // Example switchTab function (replace with your own)
+  function switchTab(tabId, button) {
+    // Hide all tabs
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    // Remove active class from all nav buttons
+    document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+    // Show selected tab
+    document.getElementById(tabId).classList.add('active');
+    // Set active class on clicked button
+    button.classList.add('active');
+  }
+
+  // Dummy checkPassword function placeholder (replace with your real logic)
+  function checkPassword() {
+    const input = document.getElementById('password-input').value;
+    const errorDiv = document.getElementById('password-error');
+    const mainContent = document.getElementById('main-content');
+    const passwordScreen = document.getElementById('password-screen');
+    if(input === "yourpassword") { // change "yourpassword" to your actual password
+      passwordScreen.style.display = "none";
+      mainContent.style.display = "block";
+      errorDiv.textContent = "";
+    } else {
+      errorDiv.textContent = "Incorrect password.";
+    }
+  }
 </script>
 
 </body>
